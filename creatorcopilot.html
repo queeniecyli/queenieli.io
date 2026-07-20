@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CreatorCopilot - Queenie Li</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cpath d='M38,200 L38,95 Q38,15 100,15 Q162,15 162,95 L162,200 Z' fill='%236B4226' stroke='%232B1D14' stroke-width='4'/%3E%3Cpath d='M85,150 Q100,158 115,150 L115,172 Q100,178 85,172 Z' fill='%23EEC9A0'/%3E%3Cpath d='M85,150 L85,172 Q100,178 115,172 L115,150' stroke='%232B1D14' stroke-width='2' fill='none'/%3E%3Cpath d='M70,60 L148,95 Q148,150 100,155 Q52,150 52,95 Q52,62 58,60 Z' fill='%23EEC9A0' stroke='%232B1D14' stroke-width='4'/%3E%3Ccircle cx='82' cy='100' r='6' fill='%232B1D14'/%3E%3Ccircle cx='118' cy='100' r='6' fill='%232B1D14'/%3E%3Cellipse cx='72' cy='112' rx='9' ry='6' fill='%23F0A0A8' opacity='0.75'/%3E%3Cellipse cx='128' cy='112' rx='9' ry='6' fill='%23F0A0A8' opacity='0.75'/%3E%3Cpath d='M92,122 Q100,128 108,122' stroke='%232B1D14' stroke-width='3' fill='none'/%3E%3Cpath d='M40,200 L40,193 Q42,176 64,170 Q82,166 100,168 Q118,166 136,170 Q158,176 160,193 L160,200 Z' fill='%239B9B94' stroke='%232B1D14' stroke-width='4'/%3E%3C/svg%3E">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+  :root {
+    --page-bg: #f7efe8;
+    --banner-bg: linear-gradient(135deg, #224b5b 0%, #356f7a 100%);
+    --banner-text: #f8f3ea;
+    --surface: #ffffff;
+    --surface-alt: #f3ebe0;
+    --cream: #f7efe8;
+    --cream-dim: #efe0cf;
+    --ink: #26343f;
+    --ink-soft: #5e6b76;
+    --rust: #c96b46;
+    --rust-soft: #f3dccf;
+    --accent: #2b7a75;
+    --accent-strong: #215c57;
+    --accent-soft: #dcefe9;
+    --border: #d9d2c7;
+    --serif: 'Fraunces', serif;
+    --sans: 'Manrope', 'Inter', sans-serif;
+    --mono: 'IBM Plex Mono', monospace;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: linear-gradient(180deg, #fcf8f2 0%, var(--page-bg) 100%);
+    color: var(--ink);
+    font-family: var(--sans);
+    line-height: 1.7;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  .wrap { max-width: 1200px; margin: 0 auto; padding: 0 48px; }
+
+  /* header */
+  header {
+    position: sticky; top: 0; z-index: 20;
+    background: var(--banner-bg);
+    color: var(--banner-text);
+    backdrop-filter: blur(10px);
+    border-bottom: none;
+    box-shadow: 0 10px 30px rgba(20, 39, 49, 0.12);
+  }
+  header .wrap {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    height: 76px;
+    max-width: 1200px;
+    padding: 0 48px;
+  }
+  .header-center {
+    display: flex;
+    gap: 32px;
+    align-items: center;
+  }
+  .header-center a {
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.32em;
+    color: var(--banner-text);
+    text-decoration: none;
+    transition: color 0.2s ease, opacity 0.2s ease;
+  }
+  .header-center a:hover { color: #ffd9b8; }
+  .header-right { justify-self: end; }
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: 24px;
+    color: var(--banner-text);
+    text-decoration: none;
+    letter-spacing: -0.01em;
+  }
+  .logo span { color: #ffd9b8; }
+  .header-left { display: flex; align-items: center; gap: 18px; }
+  .connect-btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--accent); color: white;
+    font-family: var(--sans);
+    font-size: 13px; font-weight: 700;
+    letter-spacing: 0.02em;
+    padding: 10px 20px 10px 16px; border-radius: 999px;
+    text-decoration: none;
+    transition: background 0.2s ease, transform 0.2s ease, gap 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 12px rgba(43, 122, 117, 0.15);
+  }
+  .connect-btn:hover {
+    background: var(--accent-strong);
+    transform: translateY(-1px);
+    gap: 11px;
+    box-shadow: 0 6px 16px rgba(43, 122, 117, 0.25);
+  }
+  .connect-btn svg { width: 16px; height: 16px; flex-shrink: 0; }
+
+  /* project detail page */
+  .project-detail {
+    padding: 60px 0 100px;
+  }
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--accent);
+    text-decoration: none;
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 32px;
+    transition: gap 0.2s ease;
+  }
+  .back-link:hover { gap: 12px; }
+  .project-header {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 32px;
+    align-items: start;
+    margin-bottom: 48px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--border);
+  }
+  .project-header-image {
+    width: 120px;
+    height: 120px;
+    background: var(--accent-soft);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+  }
+  .project-header h1 {
+    font-family: var(--serif);
+    font-size: clamp(32px, 4vw, 42px);
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: var(--ink);
+  }
+  .project-tag {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    display: inline-block;
+    margin-right: 12px;
+  }
+  .read-time {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .read-time::before {
+    content: '•';
+    margin: 0 8px;
+  }
+  .project-content p {
+    color: var(--ink-soft);
+    font-size: 15px;
+    line-height: 1.75;
+    margin-bottom: 20px;
+  }
+  .project-content p strong {
+    color: var(--ink);
+    font-size: 19px;
+    display: block;
+    margin-top: 36px;
+    margin-bottom: 16px;
+  }
+  .project-content ul {
+    color: var(--ink-soft);
+    margin-left: 24px;
+    margin-top: 12px;
+    margin-bottom: 20px;
+  }
+  .project-content li {
+    color: var(--ink-soft);
+    margin-bottom: 8px;
+    line-height: 1.6;
+    font-size: 15px;
+  }
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin: 20px 0;
+  }
+  .feature-box {
+    background: var(--accent-soft);
+    padding: 16px 20px;
+    border-radius: 10px;
+    font-size: 14px;
+    color: var(--ink);
+    font-weight: 500;
+  }
+  .project-divider {
+    height: 1px;
+    background: var(--border);
+    margin: 40px 0;
+  }
+  .code-block {
+    background: var(--surface-alt);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px;
+    margin: 20px 0;
+    font-family: var(--mono);
+    font-size: 13px;
+    line-height: 1.6;
+    overflow-x: auto;
+  }
+  .info-box {
+    background: var(--accent-soft);
+    border-left: 4px solid var(--accent);
+    padding: 20px;
+    margin: 20px 0;
+    border-radius: 4px;
+  }
+
+  footer {
+    padding: 40px 0;
+    text-align: center;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-soft);
+    border-top: 1px solid var(--cream-dim);
+  }
+
+  @media (max-width: 700px) {
+    .wrap { padding: 0 24px; }
+    header .wrap { padding: 0 24px; }
+    .project-header {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+    .project-header-image {
+      width: 80px;
+      height: 80px;
+      font-size: 32px;
+    }
+    .feature-grid {
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="header-left">
+      <a class="logo" href="index.html">QueenieLi</a>
+    </div>
+    <div class="header-center">
+      <a href="index.html">Home</a>
+      <a href="index.html#work">Work</a>
+      <a href="index.html#about">About</a>
+    </div>
+    <div class="header-right">
+      <a class="connect-btn" href="mailto:queeniecyli@gmail.com?subject=Hi%20Queenie%2C%20let%27s%20connect!">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 5l10 7 10-7"/><rect x="2" y="4" width="20" height="16" rx="2"/></svg>
+        Let's connect
+      </a>
+    </div>
+  </div>
+</header>
+
+<section class="project-detail">
+  <div class="wrap">
+    <a href="projects.html" class="back-link">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 18 9 12 15 6"></polyline>
+      </svg>
+      Back to Projects
+    </a>
+
+    <div class="project-header">
+      <div class="project-header-image">🤖</div>
+      <div>
+        <h1>CreatorCopilot</h1>
+        <span class="project-tag">AI Agent MVP</span>
+        <span class="read-time">10 min read</span>
+      </div>
+    </div>
+
+    <div class="project-content">
+      <p><strong>Product Vision</strong></p>
+      <p>CreatorCopilot is an AI-powered content strategy agent that helps content creators and small businesses generate high-performing social media campaigns. This portfolio project demonstrates advanced AI agent architecture using OpenAI's function calling, integration with GPT-4o API, REST API orchestration, and modern cloud application design.</p>
+
+      <p><strong>Key deliverables:</strong></p>
+      <div class="feature-grid">
+        <div class="feature-box">AI agent using OpenAI function calling</div>
+        <div class="feature-box">GPT-4o with autonomous tool use capabilities</div>
+        <div class="feature-box">REST API integration (SerpAPI for trend research)</div>
+        <div class="feature-box">Full-stack web application (React + FastAPI)</div>
+      </div>
+
+      <div class="project-divider"></div>
+
+      <p><strong>Core User Problem</strong></p>
+      <p>Content creators and small businesses spend significant time on manual tasks:</p>
+      <ul>
+        <li>Brainstorming content ideas aligned with current trends</li>
+        <li>Researching what's performing well in their niche</li>
+        <li>Writing compelling scripts and hooks</li>
+        <li>Creating captions and selecting relevant hashtags</li>
+        <li>Planning video shoots and shot lists</li>
+      </ul>
+      <p>CreatorCopilot reduces this manual effort by acting as an AI content strategist that autonomously researches trends, analyses business context, and generates complete campaign strategies.</p>
+
+      <div class="project-divider"></div>
+
+      <p><strong>MVP Scope</strong></p>
+      <p>The MVP is a working web application where users input business details and receive AI-generated campaign strategies.</p>
+
+      <p><strong>Input Fields:</strong></p>
+      <ul>
+        <li>Business name and industry/category</li>
+        <li>Location and target audience</li>
+        <li>Social media platform (TikTok, Instagram, YouTube)</li>
+        <li>Campaign objective (awareness, engagement, conversions)</li>
+        <li>Brand tone (authentic, casual, professional, playful)</li>
+      </ul>
+
+      <p><strong>Example Input:</strong></p>
+      <div class="code-block">
+Business: Japanese restaurant<br>
+Location: Sydney<br>
+Platform: TikTok<br>
+Objective: Increase restaurant awareness<br>
+Audience: Sydney food lovers<br>
+Tone: Authentic, casual, engaging
+      </div>
+
+      <p><strong>AI-Generated Output:</strong></p>
+      <ul>
+        <li>Campaign concept and content angle</li>
+        <li>Attention-grabbing video hook</li>
+        <li>30-60 second script optimised for platform</li>
+        <li>Detailed shot list for video production</li>
+        <li>Engaging caption with storytelling elements</li>
+        <li>Relevant hashtags based on trends and platform</li>
+        <li>Clear call-to-action</li>
+        <li>Content optimisation recommendations</li>
+      </ul>
+
+      <div class="project-divider"></div>
+
+      <p><strong>Why OpenAI GPT-4o?</strong></p>
+      <p>This project uses OpenAI's GPT-4o with function calling for several strategic reasons:</p>
+      <ul>
+        <li><strong>Advanced Function Calling:</strong> GPT-4o's function calling capabilities enable autonomous decision-making, determining when and how to call external APIs</li>
+        <li><strong>Global Availability:</strong> OpenAI's API has broad regional support, making it accessible for developers worldwide including Australia</li>
+        <li><strong>Production-Ready:</strong> OpenAI's mature API and extensive documentation provide reliable patterns for building scalable AI agents</li>
+        <li><strong>Content Quality:</strong> GPT-4o demonstrates exceptional performance in creative content generation, storytelling, and marketing copy</li>
+        <li><strong>Cost Efficiency:</strong> Competitive pricing with flexible usage tiers suitable for both prototyping and production deployment</li>
+      </ul>
+
+      <div class="project-divider"></div>
+
+      <p><strong>AI Agent Architecture</strong></p>
+      <p>CreatorCopilot implements a true AI agent workflow—not a simple chatbot. The agent autonomously determines which actions to take and orchestrates multiple tools to complete the task using OpenAI's function calling.</p>
+
+      <p><strong>Agent Workflow:</strong></p>
+      <div class="code-block">
+User Input → Business Context Analysis<br>
+↓<br>
+Agent Determines Required Actions<br>
+↓<br>
+Tool 1: Trend Research (SerpAPI)<br>
+↓<br>
+Tool 2: Content Strategy Generation<br>
+↓<br>
+Structured Campaign Output
+      </div>
+
+      <p><strong>OpenAI Function Calling:</strong></p>
+      <p>The agent uses OpenAI's function calling capability to intelligently decide when and how to use available tools. The agent architecture provides a structured framework for orchestrating multi-step workflows, enabling autonomous decision-making rather than rigid, predefined workflows.</p>
+
+      <div class="project-divider"></div>
+
+      <p><strong>Tool 1: Trend Research</strong></p>
+      <p>Purpose: Retrieve trending topics, keywords, and content patterns related to the user's business and industry.</p>
+      <p>Implementation: Integration with SerpAPI (or similar search/trends API) to gather real-time trend data.</p>
+
+      <p><strong>Example Flow:</strong></p>
+      <div class="code-block">
+Input: "Japanese restaurant Sydney"<br>
+↓<br>
+API Call: SerpAPI search query<br>
+↓<br>
+Output: Trending keywords, popular searches, related topics<br>
+↓<br>
+Agent Context: Uses trend data to inform content strategy
+      </div>
+
+      <p>This tool ensures that generated campaigns are grounded in current trends and real search behaviour, not just generic templates.</p>
+
+      <div class="project-divider"></div>
+
+      <p><strong>Tool 2: Content Strategy Generator</strong></p>
+      <p>The AI agent analyses multiple inputs to create a comprehensive content strategy:</p>
+      <ul>
+        <li>Business type and unique value proposition</li>
+        <li>Target audience demographics and psychographics</li>
+        <li>Platform-specific algorithm preferences and best practices</li>
+        <li>Trending topics from research tool</li>
+        <li>Campaign marketing objective</li>
+      </ul>
+
+      <p><strong>Structured JSON Response:</strong></p>
+      <div class="code-block">
+{<br>
+  "campaign_name": "Behind the Scenes: Authentic Ramen",<br>
+  "content_angle": "Show traditional ramen-making process",<br>
+  "hook": "POV: You're about to discover why...",<br>
+  "script": "30-60 second narrative script",<br>
+  "shot_list": [<br>
+    "Close-up: Chef hand-pulling noodles",<br>
+    "Wide shot: Kitchen atmosphere",<br>
+    "Close-up: Broth simmering"<br>
+  ],<br>
+  "caption": "Engaging caption with storytelling",<br>
+  "hashtags": ["#SydneyEats", "#RamenLovers"],<br>
+  "cta": "Visit us at [location]",<br>
+  "recommendations": [<br>
+    "Post during peak engagement hours",<br>
+    "Use trending audio"<br>
+  ]<br>
+}
+      </div>
+
+      <div class="project-divider"></div>
+
+      <p><strong>Technical Stack</strong></p>
+
+      <p><strong>Frontend: React + Vite + Tailwind CSS</strong></p>
+      <ul>
+        <li>Clean, modern UI with responsive design</li>
+        <li>Loading states and error handling</li>
+        <li>Three core pages: Landing, Generator, Results</li>
+        <li>Form validation and user feedback</li>
+      </ul>
+
+      <p><strong>Backend: Python FastAPI</strong></p>
+      <ul>
+        <li>RESTful API endpoints</li>
+        <li>POST /generate-campaign — Main agent workflow</li>
+        <li>GET /health — Health check endpoint</li>
+        <li>Async processing for API calls</li>
+        <li>Error handling and logging</li>
+      </ul>
+
+      <p><strong>AI Implementation: OpenAI GPT-4o</strong></p>
+      <ul>
+        <li>OpenAI function calling for workflow orchestration</li>
+        <li>Autonomous tool selection and execution</li>
+        <li>System prompts optimised for content strategy</li>
+        <li>128K token context window for comprehensive analysis</li>
+        <li>Structured outputs with JSON formatting</li>
+      </ul>
+
+      <p><strong>External APIs:</strong></p>
+      <ul>
+        <li>OpenAI API for LLM inference (GPT-4o)</li>
+        <li>SerpAPI for trend research and search data</li>
+      </ul>
+
+      <div class="project-divider"></div>
+
+      <p><strong>AI Agent System Prompt</strong></p>
+      <div class="code-block">
+System Role:<br>
+"You are an expert social media strategist specialising in<br>
+short-form content marketing. You understand audience psychology,<br>
+storytelling hooks, retention tactics, and platform algorithms."<br>
+<br>
+Agent Reasoning Process:<br>
+1. Understand campaign objective<br>
+2. Research relevant trends (call trend tool)<br>
+3. Analyse business context and audience<br>
+4. Develop platform-optimised content strategy<br>
+5. Generate structured campaign deliverables
+      </div>
+
+      <div class="project-divider"></div>
+
+      <p><strong>Project Structure</strong></p>
+      <div class="code-block">
+creatorcopilot/<br>
+├── frontend/<br>
+│   ├── src/<br>
+│   │   ├── components/<br>
+│   │   ├── pages/<br>
+│   │   ├── services/api.js<br>
+│   │   └── App.jsx<br>
+│   ├── package.json<br>
+│   └── vite.config.js<br>
+├── backend/<br>
+│   ├── app/<br>
+│   │   ├── main.py<br>
+│   │   ├── agent/<br>
+│   │   │   ├── creator_agent.py  # OpenAI Agent with function calling<br>
+│   │   │   ├── tools.py           # Tool definitions<br>
+│   │   │   └── prompts.py         # System prompts<br>
+│   │   └── api/<br>
+│   │       └── routes.py<br>
+│   ├── requirements.txt<br>
+│   └── .env.example<br>
+├── README.md<br>
+└── docs/<br>
+    ├── architecture.md<br>
+    └── case-study.md
+      </div>
+
+      <div class="project-divider"></div>
+
+      <p><strong>Development Approach</strong></p>
+      <p>This MVP prioritises core functionality over unnecessary complexity:</p>
+
+      <div class="info-box">
+        <p><strong>Focus Areas:</strong></p>
+        <ul>
+          <li>Working AI agent with real tool integration</li>
+          <li>Clean, scalable architecture</li>
+          <li>Excellent user experience</li>
+          <li>Clear demonstration of technical capabilities</li>
+        </ul>
+      </div>
+
+      <div class="info-box">
+        <p><strong>Intentionally Excluded:</strong></p>
+        <ul>
+          <li>User authentication (not required for demo)</li>
+          <li>Payment processing (not relevant for MVP)</li>
+          <li>Complex databases (in-memory state sufficient)</li>
+          <li>Microservices architecture (unnecessary complexity)</li>
+        </ul>
+      </div>
+
+      <div class="project-divider"></div>
+
+      <p><strong>Deployment Strategy</strong></p>
+
+      <p><strong>Frontend Deployment:</strong></p>
+      <ul>
+        <li>Platform: Vercel</li>
+        <li>Automatic deployments from Git</li>
+        <li>Environment variables via Vercel dashboard</li>
+        <li>Global CDN for optimal performance</li>
+      </ul>
+
+      <p><strong>Backend Deployment:</strong></p>
+      <ul>
+        <li>Platform: Render or AWS (containerised)</li>
+        <li>Environment variable configuration for API keys</li>
+        <li>Health check endpoint monitoring</li>
+        <li>Auto-scaling based on traffic</li>
+      </ul>
+
+      <p><strong>Required Environment Variables:</strong></p>
+      <div class="code-block">
+OPENAI_API_KEY=your_openai_api_key<br>
+SERPAPI_KEY=your_serpapi_key<br>
+FRONTEND_URL=https://your-frontend.vercel.app<br>
+ENVIRONMENT=production
+      </div>
+
+      <div class="project-divider"></div>
+
+      <p><strong>Key Technical Demonstrations</strong></p>
+      <p>This project showcases several critical capabilities:</p>
+
+      <p><strong>1. AI Agent Design with OpenAI Function Calling</strong></p>
+      <p>Demonstrates understanding of agent workflows using OpenAI's function calling, autonomous decision-making with tool selection, and multi-step workflow orchestration—not just basic LLM prompting.</p>
+
+      <p><strong>2. API Integration</strong></p>
+      <p>Shows ability to integrate external APIs (SerpAPI), handle authentication, error handling, and data transformation.</p>
+
+      <p><strong>3. Full-Stack Development</strong></p>
+      <p>End-to-end implementation from React frontend to Python backend, demonstrating versatility across the stack.</p>
+
+      <p><strong>4. Cloud Architecture</strong></p>
+      <p>Modern deployment approach using industry-standard platforms (Vercel, Render/AWS), environment management, and scalability considerations.</p>
+
+      <p><strong>5. Product Thinking</strong></p>
+      <p>Clear problem definition, user-centric design, and focused MVP scope—essential for deployment strategy roles.</p>
+
+      <div class="project-divider"></div>
+
+      <p><strong>Documentation & Portfolio Assets</strong></p>
+      <p>The project includes comprehensive documentation to support portfolio presentation:</p>
+
+      <p><strong>README.md:</strong></p>
+      <ul>
+        <li>Project overview and problem statement</li>
+        <li>Architecture diagram (system design)</li>
+        <li>Setup and installation instructions</li>
+        <li>API documentation</li>
+        <li>Technology choices and rationale</li>
+      </ul>
+
+      <p><strong>Technical Case Study:</strong></p>
+      <ul>
+        <li>Business problem and user pain points</li>
+        <li>Solution approach and architecture decisions</li>
+        <li>AI agent workflow and reasoning process</li>
+        <li>REST API integration patterns</li>
+        <li>Technical implementation details</li>
+        <li>Deployment strategy and infrastructure</li>
+        <li>Business impact and outcomes</li>
+      </ul>
+
+      <p><strong>Architecture Diagrams:</strong></p>
+      <ul>
+        <li>System architecture: frontend, backend, external APIs</li>
+        <li>AI agent workflow: decision trees and tool calling</li>
+        <li>Data flow: user input → processing → structured output</li>
+      </ul>
+
+      <div class="project-divider"></div>
+
+      <p><strong>Next Steps & Extensions</strong></p>
+      <p>While this MVP focuses on core functionality, several enhancements could extend the project:</p>
+
+      <p><strong>Technical Extensions:</strong></p>
+      <ul>
+        <li>Multi-platform campaign generation (TikTok, Instagram, YouTube simultaneously)</li>
+        <li>Image generation integration (DALL-E for thumbnail concepts)</li>
+        <li>Campaign performance prediction using ML models</li>
+        <li>A/B testing recommendations based on historical data</li>
+      </ul>
+
+      <p><strong>Product Extensions:</strong></p>
+      <ul>
+        <li>Campaign history and iteration capabilities</li>
+        <li>Export to PDF or presentation format</li>
+        <li>Team collaboration features</li>
+        <li>Analytics integration for performance tracking</li>
+      </ul>
+
+      <div class="project-divider"></div>
+
+      <p><strong>Conclusion</strong></p>
+      <p>CreatorCopilot demonstrates the intersection of AI engineering, product design, and deployment strategy. By building a working AI agent that solves a real business problem, this project showcases the technical depth and product thinking required for modern Solutions Engineering and Deployment Strategist roles.</p>
+      <p>The project emphasises autonomous AI agents over simple chatbots, real API integrations over mock data, and production-ready architecture over prototypes—reflecting industry best practices and enterprise-grade engineering standards.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    © MMXXVI. Made by Queenie Li.
+  </div>
+</footer>
+
+<script>
+  window.addEventListener('load', function() {
+    window.scrollTo(0, 0);
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,2445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Queenie Li</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cpath d='M38,200 L38,95 Q38,15 100,15 Q162,15 162,95 L162,200 Z' fill='%236B4226' stroke='%232B1D14' stroke-width='4'/%3E%3Cpath d='M85,150 Q100,158 115,150 L115,172 Q100,178 85,172 Z' fill='%23EEC9A0'/%3E%3Cpath d='M85,150 L85,172 Q100,178 115,172 L115,150' stroke='%232B1D14' stroke-width='2' fill='none'/%3E%3Cpath d='M70,60 L148,95 Q148,150 100,155 Q52,150 52,95 Q52,62 58,60 Z' fill='%23EEC9A0' stroke='%232B1D14' stroke-width='4'/%3E%3Ccircle cx='82' cy='100' r='6' fill='%232B1D14'/%3E%3Ccircle cx='118' cy='100' r='6' fill='%232B1D14'/%3E%3Cellipse cx='72' cy='112' rx='9' ry='6' fill='%23F0A0A8' opacity='0.75'/%3E%3Cellipse cx='128' cy='112' rx='9' ry='6' fill='%23F0A0A8' opacity='0.75'/%3E%3Cpath d='M92,122 Q100,128 108,122' stroke='%232B1D14' stroke-width='3' fill='none'/%3E%3Cpath d='M40,200 L40,193 Q42,176 64,170 Q82,166 100,168 Q118,166 136,170 Q158,176 160,193 L160,200 Z' fill='%239B9B94' stroke='%232B1D14' stroke-width='4'/%3E%3C/svg%3E">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+  :root {
+    --page-bg: #f7efe8;
+    --banner-bg: linear-gradient(135deg, #224b5b 0%, #356f7a 100%);
+    --banner-text: #f8f3ea;
+    --surface: #ffffff;
+    --surface-alt: #f3ebe0;
+    --cream: #f7efe8;
+    --cream-dim: #efe0cf;
+    --ink: #000000;
+    --ink-soft: #5e6b76;
+    --rust: #c96b46;
+    --rust-soft: #f3dccf;
+    --accent: #2b7a75;
+    --accent-strong: #215c57;
+    --accent-soft: #dcefe9;
+    --border: #d9d2c7;
+    --hair: #413833;
+    --skin: #EEC9A0;
+    --top-navy: #acb8b8;
+    --blush: #F0A0A8;
+    --serif: 'Fraunces', serif;
+    --sans: 'Manrope', 'Inter', sans-serif;
+    --mono: 'IBM Plex Mono', monospace;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: linear-gradient(180deg, #fcf8f2 0%, var(--page-bg) 100%);
+    color: var(--ink);
+    font-family: var(--sans);
+    line-height: 1.7;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  .wrap { max-width: 1200px; margin: 0 auto; padding: 0 48px; }
+
+  .page-transition-overlay {
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(135deg, #224b5b 0%, #356f7a 100%);
+    opacity: 0;
+    z-index: 9999;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.3s ease;
+  }
+  .page-transition-overlay::before {
+    content: 'Loading...';
+    font-family: var(--serif);
+    font-size: clamp(40px, 6vw, 72px);
+    font-weight: 600;
+    color: var(--banner-text);
+    letter-spacing: -0.01em;
+    opacity: 0;
+    transition: opacity 0.3s ease 0.1s;
+  }
+  body.page-transition-out .page-transition-overlay {
+    opacity: 1;
+  }
+  body.page-transition-out .page-transition-overlay::before {
+    opacity: 1;
+  }
+  body.page-transition-in .page-transition-overlay {
+    opacity: 0;
+  }
+  body.page-transition-in .page-transition-overlay::before {
+    opacity: 0;
+  }
+
+  b, strong { font-weight: 600; }
+
+  /* Password Gate */
+  #password-gate {
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(135deg, #224b5b 0%, #356f7a 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+  }
+  #password-gate.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+  .password-container {
+    background: var(--surface);
+    padding: 48px;
+    border-radius: 16px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+  }
+  .password-container h1 {
+    font-family: var(--serif);
+    font-size: 32px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 16px;
+  }
+  .password-container p {
+    color: var(--ink-soft);
+    margin-bottom: 24px;
+  }
+  .password-container input {
+    width: 100%;
+    padding: 14px 16px;
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    font-size: 16px;
+    font-family: var(--sans);
+    margin-bottom: 16px;
+    transition: border-color 0.3s ease;
+  }
+  .password-container input:focus {
+    outline: none;
+    border-color: var(--accent);
+  }
+  .password-container button {
+    width: 100%;
+    padding: 14px 24px;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    font-family: var(--sans);
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  .password-container button:hover {
+    background: var(--accent-strong);
+  }
+  .password-error {
+    color: var(--rust);
+    font-size: 14px;
+    margin-top: 8px;
+    display: none;
+  }
+  .password-error.show {
+    display: block;
+  }
+
+  /* header */
+  header {
+    position: sticky; top: 0; z-index: 20;
+    background: var(--banner-bg);
+    color: var(--banner-text);
+    backdrop-filter: blur(10px);
+    border-bottom: none;
+    box-shadow: 0 10px 30px rgba(20, 39, 49, 0.12);
+  }
+  header .wrap {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    height: 76px;
+    max-width: 1200px;
+    padding: 0 48px;
+  }
+  .header-center {
+    display: flex;
+    gap: 32px;
+    align-items: center;
+  }
+  .header-center a {
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.32em;
+    color: var(--banner-text);
+    text-decoration: none;
+    transition: color 0.2s ease, opacity 0.2s ease;
+  }
+  .header-center a:hover {
+    color: #ffd9b8;
+  }
+  .header-right {
+    justify-self: end;
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: 24px;
+    color: var(--banner-text);
+    text-decoration: none;
+    letter-spacing: -0.01em;
+  }
+  .logo span {
+    color: #ffd9b8;
+  }
+  .logo-avatar {
+    width: 32px;
+    height: 32px;
+  }
+
+  .header-left { display: flex; align-items: center; gap: 18px; }
+
+  .connect-btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--accent); color: white;
+    font-family: var(--sans);
+    font-size: 13px; font-weight: 700;
+    letter-spacing: 0.02em;
+    padding: 10px 20px 10px 16px; border-radius: 999px;
+    text-decoration: none;
+    transition: background 0.2s ease, transform 0.2s ease, gap 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 12px rgba(43, 122, 117, 0.15);
+  }
+  .connect-btn:hover {
+    background: var(--accent-strong);
+    transform: translateY(-1px);
+    gap: 11px;
+    box-shadow: 0 6px 16px rgba(43, 122, 117, 0.25);
+  }
+  .connect-btn svg { width: 16px; height: 16px; flex-shrink: 0; }
+
+  .header-right { display: flex; align-items: center; gap: 16px; }
+
+  .menu-btn {
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    background: var(--accent);
+    padding: 10px 16px;
+    border-radius: 999px;
+    border: none;
+    cursor: pointer;
+    height: 41px;
+    transition: background 0.2s ease, transform 0.2s ease;
+  }
+  .menu-btn:hover {
+    background: var(--accent-strong);
+    transform: translateY(-1px);
+  }
+  .menu-btn span {
+    display: block;
+    width: 20px;
+    height: 2px;
+    background: white;
+    transition: background 0.2s ease;
+  }
+
+  .menu-toggle {
+    display: flex; align-items: center; gap: 8px;
+    background: none; border: none; cursor: pointer; padding: 6px;
+    font-family: var(--sans); font-size: 13px; text-transform: uppercase;
+    letter-spacing: 0.3em; color: var(--banner-text); font-weight: 700;
+  }
+  .menu-toggle::before {
+    content: '';
+    display: block;
+    width: 1.5px;
+    height: 20px;
+    background: var(--ink);
+  }
+  .menu-toggle span {
+    display: none;
+  }
+
+  /* loading banner */
+  .loading-banner {
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(135deg, #224b5b 0%, #356f7a 100%);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: slideOutBanner 0.8s ease 1.8s forwards;
+  }
+  .loading-text {
+    font-family: var(--serif);
+    font-size: clamp(40px, 6vw, 72px);
+    font-weight: 600;
+    color: var(--banner-text);
+    letter-spacing: -0.01em;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInText 0.6s ease 0.3s forwards, fadeOutText 0.5s ease 1.5s forwards;
+  }
+  @keyframes slideOutBanner {
+    to {
+      transform: translateY(-100%);
+    }
+  }
+  @keyframes fadeInText {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  @keyframes fadeOutText {
+    to {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+  }
+
+  /* split letter animation */
+  .split-name .letter {
+    display: inline-block; opacity: 0; transform: translateX(-30px);
+    animation: letterSlideIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  }
+  @keyframes letterSlideIn {
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  /* left nav panel */
+  .nav-panel {
+    position: fixed; top: 0; right: 0; height: 100%; width: 420px;
+    background: var(--surface); border-left: 1px solid var(--border);
+    z-index: 30; transform: translateX(100%);
+    transition: transform 0.35s cubic-bezier(.65,0,.35,1);
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 60px;
+    box-shadow: -10px 0 30px rgba(20, 39, 49, 0.08);
+  }
+  .nav-panel.open { transform: translateX(0); }
+  .nav-panel-close {
+    position: absolute; top: 32px; right: 48px;
+    background: none; border: none; cursor: pointer;
+    font-family: var(--sans); font-size: 13px; color: var(--ink-soft);
+    font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;
+    transition: color 0.2s ease;
+  }
+  .nav-panel-close:hover {
+    color: var(--accent);
+  }
+  .nav-list { display: flex; flex-direction: column; gap: 8px; }
+  .nav-list a {
+    color: var(--ink); text-decoration: none; font-family: var(--serif);
+    font-size: 36px; padding: 18px 0; border-bottom: 1px solid var(--accent-soft);
+    transition: color 0.2s ease, padding-left 0.2s ease;
+  }
+  .nav-list a:hover { color: var(--accent); padding-left: 8px; }
+
+  /* social side panel */
+  .panel-overlay {
+    position: fixed; inset: 0; background: rgba(33,29,24,0.35);
+    opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+    z-index: 29;
+  }
+  .panel-overlay.open { opacity: 1; pointer-events: auto; }
+
+  .social-panel {
+    position: fixed; top: 0; right: 0; height: 100%; width: 420px;
+    background: var(--surface); border-left: 1px solid var(--border);
+    z-index: 30; transform: translateX(100%);
+    transition: transform 0.35s cubic-bezier(.65,0,.35,1);
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 60px;
+    box-shadow: -10px 0 30px rgba(20, 39, 49, 0.08);
+  }
+  .social-panel.open { transform: translateX(0); }
+  .social-panel-close {
+    position: absolute; top: 32px; right: 48px;
+    background: none; border: none; cursor: pointer;
+    font-family: var(--sans); font-size: 13px; color: var(--ink-soft);
+    font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;
+    transition: color 0.2s ease;
+  }
+  .social-panel-close:hover {
+    color: var(--accent);
+  }
+  .social-list { display: flex; flex-direction: column; gap: 8px; }
+  .social-list a {
+    display: flex; align-items: center; gap: 18px;
+    color: var(--ink); text-decoration: none; font-family: var(--serif);
+    font-size: 28px; padding: 18px 0; border-bottom: 1px solid var(--accent-soft);
+    transition: color 0.2s ease, padding-left 0.2s ease;
+  }
+  .social-list a:hover { color: var(--accent); padding-left: 8px; }
+  .social-icon {
+    width: 42px; height: 42px; border-radius: 50%;
+    border: 1px solid var(--accent-soft); background: var(--accent-soft);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--mono); font-size: 12px; letter-spacing: 0.02em;
+    flex-shrink: 0;
+  }
+  .panel-eyebrow {
+    font-family: var(--sans); font-size: 14px; letter-spacing: 0.3em;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 32px; font-weight: 700;
+  }
+
+  .footer-note {
+    margin-top: 6px; color: var(--ink-soft); opacity: 0.7; cursor: default;
+  }
+
+  .hero-social-links {
+    display: flex;
+    gap: 16px;
+    margin-top: 24px;
+  }
+  .hero-social-links a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: transparent;
+    border: 2px solid var(--accent);
+    color: var(--accent);
+    text-decoration: none;
+    font-size: 20px;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 12px rgba(43, 122, 117, 0.15);
+  }
+  .hero-social-links a:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: white;
+    transform: translateY(-1px) scale(1.1);
+    box-shadow: 0 8px 20px rgba(43, 122, 117, 0.3);
+  }
+  .hero-social-links a:hover svg {
+    stroke: white;
+  }
+  .hero-social-links a svg {
+    stroke: currentColor;
+  }
+
+  /* hero */
+  .hero {
+    min-height: 88vh; display: flex; flex-direction: column; justify-content: center;
+    padding: 280px 0 30px;
+  }
+  .hero-grid {
+    display: grid; grid-template-columns: 1fr 340px; gap: 32px; align-items: start;
+  }
+  .hero-grid > div:first-child {
+    padding-top: 0;
+  }
+  .hero h1 {
+    font-family: var(--serif); font-weight: 400;
+    font-size: clamp(36px, 5.3vw, 60px);
+    line-height: 1.12; letter-spacing: -0.01em;
+    max-width: 720px;
+  }
+  .hero h1 b { font-weight: 600; }
+  .hero h1 .accent { color: var(--accent); font-style: italic; font-weight: 600; }
+
+  /* eye avatar */
+  .avatar-wrap { display: flex; justify-content: center; position: relative; margin-top: -130px; }
+  .avatar-svg {
+    width: 450px;
+    height: 450px;
+    filter: drop-shadow(0 10px 40px rgba(43, 122, 117, 0.25)) drop-shadow(0 0 60px rgba(43, 122, 117, 0.15));
+  }
+  .pupil { transition: cx 0.06s linear, cy 0.06s linear; }
+
+  .scroll-cue {
+    margin-top: 80px; font-family: var(--mono); font-size: 12px;
+    letter-spacing: 0.25em; color: var(--ink-soft); text-transform: uppercase;
+    position: relative; padding-bottom: calc(0.5cm + 10cm);
+  }
+  .scroll-cue::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 13%;
+    transform: translateX(-50%);
+    width: 1px;
+    height: 10cm;
+    background-color: var(--ink-soft);
+    opacity: 0.5;
+  }
+
+  @media (max-width: 700px) {
+    .wrap { padding: 0 20px; }
+    header .wrap {
+      grid-template-columns: 1fr auto;
+      height: auto;
+      padding: 16px 20px;
+      gap: 12px;
+    }
+    .header-center { display: none; }
+    .header-right { gap: 10px; }
+    .connect-btn { display: none; }
+    .logo { font-size: 20px; }
+    .nav-panel, .social-panel { width: min(90vw, 360px); padding: 40px 24px; }
+    .hero { min-height: auto; padding: 120px 0 36px; }
+    .hero-grid { grid-template-columns: 1fr; gap: 24px; }
+    .avatar-wrap { order: -1; margin-top: 0; }
+    .avatar-svg { width: min(72vw, 280px); height: auto; }
+    .scroll-cue { margin-top: 28px; padding-bottom: 0; }
+    .scroll-cue::after { display: none; }
+    .hero h1 { font-size: clamp(32px, 8vw, 44px); }
+    .section { padding: 48px 0; }
+    .project { padding: 24px; }
+    .project-top { flex-direction: column; align-items: flex-start; }
+    .learn-more-btn, .btn-outline, .see-all-btn { width: 100%; justify-content: center; }
+    .together { padding: 56px 0; }
+    .together-actions { flex-direction: column; align-items: stretch; }
+  }
+
+  /* reveal */
+  .reveal {
+    opacity: 0; transform: translateY(28px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .reveal.in-view { opacity: 1; transform: translateY(0); }
+
+  /* section base */
+  .section { padding: 60px 0; border-top: none; }
+  .section-eyebrow {
+    font-family: var(--sans); font-size: 13px; letter-spacing: 0.3em;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 18px; display: block; font-weight: 700;
+  }
+  .section h2 {
+    font-family: var(--serif); font-weight: 400;
+    font-size: clamp(30px, 4.2vw, 44px); line-height: 1.2;
+    max-width: 760px; margin-bottom: 28px;
+  }
+  .section h2 b { font-weight: 600; }
+  .section p.lead {
+    font-size: 16px; color: var(--ink-soft); max-width: 640px; margin-bottom: 32px;
+  }
+
+  .btn-outline {
+    display: inline-flex; align-items: center; gap: 8px;
+    border: 1px solid var(--accent); color: var(--accent-strong);
+    font-family: var(--sans);
+    font-size: 14px; font-weight: 700; text-decoration: none;
+    padding: 12px 24px; border-radius: 999px;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 12px rgba(43, 122, 117, 0.15);
+  }
+  .btn-outline svg {
+    width: 16px;
+    height: 16px;
+    stroke: currentColor;
+    flex-shrink: 0;
+  }
+  .btn-outline:hover {
+    background: var(--accent);
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(43, 122, 117, 0.25);
+  }
+  .btn-outline:hover svg {
+    stroke: white;
+  }
+
+  .see-all-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 32px;
+    padding: 12px 24px;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 999px;
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 12px rgba(43, 122, 117, 0.15);
+  }
+  .see-all-btn:hover {
+    background: var(--accent-strong);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(43, 122, 117, 0.25);
+  }
+
+  /* work section */
+  .project {
+    padding: 32px;
+    background: var(--surface);
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    margin-bottom: 24px;
+    box-shadow: 0 10px 24px rgba(38, 52, 63, 0.06);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .project:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 30px rgba(38, 52, 63, 0.1);
+  }
+  .project:first-of-type { border-top: 1px solid var(--cream-dim); }
+  .project-top {
+    display: flex; justify-content: space-between; align-items: baseline;
+    flex-wrap: wrap; gap: 12px; margin-bottom: 12px;
+  }
+  .project h3 {
+    font-family: var(--serif); font-weight: 600; font-size: 26px;
+  }
+  .project-tag {
+    font-family: var(--sans); font-size: 12px; color: var(--accent); font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.3em;
+  }
+  .project p { color: var(--ink-soft); max-width: 640px; font-size: 15px; }
+  .project p + p { margin-top: 10px; }
+
+  .wireframe-box {
+    margin-top: 20px; border: 1px dashed var(--accent-soft); border-radius: 10px;
+    padding: 28px; text-align: center; color: var(--accent-strong);
+    font-family: var(--mono); font-size: 12px; letter-spacing: 0.05em;
+    background: var(--surface-alt);
+  }
+
+  .project-skills {
+    display: flex;
+    gap: 8px;
+    margin-top: 16px;
+    flex-wrap: wrap;
+  }
+  .skill-bubble {
+    padding: 6px 14px;
+    background: var(--accent-soft);
+    border: 1px solid var(--accent-soft);
+    border-radius: 100px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent-strong);
+    letter-spacing: 0.02em;
+  }
+
+  .learn-more-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 16px;
+    padding: 12px 24px;
+    background: transparent;
+    border: 1px solid var(--accent);
+    border-radius: 999px;
+    color: var(--accent);
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 12px rgba(43, 122, 117, 0.15);
+  }
+  .learn-more-btn:hover {
+    background: var(--accent);
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(43, 122, 117, 0.25);
+  }
+
+  .project-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(38, 52, 63, 0.65);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 50;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    padding: 20px;
+    overflow: hidden;
+  }
+  .project-modal.open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .modal-content {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    max-width: min(760px, calc(100vw - 40px));
+    width: 100%;
+    max-height: 85vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 56px 32px 36px 40px;
+    position: relative;
+    transform: scale(0.95);
+    transition: transform 0.3s ease;
+    box-sizing: border-box;
+    scrollbar-gutter: stable;
+  }
+  .project-modal.open .modal-content {
+    transform: scale(1);
+  }
+  .modal-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: none;
+    border: none;
+    font-size: 28px;
+    color: var(--ink-soft);
+    cursor: pointer;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+  .modal-close:hover {
+    background: var(--accent-soft);
+    color: var(--accent);
+  }
+  .modal-header-grid {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    gap: 24px;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  .modal-header-grid > div {
+    margin-top: 16px;
+  }
+  .modal-header-image {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+  }
+  .modal-content h3 {
+    font-family: var(--serif);
+    font-size: 32px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--ink);
+  }
+  .modal-content .project-tag {
+    display: inline-block;
+    margin-bottom: 20px;
+  }
+  .read-time {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .read-time::before {
+    content: '•';
+    margin: 0 8px;
+  }
+  @media (max-width: 600px) {
+    .modal-header-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  .modal-content p {
+    color: var(--ink-soft);
+    font-size: 14px;
+    line-height: 1.7;
+    margin-bottom: 16px;
+  }
+  .modal-section > p:first-child strong {
+    font-size: 19px;
+    color: var(--ink-soft);
+    display: block;
+    margin-bottom: 12px;
+  }
+  .modal-content p strong {
+    color: var(--ink-soft);
+  }
+  .modal-content ul {
+    color: var(--ink-soft);
+    margin-left: 20px;
+    margin-top: 12px;
+    margin-bottom: 12px;
+  }
+  .modal-content li {
+    color: var(--ink-soft);
+    margin-bottom: 6px;
+    line-height: 1.6;
+    font-size: 14px;
+  }
+  .modal-detail {
+    color: var(--ink-soft);
+  }
+  .modal-detail > p:first-child strong {
+    font-size: 19px;
+    display: block;
+    margin-bottom: 12px;
+  }
+  .modal-section {
+    color: var(--ink-soft);
+  }
+  .modal-section p strong + br + br {
+    display: block;
+  }
+  .learning-point {
+    margin-bottom: 20px;
+  }
+  .learning-point strong {
+    display: block;
+    margin-bottom: 8px;
+  }
+  .learning-point .learning-text {
+    margin-left: 20px;
+    display: block;
+    color: var(--ink-soft);
+    font-size: 14px;
+    line-height: 1.7;
+  }
+  .modal-detail {
+    margin-top: 24px;
+  }
+  .modal-divider {
+    width: 100%;
+    height: 1px;
+    background: #d4d4d4;
+    margin: 32px 0;
+  }
+  .modal-section {
+    margin-bottom: 24px;
+  }
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin: 20px 0;
+  }
+  .feature-box {
+    padding: 16px;
+    background: var(--surface-alt);
+    border-radius: 10px;
+    border: 1px solid var(--accent-soft);
+    font-size: 14px;
+    color: var(--ink-soft);
+    display: flex;
+    align-items: start;
+    gap: 10px;
+  }
+  .feature-box::before {
+    content: '✦';
+    color: var(--accent);
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+  .image-placeholder {
+    margin: 24px 0;
+    padding: 0;
+    background: var(--surface-alt);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .image-placeholder img {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+  @media (max-width: 600px) {
+    .feature-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* journey section - horizontal scroll */
+  .journey-scroll-container {
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent) var(--cream-dim);
+    padding: 60px 0 60px;
+    margin: 0 -48px;
+  }
+  .journey-scroll-container::-webkit-scrollbar {
+    height: 8px;
+  }
+  .journey-scroll-container::-webkit-scrollbar-track {
+    background: var(--cream-dim);
+    border-radius: 4px;
+  }
+  .journey-scroll-container::-webkit-scrollbar-thumb {
+    background: var(--accent);
+    border-radius: 4px;
+  }
+  .journey-scroll-container::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-strong);
+  }
+  .journey-scroll-track {
+    display: flex;
+    gap: 40px;
+    position: relative;
+    padding: 0 48px 0 48px;
+  }
+  .journey-scroll-track::after {
+    content: '';
+    min-width: 48px;
+    flex-shrink: 0;
+  }
+  .journey-timeline-line {
+    position: relative;
+    width: 100%;
+    height: 2px;
+    background: var(--accent);
+    margin-top: 70px;
+    margin-bottom: -70px;
+    z-index: 1;
+  }
+  .journey-card-horizontal {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px;
+    min-width: 400px;
+    max-width: 400px;
+    flex-shrink: 0;
+    box-shadow: 0 10px 24px rgba(38, 52, 63, 0.06);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    position: relative;
+    z-index: 1;
+    margin-top: 48px;
+  }
+  .journey-card-horizontal::before {
+    content: '';
+    position: absolute;
+    top: -48px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 3px solid var(--surface);
+    z-index: 2;
+  }
+  .journey-card-horizontal::after {
+    content: '';
+    position: absolute;
+    top: -34px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 2px;
+    height: 34px;
+    background: var(--accent);
+    z-index: 1;
+  }
+  .journey-card-horizontal:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 14px 30px rgba(38, 52, 63, 0.12);
+    border-color: var(--accent);
+  }
+  .journey-year-horizontal {
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: 0.02em;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--accent-soft);
+    display: inline-block;
+  }
+  .journey-content-horizontal h3 {
+    font-family: var(--serif);
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+  .journey-company-horizontal {
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: 0.02em;
+    display: block;
+    margin-bottom: 16px;
+  }
+  .journey-description-horizontal {
+    color: var(--ink-soft);
+    font-size: 14px;
+    line-height: 1.7;
+    margin-bottom: 20px;
+  }
+  .journey-highlights-horizontal {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding-top: 16px;
+    border-top: 1px solid var(--cream-dim);
+  }
+  .highlight-item-horizontal {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .highlight-label-horizontal {
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+    font-weight: 600;
+  }
+  .highlight-value-horizontal {
+    font-family: var(--sans);
+    font-size: 13px;
+    color: var(--ink-soft);
+    font-weight: 500;
+    line-height: 1.5;
+  }
+  .journey-scroll-hint {
+    text-align: center;
+    margin-top: -40px;
+  }
+  .journey-scroll-hint p {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    opacity: 0.7;
+  }
+
+  /* about */
+  .about-highlight-box {
+    background: var(--accent-soft);
+    border-left: 4px solid var(--accent);
+    padding: 24px 28px;
+    border-radius: 12px;
+    margin-bottom: 32px;
+  }
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 36px; align-items: stretch; }
+  .about-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding-right: 20px;
+  }
+  .about-side {
+    padding-left: 40px;
+    border-left: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    justify-content: flex-start;
+  }
+  .about-tagline {
+    font-family: var(--serif); font-style: italic; font-size: 20px;
+    color: var(--accent-strong); margin-bottom: 0; line-height: 1.5;
+  }
+  .about-copy {
+    color: var(--ink-soft);
+    font-size: 15px;
+    line-height: 1.75;
+    max-width: 560px;
+    margin: 0;
+  }
+  .about-stats { display: flex; gap: 16px; margin-top: 8px; flex-wrap: wrap; }
+  .stat {
+    background: var(--surface);
+    border: 2px solid var(--accent);
+    border-radius: 14px;
+    padding: 20px 28px;
+    box-shadow: 0 4px 12px rgba(43, 122, 117, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    flex: 1;
+    min-width: 200px;
+  }
+  .stat:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(43, 122, 117, 0.15);
+  }
+  .stat b { font-family: var(--serif); font-size: 36px; display: block; color: var(--accent-strong); font-weight: 600; margin-bottom: 4px; }
+  .stat span { font-family: var(--mono); font-size: 11px; color: var(--ink-soft); text-transform: uppercase; letter-spacing: 0.08em; white-space: nowrap; }
+  .about-side {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .about-side-header {
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .interests { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 2px; }
+  .interests span {
+    font-family: var(--mono); font-size: 12px; padding: 7px 14px;
+    background: var(--accent-soft); border: 1px solid var(--accent-soft); border-radius: 100px; color: var(--accent-strong);
+  }
+  .about-social-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: auto;
+    padding-top: 8px;
+  }
+  .about-social-links a {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 14px;
+    background: var(--surface-alt);
+    border: 1px solid var(--accent-soft);
+    border-radius: 999px;
+    color: var(--accent-strong);
+    text-decoration: none;
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 12px rgba(43, 122, 117, 0.15);
+  }
+  .about-social-links a:hover {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(43, 122, 117, 0.25);
+  }
+  .about-social-links a:hover svg {
+    stroke: white;
+  }
+  .about-social-links a svg {
+    stroke: currentColor;
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 700px) {
+    .about-grid { grid-template-columns: 1fr; gap: 24px; }
+    .about-panel,
+    .about-side { padding: 0; border-left: none; border-top: 1px solid var(--border); padding-top: 20px; }
+    .about-stats { display: grid; grid-template-columns: 1fr; gap: 12px; }
+    .stat { min-width: 0; padding: 18px 20px; }
+    .project-modal { padding: 12px; align-items: flex-start; }
+    .modal-content { max-width: 100%; max-height: 90vh; padding: 48px 18px 24px; border-radius: 20px; }
+    .modal-close { top: 12px; right: 12px; }
+    .modal-header-grid { grid-template-columns: 72px 1fr; gap: 16px; }
+    .modal-content h3 { font-size: 24px; }
+    .feature-grid { grid-template-columns: 1fr; }
+    .learning-point .learning-text { margin-left: 0; }
+    .modal-content ul { margin-left: 16px; }
+    .journey-scroll-container { padding: 48px 0 60px; margin: 0 -20px; }
+    .journey-scroll-track { gap: 32px; padding: 0 20px; }
+    .journey-scroll-track::after { min-width: 20px; }
+    .journey-scroll-track::before { left: 20px; right: 20px; }
+    .journey-card-horizontal { min-width: 320px; max-width: 320px; padding: 24px; margin-top: 48px; }
+    .journey-card-horizontal::before { width: 14px; height: 14px; border-width: 3px; top: -48px; }
+    .journey-card-horizontal::after { top: -34px; height: 34px; }
+    .journey-content-horizontal h3 { font-size: 20px; }
+    .journey-description-horizontal { font-size: 13px; }
+    .journey-scroll-hint { margin-top: -32px; }
+  }
+
+  /* work together section */
+  .together { text-align: left; position: relative; padding: 80px 0; }
+  .together h2 {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 40px;
+  }
+  .together h2::before {
+    content: '';
+    position: absolute;
+    bottom: -12px;
+    left: 0;
+    width: 60%;
+    height: 4px;
+    background: linear-gradient(90deg, var(--accent) 0%, transparent 100%);
+    border-radius: 2px;
+  }
+  .together .lead {
+    margin-bottom: 36px;
+  }
+  .together-actions {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-top: 32px;
+  }
+
+  footer {
+    padding: 40px 0; text-align: center;
+    font-family: var(--mono); font-size: 11px; color: var(--ink-soft);
+    border-top: 1px solid var(--cream-dim);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+    html { scroll-behavior: auto; }
+  }
+
+  a:focus-visible, button:focus-visible { outline: 2px solid var(--rust); outline-offset: 2px; }
+
+  /* back to top button */
+  .back-to-top {
+    position: fixed;
+    left: 32px;
+    bottom: 32px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 9998;
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .back-to-top-circle {
+    width: 48px;
+    height: 48px;
+    background: var(--accent);
+    border-radius: 50%;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(43, 122, 117, 0.25);
+    transition: all 0.3s ease;
+  }
+  .back-to-top-circle svg {
+    stroke: white;
+    flex-shrink: 0;
+  }
+  .back-to-top-text {
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--accent-strong);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+  }
+  .back-to-top.hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+  .back-to-top:hover .back-to-top-circle {
+    background: var(--accent-strong);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(43, 122, 117, 0.35);
+  }
+  .back-to-top:hover .back-to-top-text {
+    color: var(--accent);
+  }
+
+  @media (max-width: 700px) {
+    .back-to-top {
+      left: 20px;
+      bottom: 20px;
+    }
+    .back-to-top-circle {
+      width: 44px;
+      height: 44px;
+      font-size: 18px;
+    }
+    .back-to-top-text {
+      display: none;
+    }
+  }
+
+  /* floating plus symbols */
+  .floating-shapes {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+  .plus-shape {
+    position: absolute;
+    font-size: clamp(40px, 4.5vw, 80px);
+    color: var(--accent);
+    opacity: 0.12;
+    font-weight: 300;
+    filter: drop-shadow(0 6px 12px rgba(139, 66, 37, 0.22));
+    animation: float-shape 24s ease-in-out infinite;
+    will-change: transform;
+  }
+  .plus-shape:nth-child(1) {
+    top: 5%;
+    left: 8%;
+    font-size: 50px;
+    animation-delay: 0s;
+    animation-duration: 20s;
+  }
+  .plus-shape:nth-child(2) {
+    top: 5%;
+    right: 15%;
+    font-size: 80px;
+    animation-delay: -4s;
+    animation-duration: 24s;
+  }
+  .plus-shape:nth-child(3) {
+    top: 15%;
+    left: 35%;
+    font-size: 68px;
+    animation-delay: -8s;
+    animation-duration: 26s;
+  }
+  .plus-shape:nth-child(4) {
+    top: 15%;
+    right: 45%;
+    font-size: 58px;
+    animation-delay: -13s;
+    animation-duration: 22s;
+  }
+  .plus-shape:nth-child(5) {
+    top: 30%;
+    left: 10%;
+    font-size: 72px;
+    animation-delay: -6s;
+    animation-duration: 25s;
+  }
+  .plus-shape:nth-child(6) {
+    top: 30%;
+    left: 60%;
+    font-size: 44px;
+    animation-delay: -11s;
+    animation-duration: 21s;
+  }
+  .plus-shape:nth-child(7) {
+    top: 30%;
+    right: 8%;
+    font-size: 38px;
+    animation-delay: -2s;
+    animation-duration: 19s;
+  }
+  .plus-shape:nth-child(8) {
+    top: 45%;
+    left: 25%;
+    font-size: 64px;
+    animation-delay: -15s;
+    animation-duration: 28s;
+  }
+  .plus-shape:nth-child(9) {
+    top: 45%;
+    right: 30%;
+    font-size: 54px;
+    animation-delay: -17s;
+    animation-duration: 23s;
+  }
+  .plus-shape:nth-child(10) {
+    top: 60%;
+    left: 5%;
+    font-size: 46px;
+    animation-delay: -19s;
+    animation-duration: 20s;
+  }
+  .plus-shape:nth-child(11) {
+    top: 60%;
+    left: 45%;
+    font-size: 76px;
+    animation-delay: -5s;
+    animation-duration: 27s;
+  }
+  .plus-shape:nth-child(12) {
+    top: 60%;
+    right: 10%;
+    font-size: 34px;
+    animation-delay: -10s;
+    animation-duration: 18s;
+  }
+  .plus-shape:nth-child(13) {
+    top: 75%;
+    left: 20%;
+    font-size: 52px;
+    animation-delay: -14s;
+    animation-duration: 22s;
+  }
+  .plus-shape:nth-child(14) {
+    top: 75%;
+    right: 35%;
+    font-size: 70px;
+    animation-delay: -7s;
+    animation-duration: 25s;
+  }
+  .plus-shape:nth-child(15) {
+    top: 75%;
+    right: 5%;
+    font-size: 42px;
+    animation-delay: -12s;
+    animation-duration: 21s;
+  }
+  .plus-shape:nth-child(16) {
+    top: 90%;
+    left: 12%;
+    font-size: 60px;
+    animation-delay: -16s;
+    animation-duration: 24s;
+  }
+  .plus-shape:nth-child(17) {
+    top: 90%;
+    left: 50%;
+    font-size: 78px;
+    animation-delay: -3s;
+    animation-duration: 26s;
+  }
+  .plus-shape:nth-child(18) {
+    top: 90%;
+    right: 20%;
+    font-size: 48px;
+    animation-delay: -9s;
+    animation-duration: 19s;
+  }
+  .plus-shape:nth-child(19) {
+    top: 50%;
+    right: 5%;
+    font-size: 66px;
+    animation-delay: -18s;
+    animation-duration: 23s;
+  }
+  .plus-shape:nth-child(20) {
+    top: 20%;
+    left: 75%;
+    font-size: 36px;
+    animation-delay: -20s;
+    animation-duration: 20s;
+  }
+  @keyframes float-shape {
+    0%, 100% {
+      transform: translate(0, 0) rotate(0deg);
+    }
+    25% {
+      transform: translate(20px, -20px) rotate(90deg);
+    }
+    50% {
+      transform: translate(-15px, 15px) rotate(180deg);
+    }
+    75% {
+      transform: translate(15px, 10px) rotate(270deg);
+    }
+  }
+</style>
+</head>
+<body>
+
+<div id="password-gate">
+  <div class="password-container">
+    <h1>Welcome</h1>
+    <p>Please enter the password to view this portfolio</p>
+    <input type="password" id="password-input" placeholder="Enter password" />
+    <button onclick="checkPassword()">Enter</button>
+    <div class="password-error" id="password-error">Incorrect password. Please try again.</div>
+  </div>
+</div>
+
+<div class="page-transition-overlay" id="pageTransitionOverlay"></div>
+
+<div class="loading-banner">
+  <div class="loading-text">QueenieLi</div>
+</div>
+
+<div class="floating-shapes">
+  <div class="plus-shape">+</div>
+  <div class="plus-shape">+</div>
+  <div class="plus-shape">+</div>
+  <div class="plus-shape">+</div>
+  <div class="plus-shape">+</div>
+  <div class="plus-shape">+</div>
+  <div class="plus-shape">+</div>
+  <div class="plus-shape">+</div>
+  <div class="plus-shape">+</div>
+  <div class="plus-shape">+</div>
+  <div class="plus-shape">+</div>
+  <div class="plus-shape">+</div>
+  <div class="plus-shape">+</div>
+  <div class="plus-shape">+</div>
+  <div class="plus-shape">+</div>
+  <div class="plus-shape">+</div>
+  <div class="plus-shape">+</div>
+  <div class="plus-shape">+</div>
+  <div class="plus-shape">+</div>
+  <div class="plus-shape">+</div>
+</div>
+
+<button class="back-to-top" id="backToTop" aria-label="Back to top">
+  <span class="back-to-top-circle">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="18 15 12 9 6 15"></polyline>
+    </svg>
+  </span>
+  <span class="back-to-top-text">Back to top</span>
+</button>
+
+<header>
+  <div class="wrap">
+    <div class="header-left">
+      <a class="logo" href="#home">
+        QueenieLi</a>
+    </div>
+    <div class="header-center">
+      <a href="#home">Home</a>
+      <a href="#experience">Experience</a>
+      <a href="#work">Work</a>
+      <a href="#about">About</a>
+    </div>
+    <div class="header-right">
+      <a class="connect-btn" href="mailto:queeniecyli@gmail.com?subject=Hi%20Queenie%2C%20let%27s%20connect!">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 5l10 7 10-7"/><rect x="2" y="4" width="20" height="16" rx="2"/></svg>
+        Let's connect
+      </a>
+      <button class="menu-btn" id="menuBtnToggle" aria-label="Open menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="panel-overlay" id="panelOverlay"></div>
+
+<aside class="nav-panel" id="navPanel">
+  <button class="nav-panel-close" id="navClose">CLOSE ✕</button>
+  <div class="panel-eyebrow">Menu</div>
+  <div class="nav-list">
+    <a href="blog.html">Blog</a>
+    <a href="projects.html">Projects</a>
+    <a href="/Users/queenieli/Downloads/Queenie-Li-Resume-2026.pdf" download>Resume</a>
+  </div>
+</aside>
+
+<aside class="social-panel" id="socialPanel">
+  <button class="social-panel-close" id="panelClose">CLOSE ✕</button>
+  <div class="panel-eyebrow">Find me elsewhere</div>
+  <div class="social-list">
+    <a href="https://www.linkedin.com/in/queeniecyli/" target="_blank" rel="noopener"><span class="social-icon">in</span> LinkedIn</a>
+    <a href="https://www.instagram.com/biteswithchu/" target="_blank" rel="noopener"><span class="social-icon">IG</span> Instagram</a>
+    <a href="https://www.tiktok.com/@biteswithchu" target="_blank" rel="noopener"><span class="social-icon">TT</span> TikTok</a>
+    <a href="mailto:queeniecyli@gmail.com"><span class="social-icon">@</span> Email</a>
+  </div>
+</aside>
+
+<section class="hero" id="home">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <h1>Hi, my<br>name is <b class="split-name" id="splitName">Queenie</b>.<br><span style="font-size: 0.38em; margin-top: 0.5cm; display: inline-block;">I'm a <b style="font-style: bold;">deployment strategist</b> based in<br>Sydney, Australia.</span></h1>
+        <div class="hero-social-links">
+          <a href="https://www.linkedin.com/in/queeniecyli/" target="_blank" rel="noopener" aria-label="LinkedIn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          </a>
+          <a href="mailto:queeniecyli@gmail.com" aria-label="Email">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </a>
+          <a href="https://www.instagram.com/biteswithchu/" target="_blank" rel="noopener" aria-label="Instagram">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          </a>
+          <a href="https://www.tiktok.com/@biteswithchu" target="_blank" rel="noopener" aria-label="TikTok">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg>
+          </a>
+        </div>
+        <div class="scroll-cue">S c r o l l</div>
+      </div>
+      <div class="avatar-wrap">
+        <svg class="avatar-svg" id="avatar" viewBox="0 0 170 170" xmlns="http://www.w3.org/2000/svg">
+          <path d="M38,200 L38,95 Q38,15 100,15 Q162,15 162,95 L162,200 Z" fill="var(--hair)" stroke="var(--ink)" stroke-width="4" stroke-linejoin="round"/>
+
+            <path d="M85,150 Q100,158 115,150 L115,172 Q100,178 85,172 Z" fill="var(--skin)"/>
+            <path d="M85,150 L85,172 Q100,178 115,172 L115,150" stroke="var(--ink)" stroke-width="2" fill="none" stroke-linecap="round"/>
+
+            <path d="M70,60 L148,95 Q148,150 100,155 Q52,150 52,95 Q52,62 58,60 Z" fill="var(--skin)" stroke="var(--ink)" stroke-width="4" stroke-linejoin="round"/>
+
+            <circle class="pupil" id="pupil-l" cx="82" cy="100" r="6" fill="var(--ink)"/>
+            <circle class="pupil" id="pupil-r" cx="118" cy="100" r="6" fill="var(--ink)"/>
+
+            <ellipse cx="72" cy="112" rx="9" ry="6" fill="var(--blush)" opacity="0.75"/>
+            <ellipse cx="128" cy="112" rx="9" ry="6" fill="var(--blush)" opacity="0.75"/>
+
+            <path d="M92,122 Q100,128 108,122" stroke="var(--ink)" stroke-width="3" fill="none" stroke-linecap="round"/>
+
+            <path d="M40,200 L40,193 Q42,176 64,170 Q82,166 100,168 Q118,166 136,170 Q158,176 160,193 L160,200 Z" fill="var(--top-navy)" stroke="var(--ink)" stroke-width="4" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section together" id="together">
+  <div class="wrap">
+    <span class="section-eyebrow reveal">Let's work together</span>
+    <h2 class="reveal">I bridge the gap between what a business strategy and what a technical rollout actually delivers.</h2>
+    <p class="lead reveal">I translate complex business challenges into technology solutions that drive adoption at scale. From uncovering requirements and shaping deployment strategies to coordinating enterprise rollouts, I focus on ensuring technology delivers meaningful business outcomes — not just successful implementation.<br><br>At Macquarie Group, I drive enterprise initiatives in Unified Communicationsacross Zoom, Microsoft Teams, and AV platforms, working across business, engineering, security, and vendor teams to deliver workplace technology solutions at scale.</p>
+    <div class="together-actions reveal">
+      <a class="btn-outline" href="#work">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        See my work
+      </a>
+      <a class="btn-outline" href="mailto:queeniecyli@gmail.com?subject=Hi%20Queenie%2C%20let%27s%20connect">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        Say hello
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="section journey" id="journey">
+  <div class="wrap">
+    <span class="section-eyebrow reveal">My professional journey</span>
+    <h2 class="reveal">Experience that shape my <b>skillset</b>.</h2>
+
+    <div class="journey-timeline-line"></div>
+
+    <div class="journey-scroll-container reveal">
+      <div class="journey-scroll-track">
+      <div class="journey-card-horizontal">
+        <div class="journey-year-horizontal">Feb 2024 — Present</div>
+        <div class="journey-content-horizontal">
+          <div class="journey-header-horizontal">
+            <h3>Deployment Strategist</h3>
+            <span class="journey-company-horizontal">Macquarie Group · Sydney, Australia</span>
+          </div>
+          <p class="journey-description-horizontal">Leading enterprise technology rollouts from proof of concept to global deployment. I translate complex technical solutions into adoption strategies that work across business divisions, working closely with stakeholders to ensure smooth transitions and meaningful business outcomes.</p>
+          <div class="journey-highlights-horizontal">
+            <div class="highlight-item-horizontal">
+              <span class="highlight-label-horizontal">Focus</span>
+              <span class="highlight-value-horizontal">Enterprise AI adoption, unified communications, change management</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="journey-card-horizontal">
+        <div class="journey-year-horizontal">Dec 2023 — Jan 2024</div>
+        <div class="journey-content-horizontal">
+          <div class="journey-header-horizontal">
+            <h3>Consultant</h3>
+            <span class="journey-company-horizontal">A&A Limited · Hong Kong</span>
+          </div>
+          <p class="journey-description-horizontal">Shaped the go-to-market strategy for MintMind, an AI platform for personalised employee upskilling. I led market research and developed a government proposal that positioned the product for Hong Kong with expansion into Southeast Asia — mapping market gaps and building the business case.</p>
+          <div class="journey-highlights-horizontal">
+            <div class="highlight-item-horizontal">
+              <span class="highlight-label-horizontal">Focus</span>
+              <span class="highlight-value-horizontal">AI product strategy, market analysis, government proposals</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="journey-card-horizontal">
+        <div class="journey-year-horizontal">Jan 2022 — Dec 2023</div>
+        <div class="journey-content-horizontal">
+          <div class="journey-header-horizontal">
+            <h3>Business Analyst</h3>
+            <span class="journey-company-horizontal">Transport for NSW · Sydney, Australia</span>
+          </div>
+          <p class="journey-description-horizontal">Bridged the gap between rail safety operations and digital transformation. I translated complex stakeholder requirements into intuitive solutions — from PowerApps workflows to PowerBI dashboards — helping thousands of railway staff move towards paperless, data-driven processes.</p>
+          <div class="journey-highlights-horizontal">
+            <div class="highlight-item-horizontal">
+              <span class="highlight-label-horizontal">Focus</span>
+              <span class="highlight-value-horizontal">Digital transformation, data visualisation, user-centred design</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="journey-card-horizontal">
+        <div class="journey-year-horizontal">Jan 2022 — Feb 2022</div>
+        <div class="journey-content-horizontal">
+          <div class="journey-header-horizontal">
+            <h3>Audit Intern</h3>
+            <span class="journey-company-horizontal">Ernst & Young (EY) · Sydney, Australia</span>
+          </div>
+          <p class="journey-description-horizontal">Got hands-on experience with financial auditing for a listed property fund. I tested controls, verified transactions, and learnt how rigorous processes and attention to detail build confidence in financial reporting — skills that now shape how I approach quality assurance in technology projects.</p>
+          <div class="journey-highlights-horizontal">
+            <div class="highlight-item-horizontal">
+              <span class="highlight-label-horizontal">Focus</span>
+              <span class="highlight-value-horizontal">Financial audit, process compliance, analytical rigour</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="journey-card-horizontal">
+        <div class="journey-year-horizontal">Nov 2021 — Dec 2021</div>
+        <div class="journey-content-horizontal">
+          <div class="journey-header-horizontal">
+            <h3>Technology Strategy & Transformation Consultant</h3>
+            <span class="journey-company-horizontal">Deloitte · Sydney, Australia</span>
+          </div>
+          <p class="journey-description-horizontal">Helped public sector clients reimagine their IT infrastructure. I mapped current systems, defined future state architectures, and created transformation roadmaps — learning how to align technology changes with long-term business goals.</p>
+          <div class="journey-highlights-horizontal">
+            <div class="highlight-item-horizontal">
+              <span class="highlight-label-horizontal">Focus</span>
+              <span class="highlight-value-horizontal">IT transformation, strategic roadmapping, public sector consulting</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="journey-card-horizontal">
+        <div class="journey-year-horizontal">Aug 2021 — Nov 2021</div>
+        <div class="journey-content-horizontal">
+          <div class="journey-header-horizontal">
+            <h3>Sales Development Representative</h3>
+            <span class="journey-company-horizontal">WooliesX (Woolworths Group) · Sydney, Australia</span>
+          </div>
+          <p class="journey-description-horizontal">Learnt how to connect product value to customer needs. I prospected leads, built relationships with stakeholders, and worked across IT and marketing teams to create enablement materials — discovering how good systems and clear communication drive better outcomes.</p>
+          <div class="journey-highlights-horizontal">
+            <div class="highlight-item-horizontal">
+              <span class="highlight-label-horizontal">Focus</span>
+              <span class="highlight-value-horizontal">Sales strategy, stakeholder engagement, cross-functional collaboration</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+    </div>
+
+    <div class="journey-scroll-hint">
+      <p>← Scroll to explore →</p>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="work">
+  <div class="wrap">
+    <span class="section-eyebrow reveal">Work</span>
+    <h2 class="reveal">Selected <b>projects</b>.</h2>
+
+    <div class="project reveal">
+      <div class="project-top">
+        <h3>Zoom AI Companion</h3>
+        <span class="project-tag">Enterprise Rollout</span>
+      </div>
+      <p>Led key workstreams for the enterprise rollout of Zoom AI Companion across Macquarie Group, partnering with stakeholders to align business priorities, coordinate phased implementation, and support organisational change across 20 000+ globally distributed employees.</p>
+      <p>I worked closely with leaders across Macquarie's eight business divisions to ensure deployment readiness, minimise business disruption, and drive long-term adoption through effective communication, training, and stakeholder engagement.</p>
+      <div class="project-skills">
+        <span class="skill-bubble">Strategy</span>
+        <span class="skill-bubble">Change Management</span>
+        <span class="skill-bubble">Stakeholder Alignment</span>
+      </div>
+      <button class="learn-more-btn" onclick="openModal('modal1')">
+        Learn more →
+      </button>
+    </div>
+
+    <div class="project reveal">
+      <div class="project-top">
+        <h3>Tech Assist AI Chatbot</h3>
+        <span class="project-tag">Hackathon Concept</span>
+      </div>
+      <p>Designed the strategy and use case for a retrieval-augmented generation chatbot aimed at surfacing scattered internal knowledge faster.</p>
+      <p>I didn't build the technical components myself — my contribution was shaping the problem, the use case, and the plan for how it would actually get adopted.</p>
+      <div class="project-skills">
+        <span class="skill-bubble">AI Strategy</span>
+        <span class="skill-bubble">Use Case Design</span>
+        <span class="skill-bubble">Product Planning</span>
+      </div>
+      <button class="learn-more-btn" onclick="openModal('modal2')">
+        Learn more →
+      </button>
+    </div>
+
+    <div class="project reveal">
+      <div class="project-top">
+        <h3>OnTrack</h3>
+        <span class="project-tag">Startup Idea</span>
+      </div>
+      <p>A startup concept built around a simple premise: <b>to be the best individual planning system, and make it universally available.</b></p>
+      <div class="project-skills">
+        <span class="skill-bubble">Product Design</span>
+        <span class="skill-bubble">UX Strategy</span>
+        <span class="skill-bubble">System Planning</span>
+      </div>
+      <button class="learn-more-btn" onclick="openModal('modal3')">
+        Learn more →
+      </button>
+    </div>
+
+    <a href="projects.html" class="see-all-btn">
+      See all projects →
+    </a>
+  </div>
+</section>
+
+<section class="section" id="about">
+  <div class="wrap">
+    <span class="section-eyebrow reveal">About</span>
+    <h2 class="reveal">A little more <b>about me</b>.</h2>
+
+    <div class="about-highlight-box reveal">
+      <p class="about-tagline">As a passionate creator specialising in the food and entertainment space, I collaborate with businesses to drive customer engagement and increase visibility through campaigns.</p>
+    </div>
+
+    <div class="about-grid">
+      <div class="about-panel reveal">
+        <p class="about-copy">Beyond the camera, I'm constantly exploring Sydney's food scene, discovering new experiences, and finding inspiration for my next project. You'll also find me training for my next race or chasing my next creative challenge.</p>
+        <div class="about-stats">
+          <div class="stat"><b>10+</b><span>Businesses partnered</span></div>
+          <div class="stat"><b>100K+</b><span>Views across platforms</span></div>
+        </div>
+      </div>
+      <div class="about-side reveal">
+        <div class="about-side-header">Creative Expertise</div>
+        <div class="interests">
+          <span>Content Strategy</span>
+          <span>Digital Marketing</span>
+          <span>Brand Storytelling</span>
+          <span>Campaign Development</span>
+          <span>Visual Content</span>
+          <span>Social Media Growth</span>
+        </div>
+        <div class="about-social-links">
+          <a href="https://www.instagram.com/biteswithchu/" target="_blank" rel="noopener">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            Instagram
+          </a>
+          <a href="https://www.tiktok.com/@biteswithchu" target="_blank" rel="noopener">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg>
+            TikTok
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Project Modals -->
+<div class="project-modal" id="modal1">
+  <div class="modal-content">
+    <button class="modal-close" onclick="closeModal('modal1')">×</button>
+    <div class="modal-header-grid">
+      <img src="/Users/queenieli/Desktop/Website diagrams/Zoom AIC/Zoom AIC Logo.png" alt="Zoom AI Companion" class="modal-header-image">
+      <div>
+        <h3>Zoom AI Companion</h3>
+        <span class="project-tag">Enterprise Rollout</span>
+        <span class="read-time"> 8 min read</span>
+      </div>
+    </div>
+    <div class="modal-detail">
+      <p><strong>Overview</strong></p>
+      <p>Zoom AI Companion is Zoom's enterprise generative AI assistant, embedded within the Zoom SaaS package to enhance productivity, collaboration, and knowledge sharing. Powered by large language models (LLMs), natural language processing (NLP), and AI-powered contextual understanding, it enables employees to automate repetitive tasks, generate insights, and improve meeting outcomes directly within their existing workflows.</p>
+
+      <p><strong>Key capabilities included:</strong></p>
+      <div class="feature-grid">
+        <div class="feature-box">AI-generated meeting summaries and action items</div>
+        <div class="feature-box">In-meeting AI assistance and contextual questions</div>
+        <div class="feature-box">Customisable meeting summary templates</div>
+        <div class="feature-box">Content generation and summarisation</div>
+      </div>
+
+      <p>The rollout formed part of a broader digital workplace strategy to introduce enterprise AI capabilities in a secure, governed, and scalable manner. Employees spend a significant portion of their time collaborating through meetings, with valuable time often lost to manual note-taking, documenting actions, and consolidating information after discussions. Zoom AI Companion addressed these challenges by reducing administrative overhead and enabling employees to focus on higher-value activities.</p>
+
+      <p>As a global financial institution, adopting generative AI required careful consideration of security, privacy, and regulatory requirements. Zoom AI Companion's <strong>Zero Data Retention (ZDR)</strong> architecture, enterprise encryption controls, administrative governance capabilities, and compliance framework enabled Macquarie to leverage AI innovation while maintaining strict enterprise security standards.</p>
+
+      <div class="modal-divider"></div>
+
+      <div class="modal-section">
+        <p><strong>Technology Solution & Architecture</strong></p>
+        <p>Before deployment, I conducted technical discovery sessions to understand how Zoom AI Companion integrated into Macquarie's existing collaboration ecosystem and enterprise technology landscape.</p>
+        <p>Key technical components included:</p>
+        <p><strong>1.  Zoom Web Portal</strong></p>
+              <ul>
+                <li>AI Companion feature enablement and administration</li>
+                <li>User access management</li>
+                <li>Enterprise configuration and controls</li>
+              </ul>
+        <p><strong>2.  Security & Governance</strong></p>
+              <ul>
+                <li>Zero Data Retention (ZDR) architecture</li>
+                <li>Enterprise encryption</li>
+                <li>Data handling and privacy considerations</li>
+                <li>Legal and risk assessment requirements</li>
+              </ul>
+        <p><strong>3.  Identity & Access Management</strong></p>
+              <ul>
+                <li>Enterprise authentication</li>
+                <li>User provisioning considerations</li>
+                <li>Access governance</li>
+              </ul>
+        <p>I developed documentation to provide a clear technical reference for engineering, security, risk, and business stakeholders. This ensured alignment across teams and supported decision-making throughout the deployment lifecycle.</p>
+        <div class="image-placeholder">
+          <img src="/Users/queenieli/Desktop/Website diagrams/Zoom AIC/AIC Solution Architecture Diagram.jpeg" alt="Zoom AI Companion solution architecture diagram">
+        </div>
+      </div>
+
+      <div class="modal-divider"></div>
+
+      <div class="modal-section">
+        <p><strong>Deployment Strategy & Planning</strong></p>
+        <p>Enterprise AI adoption required more than enabling a new platform capability, it required careful planning across technology, people, and processes.</p>
+        <p>I supported the deployment strategy by:
+            <ul>
+              <li>Developing the enterprise change paper to obtain governance and risk approvals</li>
+              <li>Defining the phased rollout approach across Macquarie's eight business divisions</li>
+              <li>Creating deployment schedules aligned with business readiness</li>
+              <li>Identifying implementation dependencies and risks</li>
+              <li>Coordinating deployment activities across technical and business stakeholders</li>
+              <li>Establishing readiness criteria to support successful adoption</li>
+            </ul>
+        <p>The deployment approach balanced technical implementation requirements with organisational readiness, ensuring employees had the appropriate support and resources before launch.</p>
+        <div class="image-placeholder">
+          <img src="/Users/queenieli/Desktop/Website diagrams/Zoom AIC/AIC Solution Architecture Diagram.jpeg" alt="Zoom AI Companion rollout and deployment visuals">
+        </div>
+      </div>
+
+      <div class="modal-divider"></div>
+
+      <div class="modal-section">
+        <p><strong>Stakeholder Engagement & Change Management</strong></p>
+        <p>Successful adoption required collaboration across multiple teams beyond technology delivery.</p>
+        <p>I partnered with:
+            <ul>
+              <li>Business stakeholders across eight divisions</li>
+              <li>Communications teams</li>
+              <li>Technology Assist teams</li>
+              <li>Collaboration engineering teams</li>
+              <li>Legal and risk teams</li>
+              <li>Change management representatives</li>
+            </ul>
+        <p>Through regular engagement sessions, I ensured stakeholders were aligned on deployment timelines, responsibilities, support models, and user impacts.</p>
+        <p>A key focus was ensuring support teams were prepared to assist employees after launch, with clear escalation pathways and operational processes established prior to rollout.</p>
+        <div class="image-placeholder">
+          <img src="/Users/queenieli/Desktop/Website diagrams/Zoom AIC/AIC Solution Architecture Diagram.jpeg" alt="Zoom AI Companion stakeholder engagement visuals">
+        </div>
+      </div>
+
+      <div class="modal-divider"></div>
+
+      <div class="modal-section">
+        <p><strong>User Enablement & Adoption</strong></p>
+        <p>Driving adoption was a critical component of the rollout. To support employees in understanding the value of Zoom AI Companion, I developed a range of user enablement materials, including:
+          <ul>
+            <li>SharePoint knowledge articles</li>
+            <li>User guides</li>
+            <li>Frequently Asked Questions (FAQs)</li>
+            <li>PowerPoint training & support materials</li>
+            <li>Email communications</li>
+            <li>Internal announcements</li>
+          </ul>
+        <p>These resources helped employees understand how to use Zoom AI Companion effectively, what capabilities were available, and how AI could improve their everyday workflows.</p>
+        <div class="image-placeholder">
+          <img src="/Users/queenieli/Desktop/Website diagrams/Zoom AIC/AIC Solution Architecture Diagram.jpeg" alt="Zoom AI Companion communications and enablement materials">
+        </div>
+      </div>
+
+      <div class="modal-divider"></div>
+
+      <div class="modal-section">
+        <p><strong>Outcomes & Impact</strong></p>
+        <p>The Zoom AI Companion rollout successfully introduced enterprise AI capabilities to 20 000+ employees while maintaining Macquarie's security, governance, and compliance standards.</p>
+        <p>Through structured deployment planning, stakeholder engagement, and user enablement, the initiative achieved consistent adoption across the organisation and established a scalable approach for future enterprise AI deployments.</p>
+        <p>The project demonstrated the importance of bridging the gap between emerging technology and business adoption—ensuring innovation translates into measurable value for users and the organisation.</p>
+      </div>
+
+      <div class="modal-divider"></div>
+
+      <div class="modal-section">
+        <p><strong>Key Learnings</strong></p>
+        <p>Leading this enterprise AI deployment reinforced several critical insights about technology adoption at scale:</p>
+
+        <div class="learning-point">
+          <strong>1. Stakeholder alignment is foundational</strong>
+          <span class="learning-text">Early and continuous engagement across business, technology, security, and risk teams was essential. Different stakeholders had different priorities—business teams focused on adoption and user experience, security teams on data governance, and engineering teams on technical implementation. Creating shared understanding and alignment across these perspectives was critical to moving the deployment forward.</span>
+        </div>
+
+        <div class="learning-point">
+          <strong>2. Deployment strategy must balance innovation with readiness</strong>
+          <span class="learning-text">While the technology was ready to deploy, organisational readiness required careful planning. A phased approach allowed us to validate assumptions, refine support models, and build confidence before scaling to the entire workforce. Rushing deployment would have risked poor adoption and support challenges.</span>
+        </div>
+
+        <div class="learning-point">
+          <strong>3. Change management is not optional</strong>
+          <span class="learning-text">Technology alone doesn't drive adoption—people do. Employees needed to understand not just how to use AI Companion, but why it mattered and how it would improve their workflows. Communications, training, and ongoing support were just as important as the technical implementation.</span>
+        </div>
+
+        <div class="learning-point">
+          <strong>4. Cross-functional collaboration defines success</strong>
+          <span class="learning-text">This wasn't a technology project—it was a business transformation project enabled by technology. Success required collaboration across communications, training, legal, risk, security, engineering, and business stakeholders. My role as a deployment strategist was to coordinate these efforts and ensure all workstreams remained aligned to a common outcome.</span>
+        </div>
+
+        <div class="learning-point">
+          <strong>5. Documentation and transparency build trust</strong>
+          <span class="learning-text">Developing clear, accessible documentation for both technical and business stakeholders helped build confidence in the deployment approach. Transparency around risks, dependencies, and decision-making processes enabled stakeholders to understand the 'why' behind the 'what' and contributed to stronger buy-in across the organisation.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="project-modal" id="modal2">
+  <div class="modal-content">
+    <button class="modal-close" onclick="closeModal('modal2')">×</button>
+    <div class="modal-header-grid">
+      <img src="/Users/queenieli/Desktop/Website diagrams/Zoom AIC/Zoom AIC Logo.png" alt="Tech Assist AI Chatbot" class="modal-header-image">
+      <div>
+        <h3>Tech Assist AI Chatbot</h3>
+        <span class="project-tag">Hackathon Concept</span>
+        <span class="read-time">5 min read</span>
+      </div>
+    </div>
+    <div class="modal-detail">
+      <p><strong>Overview</strong></p>
+      <p>The Tech Assist AI Chatbot was developed as a hackathon concept exploring how retrieval-augmented generation could make internal knowledge tools more intuitive, responsive, and useful for real-world questions.</p>
+
+      <p><strong>Key capabilities included:</strong></p>
+      <div class="feature-grid">
+        <div class="feature-box">Context-aware answers from internal knowledge sources</div>
+        <div class="feature-box">Fast retrieval over structured and unstructured content</div>
+        <div class="feature-box">Clear, explainable responses with source references</div>
+        <div class="feature-box">A conversational experience designed for faster exploration</div>
+      </div>
+
+      <p>The project focused on combining retrieval techniques with generative AI to create a lightweight experience that could help users find answers quickly without needing to navigate complex systems manually.</p>
+
+      <div class="modal-divider"></div>
+
+      <div class="modal-section">
+        <p><strong>Section 2 Title</strong></p>
+        <p>The concept was shaped around reducing friction in information discovery, especially when users needed context-rich answers across multiple sources. The experience highlighted how retrieval-first design could improve trust and usefulness compared with a purely generative approach.</p>
+      </div>
+
+      <div class="modal-divider"></div>
+
+      <div class="modal-section">
+        <p><strong>Section 3 Title</strong></p>
+        <p>The prototype explored product thinking, interaction design, and technical feasibility in parallel, showcasing how a chatbot could support knowledge work through a more grounded and transparent model of response generation.</p>
+      </div>
+
+      <div class="modal-divider"></div>
+
+      <div class="modal-section">
+        <p><strong>Key Learnings</strong></p>
+        <p>The project reinforced how important retrieval quality, source transparency, and user trust are when building AI experiences for real decision-making. It also showed how a focused concept can quickly communicate value when the interaction model is clear and thoughtful.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="project-modal" id="modal3">
+  <div class="modal-content">
+    <button class="modal-close" onclick="closeModal('modal3')">×</button>
+    <div class="modal-header-grid">
+      <img src="/Users/queenieli/Desktop/Website diagrams/OnTrack/OnTrack logo.png" alt="OnTrack" class="modal-header-image">
+      <div>
+        <h3>OnTrack</h3>
+        <span class="project-tag">Startup Idea</span>
+        <span class="read-time">4 min read</span>
+      </div>
+    </div>
+    <div class="modal-detail">
+      <p><strong>Project Overview</strong></p>
+      <p><strong>Role:</strong> Product Strategist / UX Researcher / Solution Designer</p>
+      <p><strong>Duration:</strong> X months</p>
+      <p><strong>Tools:</strong> Figma, User Research, Design Thinking Framework, Product Strategy</p>
+      <p><strong>Focus Areas:</strong> Behaviour Change, Productivity, Gamification, Financial Incentives</p>
+
+      <p><strong>Summary</strong></p>
+      <p>OnTrack is a gamified productivity and accountability platform designed to help individuals build better habits, achieve personal goals, and improve financial discipline.</p>
+      <p>The platform combines traditional task management with behavioural psychology principles by introducing accountability mechanisms, financial incentives, and social motivation. Users are encouraged to complete their goals through a “commitment jar” model, where failing to complete tasks results in a financial consequence, while successful completion reinforces positive habits.</p>
+      <p>The objective was to design a solution that moves beyond simple task tracking and addresses the deeper challenge behind productivity: maintaining motivation and accountability over time.</p>
+
+      <div class="modal-divider"></div>
+
+      <div class="modal-section">
+        <p><strong>1. Discover: Understanding the User Problem</strong></p>
+        <p><strong>Background & Opportunity</strong></p>
+        <p>In an increasingly digital world, individuals have access to countless productivity tools, yet many continue to struggle with procrastination, maintaining consistent habits, managing competing priorities, and staying accountable to personal goals.</p>
+        <p>Existing productivity applications primarily focus on task organisation, but fail to address the behavioural challenges preventing users from completing those tasks.</p>
+        <p>The opportunity identified was: “How might we create a system that transforms motivation from an internal challenge into an external accountability mechanism?”</p>
+      </div>
+
+      <div class="modal-divider"></div>
+
+      <div class="modal-section">
+        <p><strong>User Research & Insights</strong></p>
+        <p><strong>Insight 1: Planning does not equal execution</strong></p>
+        <p>Many users already create to-do lists but struggle with following through.</p>
+        <p>“I know what I need to do, but I struggle to actually start.”</p>
+        <p><strong>Opportunity:</strong> Move beyond task creation and focus on completion behaviour.</p>
+
+        <p><strong>Insight 2: Users respond strongly to external accountability</strong></p>
+        <p>Users are more likely to complete commitments when there is social accountability, financial consequences, and visible progress tracking.</p>
+        <p><strong>Opportunity:</strong> Introduce mechanisms that create meaningful consequences for inaction.</p>
+
+        <p><strong>Insight 3: Productivity tools lack emotional engagement</strong></p>
+        <p>Traditional task management apps feel transactional. Users wanted a stronger sense of achievement, progress, and reward.</p>
+        <p><strong>Opportunity:</strong> Incorporate gamification principles to increase engagement.</p>
+      </div>
+
+      <div class="modal-divider"></div>
+
+      <div class="modal-section">
+        <p><strong>2. Define: Problem Statement</strong></p>
+        <p><strong>User Problem</strong></p>
+        <p>Students, entrepreneurs, and young professionals struggle to consistently achieve their goals because existing productivity tools focus on organising tasks rather than addressing motivation and accountability.</p>
+        <p><strong>How Might We Statement</strong></p>
+        <p>How might we help individuals stay accountable and motivated to achieve their goals by creating an engaging productivity experience?</p>
+      </div>
+
+      <div class="modal-divider"></div>
+
+      <div class="modal-section">
+        <p><strong>Target Users</strong></p>
+        <p><strong>Persona 1: Jim — University Student</strong></p>
+        <p><strong>Age:</strong> 18</p>
+        <p><strong>Goal:</strong> Improve academic performance while maintaining social balance.</p>
+        <p><strong>Pain Points:</strong> Struggles balancing social life and study, creates task lists manually, gets distracted while planning, finds maintaining discipline difficult.</p>
+        <p><strong>Needs:</strong> Simple planning system, automated task organisation, external motivation.</p>
+
+        <p><strong>Persona 2: Vanessa — Young Entrepreneur</strong></p>
+        <p><strong>Age:</strong> 23</p>
+        <p><strong>Goal:</strong> Scale her creative business while maintaining work-life balance.</p>
+        <p><strong>Pain Points:</strong> Overwhelmed by competing priorities, struggles capturing creative ideas, difficulty structuring her day, experiences burnout.</p>
+        <p><strong>Needs:</strong> Prioritisation system, habit tracking, accountability framework.</p>
+      </div>
+
+      <div class="modal-divider"></div>
+
+      <div class="modal-section">
+        <p><strong>3. Ideate: Exploring Solutions</strong></p>
+        <p><strong>Solution Principles</strong></p>
+        <p>Based on research findings, the solution was designed around three principles:</p>
+        <p><strong>1. Motivate</strong> — Create external accountability mechanisms to encourage task completion.</p>
+        <p><strong>2. Gamify</strong> — Transform productivity into an engaging experience through challenges, rewards, progress tracking, and competition.</p>
+        <p><strong>3. Thrive</strong> — Help users build sustainable habits through financial discipline, self-improvement, and goal tracking.</p>
+      </div>
+
+      <div class="modal-divider"></div>
+
+      <div class="modal-section">
+        <p><strong>Solution Concept</strong></p>
+        <p><strong>Introducing the Accountability Jar</strong></p>
+        <p>The core feature introduces a commitment-based reward system. Users create goals/tasks, assign a monetary commitment, complete tasks to protect their savings, and miss deadlines and contribute money into the accountability jar.</p>
+        <p><strong>Before:</strong> “I should complete this task.”</p>
+        <p><strong>After:</strong> “I have committed to completing this task.”</p>
+      </div>
+
+      <div class="modal-divider"></div>
+
+      <div class="modal-section">
+        <p><strong>4. Design: User Experience & Prototype</strong></p>
+        <p><strong>User Journey</strong></p>
+        <p><strong>Step 1: Goal Creation</strong> — Users define an objective, deadline, and commitment amount.</p>
+        <p><strong>Step 2: Daily Planning</strong> — Users receive task recommendations, prioritised schedules, and progress tracking.</p>
+        <p><strong>Step 3: Accountability</strong> — Users receive completion reminders, progress updates, and social accountability notifications.</p>
+        <p><strong>Step 4: Rewards</strong> — Successful users keep their money, build streaks, and unlock achievements.</p>
+      </div>
+
+      <div class="modal-divider"></div>
+
+      <div class="modal-section">
+        <p><strong>Wireframes & Prototype</strong></p>
+        <p>Include: Link to Figma prototype</p>
+        <p><strong>Key screens:</strong> Dashboard, Task creation, Accountability jar, Progress tracking, Social leaderboard</p>
+      </div>
+
+      <div class="modal-divider"></div>
+
+      <div class="modal-section">
+        <p><strong>5. Validate: Testing & Iteration</strong></p>
+        <p><strong>Usability Testing</strong></p>
+        <p>Testing objectives included understanding whether users could grasp the accountability concept, whether financial motivation encouraged behaviour change, and whether the workflow felt intuitive.</p>
+        <p><strong>Feedback:</strong> “The financial penalty feels motivating but could feel too harsh.”</p>
+        <p><strong>Iteration:</strong> Introduced flexible commitment amounts, optional social accountability, and positive reinforcement rewards.</p>
+      </div>
+
+      <div class="modal-divider"></div>
+
+      <div class="modal-section">
+        <p><strong>6. Deployment Strategy</strong></p>
+        <p><strong>Phase 1: Pilot Deployment</strong> — Launch a beta version, gather behavioural data, and measure engagement with university students and young professionals.</p>
+        <p><strong>Phase 2: Community Growth</strong> — Introduce accountability groups for university study groups, entrepreneur communities, and fitness challenges.</p>
+        <p><strong>Phase 3: Scale</strong> — Expand into workplace productivity, corporate wellness programs, and education institutions.</p>
+      </div>
+
+      <div class="modal-divider"></div>
+
+      <div class="modal-section">
+        <p><strong>7. Measuring Success</strong></p>
+        <p><strong>Adoption Metrics</strong></p>
+        <p><strong>User activation:</strong> 70% complete first goal</p>
+        <p><strong>Weekly retention:</strong> 50% active after 30 days</p>
+        <p><strong>Task completion:</strong> Increase completion rate by 30%</p>
+        <p><strong>Engagement:</strong> Average 5 tasks completed/week</p>
+      </div>
+
+      <div class="modal-divider"></div>
+
+      <div class="modal-section">
+        <p><strong>Final Reflection</strong></p>
+        <p>OnTrack demonstrates how technology can be used to influence behaviour change by combining productivity, gamification, and accountability.</p>
+        <p>The project showcases my ability to translate user needs into solutions, develop product strategy, design user-centric experiences, plan technology adoption, and drive measurable outcomes.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    © MMXXVI. Made by Queenie Li.
+  </div>
+</footer>
+
+<script>
+  // scroll to top on page load
+  window.addEventListener('load', function() {
+    window.scrollTo(0, 0);
+  });
+
+  // split name into animated letters
+  (function() {
+    const el = document.getElementById('splitName');
+    const text = el.textContent;
+    el.textContent = '';
+    text.split('').forEach(function(ch, i) {
+      const span = document.createElement('span');
+      span.className = 'letter';
+      span.style.animationDelay = (2.2 + i * 0.08) + 's';
+      span.textContent = ch;
+      el.appendChild(span);
+    });
+  })();
+
+  // page transition for all navigation
+  (function() {
+    const overlay = document.getElementById('pageTransitionOverlay');
+    const links = Array.from(document.querySelectorAll('a[href$=".html"]'));
+
+    links.forEach(function(link) {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        document.body.classList.add('page-transition-out');
+        sessionStorage.setItem('portfolioTransition', 'fade');
+        setTimeout(function() {
+          window.location.href = link.href;
+        }, 400);
+      });
+    });
+  })();
+
+  // nav + social side panels (share overlay, only one open at a time)
+  (function() {
+    const navToggle = document.getElementById('navToggle');
+    const navPanel = document.getElementById('navPanel');
+    const navClose = document.getElementById('navClose');
+
+    const toggle = document.getElementById('menuToggle');
+    const panel = document.getElementById('socialPanel');
+    const close = document.getElementById('panelClose');
+
+    const overlay = document.getElementById('panelOverlay');
+
+    function shutAll() {
+      navPanel.classList.remove('open');
+      if (navToggle) navToggle.classList.remove('open');
+      panel.classList.remove('open');
+      if (toggle) toggle.classList.remove('open');
+      overlay.classList.remove('open');
+    }
+    function openNav() {
+      shutAll();
+      navPanel.classList.add('open');
+      if (navToggle) navToggle.classList.add('open');
+      overlay.classList.add('open');
+    }
+    function openSocial() {
+      shutAll();
+      panel.classList.add('open');
+      if (toggle) toggle.classList.add('open');
+      overlay.classList.add('open');
+    }
+
+    if (navToggle) {
+      navToggle.addEventListener('click', function() {
+        navPanel.classList.contains('open') ? shutAll() : openNav();
+      });
+    }
+    if (toggle) {
+      toggle.addEventListener('click', function() {
+        panel.classList.contains('open') ? shutAll() : openSocial();
+      });
+    }
+
+    const menuBtnToggle = document.getElementById('menuBtnToggle');
+    if (menuBtnToggle) {
+      menuBtnToggle.addEventListener('click', function() {
+        navPanel.classList.contains('open') ? shutAll() : openNav();
+      });
+    }
+
+    navClose.addEventListener('click', shutAll);
+    close.addEventListener('click', shutAll);
+    overlay.addEventListener('click', shutAll);
+    navPanel.querySelectorAll('a').forEach(function(a) { a.addEventListener('click', shutAll); });
+  })();
+
+  // eyes follow cursor
+  (function() {
+    const pupilL = document.getElementById('pupil-l');
+    const pupilR = document.getElementById('pupil-r');
+    const avatar = document.getElementById('avatar');
+    const base = { l: { x: 82, y: 100 }, r: { x: 118, y: 100 } };
+    const maxMove = 4.5;
+
+    function updatePupil(pupil, base, clientX, clientY) {
+      const rect = avatar.getBoundingClientRect();
+      const scale = rect.width / 200;
+      const eyeX = rect.left + base.x * scale;
+      const eyeY = rect.top + base.y * scale;
+      const dx = clientX - eyeX;
+      const dy = clientY - eyeY;
+      const dist = Math.min(maxMove, Math.hypot(dx, dy) / 6);
+      const angle = Math.atan2(dy, dx);
+      pupil.setAttribute('cx', base.x + Math.cos(angle) * dist);
+      pupil.setAttribute('cy', base.y + Math.sin(angle) * dist);
+    }
+
+    function updateEyes(clientX, clientY) {
+      updatePupil(pupilL, base.l, clientX, clientY);
+      updatePupil(pupilR, base.r, clientX, clientY);
+    }
+
+    window.addEventListener('mousemove', function(e) {
+      updateEyes(e.clientX, e.clientY);
+    });
+
+    updateEyes(window.innerWidth / 2, window.innerHeight / 3);
+  })();
+
+  // scroll reveal
+  (function() {
+    const items = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
+
+    items.forEach(function(item) { observer.observe(item); });
+  })();
+
+  // modal functions
+  function openModal(modalId) {
+    const modal = document.getElementById(modalId);
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal(modalId) {
+    const modal = document.getElementById(modalId);
+    modal.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  // close modal when clicking outside
+  document.querySelectorAll('.project-modal').forEach(function(modal) {
+    modal.addEventListener('click', function(e) {
+      if (e.target === modal) {
+        closeModal(modal.id);
+      }
+    });
+  });
+
+  // back to top button
+  (function() {
+    const backToTop = document.getElementById('backToTop');
+
+    // Initially hide if at top
+    if (window.pageYOffset <= 300) {
+      backToTop.classList.add('hidden');
+    }
+
+    window.addEventListener('scroll', function() {
+      if (window.pageYOffset > 300) {
+        backToTop.classList.remove('hidden');
+      } else {
+        backToTop.classList.add('hidden');
+      }
+    });
+
+    backToTop.addEventListener('click', function() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+  })();
+
+  // Password Gate
+  function checkPassword() {
+    const input = document.getElementById('password-input');
+    const error = document.getElementById('password-error');
+    const gate = document.getElementById('password-gate');
+
+    if (input.value === 'hello') {
+      sessionStorage.setItem('portfolio-access', 'granted');
+      gate.classList.add('hidden');
+      error.classList.remove('show');
+    } else {
+      error.classList.add('show');
+      input.value = '';
+      input.focus();
+    }
+  }
+
+  // Check if already authenticated
+  if (sessionStorage.getItem('portfolio-access') === 'granted') {
+    document.getElementById('password-gate').classList.add('hidden');
+  }
+
+  // Allow Enter key to submit password
+  document.getElementById('password-input').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+      checkPassword();
+    }
+  });
+</script>
+
+</body>
+</html>

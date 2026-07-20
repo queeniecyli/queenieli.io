@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zoom AI Companion - Queenie Li</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cpath d='M38,200 L38,95 Q38,15 100,15 Q162,15 162,95 L162,200 Z' fill='%236B4226' stroke='%232B1D14' stroke-width='4'/%3E%3Cpath d='M85,150 Q100,158 115,150 L115,172 Q100,178 85,172 Z' fill='%23EEC9A0'/%3E%3Cpath d='M85,150 L85,172 Q100,178 115,172 L115,150' stroke='%232B1D14' stroke-width='2' fill='none'/%3E%3Cpath d='M70,60 L148,95 Q148,150 100,155 Q52,150 52,95 Q52,62 58,60 Z' fill='%23EEC9A0' stroke='%232B1D14' stroke-width='4'/%3E%3Ccircle cx='82' cy='100' r='6' fill='%232B1D14'/%3E%3Ccircle cx='118' cy='100' r='6' fill='%232B1D14'/%3E%3Cellipse cx='72' cy='112' rx='9' ry='6' fill='%23F0A0A8' opacity='0.75'/%3E%3Cellipse cx='128' cy='112' rx='9' ry='6' fill='%23F0A0A8' opacity='0.75'/%3E%3Cpath d='M92,122 Q100,128 108,122' stroke='%232B1D14' stroke-width='3' fill='none'/%3E%3Cpath d='M40,200 L40,193 Q42,176 64,170 Q82,166 100,168 Q118,166 136,170 Q158,176 160,193 L160,200 Z' fill='%239B9B94' stroke='%232B1D14' stroke-width='4'/%3E%3C/svg%3E">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+  :root {
+    --page-bg: #f7efe8;
+    --banner-bg: linear-gradient(135deg, #224b5b 0%, #356f7a 100%);
+    --banner-text: #f8f3ea;
+    --surface: #ffffff;
+    --surface-alt: #f3ebe0;
+    --cream: #f7efe8;
+    --cream-dim: #efe0cf;
+    --ink: #26343f;
+    --ink-soft: #5e6b76;
+    --rust: #c96b46;
+    --rust-soft: #f3dccf;
+    --accent: #2b7a75;
+    --accent-strong: #215c57;
+    --accent-soft: #dcefe9;
+    --border: #d9d2c7;
+    --hair: #352e2a;
+    --skin: #EEC9A0;
+    --top-navy: #acb8b8;
+    --blush: #F0A0A8;
+    --serif: 'Fraunces', serif;
+    --sans: 'Manrope', 'Inter', sans-serif;
+    --mono: 'IBM Plex Mono', monospace;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: linear-gradient(180deg, #fcf8f2 0%, var(--page-bg) 100%);
+    color: var(--ink);
+    font-family: var(--sans);
+    line-height: 1.7;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  .wrap { max-width: 1200px; margin: 0 auto; padding: 0 48px; }
+
+  /* header */
+  header {
+    position: sticky; top: 0; z-index: 20;
+    background: var(--banner-bg);
+    color: var(--banner-text);
+    backdrop-filter: blur(10px);
+    border-bottom: none;
+    box-shadow: 0 10px 30px rgba(20, 39, 49, 0.12);
+  }
+  header .wrap {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    height: 76px;
+    max-width: 1200px;
+    padding: 0 48px;
+  }
+  .header-center {
+    display: flex;
+    gap: 32px;
+    align-items: center;
+  }
+  .header-center a {
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.32em;
+    color: var(--banner-text);
+    text-decoration: none;
+    transition: color 0.2s ease, opacity 0.2s ease;
+  }
+  .header-center a:hover { color: #ffd9b8; }
+  .header-right { justify-self: end; }
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: 24px;
+    color: var(--banner-text);
+    text-decoration: none;
+    letter-spacing: -0.01em;
+  }
+  .logo span { color: #ffd9b8; }
+  .header-left { display: flex; align-items: center; gap: 18px; }
+  .connect-btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--accent); color: white;
+    font-family: var(--sans);
+    font-size: 13px; font-weight: 700;
+    letter-spacing: 0.02em;
+    padding: 10px 20px 10px 16px; border-radius: 999px;
+    text-decoration: none;
+    transition: background 0.2s ease, transform 0.2s ease, gap 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 12px rgba(43, 122, 117, 0.15);
+  }
+  .connect-btn:hover {
+    background: var(--accent-strong);
+    transform: translateY(-1px);
+    gap: 11px;
+    box-shadow: 0 6px 16px rgba(43, 122, 117, 0.25);
+  }
+  .connect-btn svg { width: 16px; height: 16px; flex-shrink: 0; }
+
+  .header-right { display: flex; align-items: center; gap: 16px; }
+
+  /* project detail page */
+  .project-detail {
+    padding: 60px 0 100px;
+  }
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--accent);
+    text-decoration: none;
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 32px;
+    transition: gap 0.2s ease;
+  }
+  .back-link:hover { gap: 12px; }
+  .project-header {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 32px;
+    align-items: start;
+    margin-bottom: 48px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--border);
+  }
+  .project-header-image {
+    width: 120px;
+    height: 120px;
+    background: var(--accent-soft);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+  }
+  .project-header h1 {
+    font-family: var(--serif);
+    font-size: clamp(32px, 4vw, 42px);
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: var(--ink);
+  }
+  .project-tag {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    display: inline-block;
+    margin-right: 12px;
+  }
+  .read-time {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .read-time::before {
+    content: '•';
+    margin: 0 8px;
+  }
+  .project-content p {
+    color: var(--ink-soft);
+    font-size: 15px;
+    line-height: 1.75;
+    margin-bottom: 20px;
+  }
+  .project-content p strong {
+    color: var(--ink);
+    font-size: 19px;
+    display: block;
+    margin-top: 36px;
+    margin-bottom: 16px;
+  }
+  .project-content ul {
+    color: var(--ink-soft);
+    margin-left: 24px;
+    margin-top: 12px;
+    margin-bottom: 20px;
+  }
+  .project-content li {
+    color: var(--ink-soft);
+    margin-bottom: 8px;
+    line-height: 1.6;
+    font-size: 15px;
+  }
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin: 20px 0;
+  }
+  .feature-box {
+    background: var(--accent-soft);
+    padding: 16px 20px;
+    border-radius: 10px;
+    font-size: 14px;
+    color: var(--ink);
+    font-weight: 500;
+  }
+  .project-divider {
+    height: 1px;
+    background: var(--border);
+    margin: 40px 0;
+  }
+  .image-placeholder {
+    margin: 24px 0;
+    padding: 80px 0;
+    background: var(--surface-alt);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ink-soft);
+    font-family: var(--mono);
+    font-size: 13px;
+  }
+  .image-placeholder img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+  }
+  .learning-point {
+    margin-bottom: 28px;
+  }
+  .learning-point strong {
+    display: block;
+    color: var(--ink);
+    font-size: 16px !important;
+    margin-bottom: 8px;
+    margin-top: 0 !important;
+  }
+  .learning-text {
+    display: block;
+    color: var(--ink-soft);
+    font-size: 15px;
+    line-height: 1.75;
+    margin-left: 0;
+  }
+
+  footer {
+    padding: 40px 0;
+    text-align: center;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-soft);
+    border-top: 1px solid var(--cream-dim);
+  }
+
+  @media (max-width: 700px) {
+    .wrap { padding: 0 24px; }
+    header .wrap { padding: 0 24px; }
+    .project-header {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+    .project-header-image {
+      width: 80px;
+      height: 80px;
+      font-size: 32px;
+    }
+    .feature-grid {
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="header-left">
+      <a class="logo" href="index.html">QueenieLi</a>
+    </div>
+    <div class="header-center">
+      <a href="index.html">Home</a>
+      <a href="index.html#experience">Experience</a>
+      <a href="index.html#work">Work</a>
+      <a href="index.html#about">About</a>
+    </div>
+    <div class="header-right">
+      <a class="connect-btn" href="mailto:queeniecyli@gmail.com?subject=Hi%20Queenie%2C%20let%27s%20connect!">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 5l10 7 10-7"/><rect x="2" y="4" width="20" height="16" rx="2"/></svg>
+        Let's connect
+      </a>
+    </div>
+  </div>
+</header>
+
+<section class="project-detail">
+  <div class="wrap">
+    <a href="projects.html" class="back-link">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 18 9 12 15 6"></polyline>
+      </svg>
+      Back to Projects
+    </a>
+
+    <div class="project-header">
+      <div class="project-header-image">🤖</div>
+      <div>
+        <h1>Zoom AI Companion</h1>
+        <span class="project-tag">Enterprise Rollout</span>
+        <span class="read-time">8 min read</span>
+      </div>
+    </div>
+
+    <div class="project-content">
+      <p><strong>Overview</strong></p>
+      <p>Zoom AI Companion is Zoom's enterprise generative AI assistant, embedded within the Zoom SaaS package to enhance productivity, collaboration, and knowledge sharing. Powered by large language models (LLMs), natural language processing (NLP), and AI-powered contextual understanding, it enables employees to automate repetitive tasks, generate insights, and improve meeting outcomes directly within their existing workflows.</p>
+
+      <p><strong>Key capabilities included:</strong></p>
+      <div class="feature-grid">
+        <div class="feature-box">AI-generated meeting summaries and action items</div>
+        <div class="feature-box">In-meeting AI assistance and contextual questions</div>
+        <div class="feature-box">Customisable meeting summary templates</div>
+        <div class="feature-box">Content generation and summarisation</div>
+      </div>
+
+      <p>The rollout formed part of a broader digital workplace strategy to introduce enterprise AI capabilities in a secure, governed, and scalable manner. Employees spend a significant portion of their time collaborating through meetings, with valuable time often lost to manual note-taking, documenting actions, and consolidating information after discussions. Zoom AI Companion addressed these challenges by reducing administrative overhead and enabling employees to focus on higher-value activities.</p>
+
+      <p>As a global financial institution, adopting generative AI required careful consideration of security, privacy, and regulatory requirements. Zoom AI Companion's <strong>Zero Data Retention (ZDR)</strong> architecture, enterprise encryption controls, administrative governance capabilities, and compliance framework enabled Macquarie to leverage AI innovation while maintaining strict enterprise security standards.</p>
+
+      <div class="project-divider"></div>
+
+      <p><strong>Technology Solution & Architecture</strong></p>
+      <p>Before deployment, I conducted technical discovery sessions to understand how Zoom AI Companion integrated into Macquarie's existing collaboration ecosystem and enterprise technology landscape.</p>
+      <p>Key technical components included:</p>
+      <p><strong>1.  Zoom Web Portal</strong></p>
+            <ul>
+              <li>AI Companion feature enablement and administration</li>
+              <li>User access management</li>
+              <li>Enterprise configuration and controls</li>
+            </ul>
+      <p><strong>2.  Security & Governance</strong></p>
+            <ul>
+              <li>Zero Data Retention (ZDR) architecture</li>
+              <li>Enterprise encryption</li>
+              <li>Data handling and privacy considerations</li>
+              <li>Legal and risk assessment requirements</li>
+            </ul>
+      <p><strong>3.  Identity & Access Management</strong></p>
+            <ul>
+              <li>Enterprise authentication</li>
+              <li>User provisioning considerations</li>
+              <li>Access governance</li>
+            </ul>
+      <p>I developed documentation to provide a clear technical reference for engineering, security, risk, and business stakeholders. This ensured alignment across teams and supported decision-making throughout the deployment lifecycle.</p>
+      <div class="image-placeholder">
+        <img src="/Users/queenieli/Desktop/Website diagrams/Zoom AIC/AIC Solution Architecture Diagram.jpeg" alt="Zoom AI Companion solution architecture diagram">
+      </div>
+
+      <div class="project-divider"></div>
+
+      <p><strong>Deployment Strategy & Planning</strong></p>
+      <p>Enterprise AI adoption required more than enabling a new platform capability, it required careful planning across technology, people, and processes.</p>
+      <p>I supported the deployment strategy by:
+          <ul>
+            <li>Developing the enterprise change paper to obtain governance and risk approvals</li>
+            <li>Defining the phased rollout approach across Macquarie's eight business divisions</li>
+            <li>Creating deployment schedules aligned with business readiness</li>
+            <li>Identifying implementation dependencies and risks</li>
+            <li>Coordinating deployment activities across technical and business stakeholders</li>
+            <li>Establishing readiness criteria to support successful adoption</li>
+          </ul>
+      <p>The deployment approach balanced technical implementation requirements with organisational readiness, ensuring employees had the appropriate support and resources before launch.</p>
+      <div class="image-placeholder">
+        <img src="/Users/queenieli/Desktop/Website diagrams/Zoom AIC/AIC Solution Architecture Diagram.jpeg" alt="Zoom AI Companion rollout and deployment visuals">
+      </div>
+
+      <div class="project-divider"></div>
+
+      <p><strong>Stakeholder Engagement & Change Management</strong></p>
+      <p>Successful adoption required collaboration across multiple teams beyond technology delivery.</p>
+      <p>I partnered with:
+          <ul>
+            <li>Business stakeholders across eight divisions</li>
+            <li>Communications teams</li>
+            <li>Technology Assist teams</li>
+            <li>Collaboration engineering teams</li>
+            <li>Legal and risk teams</li>
+            <li>Change management representatives</li>
+          </ul>
+      <p>Through regular engagement sessions, I ensured stakeholders were aligned on deployment timelines, responsibilities, support models, and user impacts.</p>
+      <p>A key focus was ensuring support teams were prepared to assist employees after launch, with clear escalation pathways and operational processes established prior to rollout.</p>
+      <div class="image-placeholder">
+        <img src="/Users/queenieli/Desktop/Website diagrams/Zoom AIC/AIC Solution Architecture Diagram.jpeg" alt="Zoom AI Companion stakeholder engagement visuals">
+      </div>
+
+      <div class="project-divider"></div>
+
+      <p><strong>User Enablement & Adoption</strong></p>
+      <p>Driving adoption was a critical component of the rollout. To support employees in understanding the value of Zoom AI Companion, I developed a range of user enablement materials, including:
+        <ul>
+          <li>SharePoint knowledge articles</li>
+          <li>User guides</li>
+          <li>Frequently Asked Questions (FAQs)</li>
+          <li>PowerPoint training & support materials</li>
+          <li>Email communications</li>
+          <li>Internal announcements</li>
+        </ul>
+      <p>These resources helped employees understand how to use Zoom AI Companion effectively, what capabilities were available, and how AI could improve their everyday workflows.</p>
+      <div class="image-placeholder">
+        <img src="/Users/queenieli/Desktop/Website diagrams/Zoom AIC/AIC Solution Architecture Diagram.jpeg" alt="Zoom AI Companion communications and enablement materials">
+      </div>
+
+      <div class="project-divider"></div>
+
+      <p><strong>Outcomes & Impact</strong></p>
+      <p>The Zoom AI Companion rollout successfully introduced enterprise AI capabilities to 20 000+ employees while maintaining Macquarie's security, governance, and compliance standards.</p>
+      <p>Through structured deployment planning, stakeholder engagement, and user enablement, the initiative achieved consistent adoption across the organisation and established a scalable approach for future enterprise AI deployments.</p>
+      <p>The project demonstrated the importance of bridging the gap between emerging technology and business adoption—ensuring innovation translates into measurable value for users and the organisation.</p>
+
+      <div class="project-divider"></div>
+
+      <p><strong>Key Learnings</strong></p>
+      <p>Leading this enterprise AI deployment reinforced several critical insights about technology adoption at scale:</p>
+
+      <div class="learning-point">
+        <strong>1. Stakeholder alignment is foundational</strong>
+        <span class="learning-text">Early and continuous engagement across business, technology, security, and risk teams was essential. Different stakeholders had different priorities—business teams focused on adoption and user experience, security teams on data governance, and engineering teams on technical implementation. Creating shared understanding and alignment across these perspectives was critical to moving the deployment forward.</span>
+      </div>
+
+      <div class="learning-point">
+        <strong>2. Deployment strategy must balance innovation with readiness</strong>
+        <span class="learning-text">While the technology was ready to deploy, organisational readiness required careful planning. A phased approach allowed us to validate assumptions, refine support models, and build confidence before scaling to the entire workforce. Rushing deployment would have risked poor adoption and support challenges.</span>
+      </div>
+
+      <div class="learning-point">
+        <strong>3. Change management is not optional</strong>
+        <span class="learning-text">Technology alone doesn't drive adoption—people do. Employees needed to understand not just how to use AI Companion, but why it mattered and how it would improve their workflows. Communications, training, and ongoing support were just as important as the technical implementation.</span>
+      </div>
+
+      <div class="learning-point">
+        <strong>4. Cross-functional collaboration defines success</strong>
+        <span class="learning-text">This wasn't a technology project—it was a business transformation project enabled by technology. Success required collaboration across communications, training, legal, risk, security, engineering, and business stakeholders. My role as a deployment strategist was to coordinate these efforts and ensure all workstreams remained aligned to a common outcome.</span>
+      </div>
+
+      <div class="learning-point">
+        <strong>5. Documentation and transparency build trust</strong>
+        <span class="learning-text">Developing clear, accessible documentation for both technical and business stakeholders helped build confidence in the deployment approach. Transparency around risks, dependencies, and decision-making processes enabled stakeholders to understand the 'why' behind the 'what' and contributed to stronger buy-in across the organisation.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    © MMXXVI. Made by Queenie Li.
+  </div>
+</footer>
+
+</body>
+</html>
