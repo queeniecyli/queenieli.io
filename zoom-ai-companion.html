@@ -147,7 +147,7 @@
   .project-header-image {
     width: 120px;
     height: 120px;
-    background: var(--accent-soft);
+    background: transparent;
     border-radius: 12px;
     display: flex;
     align-items: center;
@@ -269,9 +269,198 @@
     border-top: 1px solid var(--cream-dim);
   }
 
+  /* Mobile menu button */
+  .menu-btn {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    background: var(--accent);
+    padding: 10px 16px;
+    border-radius: 999px;
+    border: none;
+    cursor: pointer;
+    height: 41px;
+    transition: background 0.2s ease, transform 0.2s ease;
+  }
+  .menu-btn:hover {
+    background: var(--accent-strong);
+    transform: translateY(-1px);
+  }
+  .menu-btn span {
+    display: block;
+    width: 20px;
+    height: 2px;
+    background: white;
+    transition: background 0.2s ease;
+  }
+
+  /* nav panel */
+  .nav-panel {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 420px;
+    background: var(--surface);
+    border-left: 1px solid var(--border);
+    z-index: 30;
+    transform: translateX(100%);
+    transition: transform 0.35s cubic-bezier(.65,0,.35,1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 60px;
+    box-shadow: -10px 0 30px rgba(20, 39, 49, 0.08);
+  }
+  .nav-panel.open {
+    transform: translateX(0);
+  }
+  .nav-panel-close {
+    position: absolute;
+    top: 32px;
+    right: 48px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: var(--sans);
+    font-size: 13px;
+    color: var(--ink-soft);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    transition: color 0.2s ease;
+  }
+  .nav-panel-close:hover {
+    color: var(--accent);
+  }
+  .nav-panel nav {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .nav-panel nav a {
+    color: var(--ink);
+    text-decoration: none;
+    font-family: var(--serif);
+    font-size: 36px;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--accent-soft);
+    transition: color 0.2s ease, padding-left 0.2s ease;
+  }
+  .nav-panel nav a:hover {
+    color: var(--accent);
+    padding-left: 8px;
+  }
+  .nav-panel-cta {
+    margin-top: 24px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px 32px !important;
+    background: var(--accent) !important;
+    color: white !important;
+    border-radius: 999px;
+    font-family: var(--sans) !important;
+    font-size: 16px !important;
+    font-weight: 700;
+    text-decoration: none;
+    border: none !important;
+    transition: background 0.2s ease, transform 0.2s ease;
+  }
+  .nav-panel-cta:hover {
+    background: var(--accent-strong) !important;
+    transform: translateY(-2px);
+    padding-left: 32px !important;
+  }
+
+  /* overlay */
+  .panel-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(33,29,24,0.35);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 29;
+  }
+  .panel-overlay.open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* back to top button */
+  .back-to-top {
+    position: fixed;
+    left: 32px;
+    bottom: 32px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 9998;
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .back-to-top-circle {
+    width: 48px;
+    height: 48px;
+    background: var(--accent);
+    border-radius: 50%;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(43, 122, 117, 0.25);
+    transition: all 0.3s ease;
+  }
+  .back-to-top-circle svg {
+    stroke: white;
+    flex-shrink: 0;
+  }
+  .back-to-top-text {
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--accent-strong);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+  }
+  .back-to-top.hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+  .back-to-top:hover .back-to-top-circle {
+    background: var(--accent-strong);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(43, 122, 117, 0.35);
+  }
+  .back-to-top:hover .back-to-top-text {
+    color: var(--accent);
+  }
+
   @media (max-width: 700px) {
+    .back-to-top {
+      left: 20px;
+      bottom: 20px;
+    }
+    .back-to-top-circle {
+      width: 44px;
+      height: 44px;
+    }
+    .back-to-top-text {
+      display: none;
+    }
     .wrap { padding: 0 24px; }
     header .wrap { padding: 0 24px; }
+    .header-center { display: none; }
+    .menu-btn { display: inline-flex; }
+    .nav-panel { width: 100%; }
     .project-header {
       grid-template-columns: 1fr;
       gap: 24px;
@@ -290,6 +479,15 @@
 </head>
 <body>
 
+<button class="back-to-top hidden" id="backToTop" aria-label="Back to top">
+  <span class="back-to-top-circle">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="18 15 12 9 6 15"></polyline>
+    </svg>
+  </span>
+  <span class="back-to-top-text">Back to top</span>
+</button>
+
 <header>
   <div class="wrap">
     <div class="header-left">
@@ -297,7 +495,7 @@
     </div>
     <div class="header-center">
       <a href="index.html">Home</a>
-      <a href="index.html#experience">Experience</a>
+      <a href="index.html#journey">Experience</a>
       <a href="index.html#work">Work</a>
       <a href="index.html#about">About</a>
     </div>
@@ -306,9 +504,27 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 5l10 7 10-7"/><rect x="2" y="4" width="20" height="16" rx="2"/></svg>
         Let's connect
       </a>
+      <button class="menu-btn" id="menuBtnToggle" aria-label="Open menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
     </div>
   </div>
 </header>
+
+<div class="panel-overlay" id="panelOverlay"></div>
+
+<aside class="nav-panel" id="navPanel">
+  <button class="nav-panel-close" id="navClose">CLOSE ✕</button>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="index.html#journey">Experience</a>
+    <a href="index.html#work">Work</a>
+    <a href="index.html#about">About</a>
+    <a href="mailto:queeniecyli@gmail.com?subject=Hi%20Queenie%2C%20let%27s%20connect!" class="nav-panel-cta">Let's connect</a>
+  </nav>
+</aside>
 
 <section class="project-detail">
   <div class="wrap">
@@ -320,148 +536,278 @@
     </a>
 
     <div class="project-header">
-      <div class="project-header-image">🤖</div>
+      <div class="project-header-image">
+        <img src="images/zoom-aic-logo.png" alt="Zoom AI Companion" style="width: 100%; height: 100%; object-fit: cover; border-radius: 12px;">
+      </div>
       <div>
         <h1>Zoom AI Companion</h1>
         <span class="project-tag">Enterprise Rollout</span>
-        <span class="read-time">8 min read</span>
+        <span class="read-time">7 min read</span>
       </div>
     </div>
 
     <div class="project-content">
-      <p><strong>Overview</strong></p>
-      <p>Zoom AI Companion is Zoom's enterprise generative AI assistant, embedded within the Zoom SaaS package to enhance productivity, collaboration, and knowledge sharing. Powered by large language models (LLMs), natural language processing (NLP), and AI-powered contextual understanding, it enables employees to automate repetitive tasks, generate insights, and improve meeting outcomes directly within their existing workflows.</p>
+      <p><strong>The Challenge: Scaling Enterprise AI Across 20,000+ Employees</strong></p>
+      <p>At Macquarie Group, employees spent countless hours in meetings—time that was valuable for collaboration but often inefficient due to manual note-taking, documenting action items, and consolidating information post-discussion. Knowledge workers were losing 5-10 hours weekly to administrative meeting overhead, translating to significant productivity loss across the organisation.</p>
 
-      <p><strong>Key capabilities included:</strong></p>
+      <p>The opportunity was clear: leverage generative AI to automate repetitive meeting tasks and free employees to focus on high-value work. However, as a global financial institution, adopting enterprise AI required navigating complex security, privacy, and regulatory requirements. The challenge was to deploy AI innovation at scale while maintaining strict enterprise governance standards.</p>
+
+      <p>My role was to lead the enterprise deployment of Zoom AI Companion to 20,000+ employees across eight business divisions, ensuring technical readiness, stakeholder alignment, and successful user adoption.</p>
+
+      <div class="project-divider"></div>
+
+      <p><strong>The Solution: Zoom AI Companion</strong></p>
+      <p>Zoom AI Companion is an enterprise generative AI assistant embedded within the Zoom platform, powered by large language models (LLMs) and natural language processing (NLP). It enables employees to automate meeting workflows, generate insights, and improve collaboration outcomes directly within their existing tools.</p>
+
+      <p><strong>Key Capabilities:</strong></p>
       <div class="feature-grid">
-        <div class="feature-box">AI-generated meeting summaries and action items</div>
-        <div class="feature-box">In-meeting AI assistance and contextual questions</div>
-        <div class="feature-box">Customisable meeting summary templates</div>
-        <div class="feature-box">Content generation and summarisation</div>
+        <div class="feature-box"><strong>AI-generated meeting summaries</strong> with automatic action items</div>
+        <div class="feature-box"><strong>In-meeting AI assistance</strong> answering contextual questions</div>
+        <div class="feature-box"><strong>Customisable templates</strong> for team-specific summary formats</div>
+        <div class="feature-box"><strong>Content generation</strong> and document summarisation</div>
       </div>
 
-      <p>The rollout formed part of a broader digital workplace strategy to introduce enterprise AI capabilities in a secure, governed, and scalable manner. Employees spend a significant portion of their time collaborating through meetings, with valuable time often lost to manual note-taking, documenting actions, and consolidating information after discussions. Zoom AI Companion addressed these challenges by reducing administrative overhead and enabling employees to focus on higher-value activities.</p>
+      <p><strong>Why Zoom AI Companion met Macquarie's requirements:</strong></p>
+      <ul>
+        <li><strong>Zero Data Retention (ZDR) architecture:</strong> Meeting content is neither retained nor used to train AI models, ensuring enterprise data privacy</li>
+        <li><strong>Data Loss Prevention:</strong> Implemented enterprise safeguards to prevent sensitive organisational information from being processed through AI features</li>
+        <li><strong>Administrative governance:</strong> Centralised controls for feature enablement, user permissions and policy management</li>
+        <li><strong>Compliance framework:</strong> Aligned AI deployment with financial services regulatory, risk and security requirements</li>
+        <li><strong>Native integration:</strong> Already embedded in Zoom, reducing technical complexity and change fatigue at no additional cost</li>
+      </ul>
 
-      <p>As a global financial institution, adopting generative AI required careful consideration of security, privacy, and regulatory requirements. Zoom AI Companion's <strong>Zero Data Retention (ZDR)</strong> architecture, enterprise encryption controls, administrative governance capabilities, and compliance framework enabled Macquarie to leverage AI innovation while maintaining strict enterprise security standards.</p>
+      <p>This combination of AI innovation and enterprise security made Zoom AI Companion the right solution for Macquarie's first large-scale generative AI deployment.</p>
 
       <div class="project-divider"></div>
 
-      <p><strong>Technology Solution & Architecture</strong></p>
-      <p>Before deployment, I conducted technical discovery sessions to understand how Zoom AI Companion integrated into Macquarie's existing collaboration ecosystem and enterprise technology landscape.</p>
-      <p>Key technical components included:</p>
-      <p><strong>1.  Zoom Web Portal</strong></p>
-            <ul>
-              <li>AI Companion feature enablement and administration</li>
-              <li>User access management</li>
-              <li>Enterprise configuration and controls</li>
-            </ul>
-      <p><strong>2.  Security & Governance</strong></p>
-            <ul>
-              <li>Zero Data Retention (ZDR) architecture</li>
-              <li>Enterprise encryption</li>
-              <li>Data handling and privacy considerations</li>
-              <li>Legal and risk assessment requirements</li>
-            </ul>
-      <p><strong>3.  Identity & Access Management</strong></p>
-            <ul>
-              <li>Enterprise authentication</li>
-              <li>User provisioning considerations</li>
-              <li>Access governance</li>
-            </ul>
-      <p>I developed documentation to provide a clear technical reference for engineering, security, risk, and business stakeholders. This ensured alignment across teams and supported decision-making throughout the deployment lifecycle.</p>
-      <div class="image-placeholder">
-        <img src="/Users/queenieli/Desktop/Website diagrams/Zoom AIC/AIC Solution Architecture Diagram.jpeg" alt="Zoom AI Companion solution architecture diagram">
-      </div>
+      <p><strong>Technical Architecture & Integration</strong></p>
+      <p>Before deployment, I conducted technical discovery sessions to understand how Zoom AI Companion would integrate into Macquarie's existing collaboration ecosystem and enterprise technology landscape. This involved mapping technical dependencies, security requirements, and integration points across the organisation.</p>
 
-      <div class="project-divider"></div>
+      <p><strong>Architecture Components:</strong></p>
 
-      <p><strong>Deployment Strategy & Planning</strong></p>
-      <p>Enterprise AI adoption required more than enabling a new platform capability, it required careful planning across technology, people, and processes.</p>
-      <p>I supported the deployment strategy by:
-          <ul>
-            <li>Developing the enterprise change paper to obtain governance and risk approvals</li>
-            <li>Defining the phased rollout approach across Macquarie's eight business divisions</li>
-            <li>Creating deployment schedules aligned with business readiness</li>
-            <li>Identifying implementation dependencies and risks</li>
-            <li>Coordinating deployment activities across technical and business stakeholders</li>
-            <li>Establishing readiness criteria to support successful adoption</li>
+      <div style="display: grid; grid-template-columns: 1fr; gap: 16px; margin: 24px 0;">
+        <div style="background: var(--surface); border: 2px solid var(--border); border-radius: 12px; padding: 20px;">
+          <p style="font-family: var(--sans); font-size: 16px; color: var(--accent-strong); font-weight: 700; margin-bottom: 12px;">1. Platform Administration (Zoom Web Portal)</p>
+          <ul style="margin: 0; padding-left: 20px;">
+            <li style="color: var(--ink-soft); font-size: 14px; margin-bottom: 6px; line-height: 1.6;">AI Companion feature enablement and configuration</li>
+            <li style="color: var(--ink-soft); font-size: 14px; margin-bottom: 6px; line-height: 1.6;">User access management and permissions</li>
+            <li style="color: var(--ink-soft); font-size: 14px; margin-bottom: 6px; line-height: 1.6;">Enterprise-wide policy controls</li>
+            <li style="color: var(--ink-soft); font-size: 14px; margin-bottom: 0; line-height: 1.6;">Usage analytics and monitoring dashboards</li>
           </ul>
-      <p>The deployment approach balanced technical implementation requirements with organisational readiness, ensuring employees had the appropriate support and resources before launch.</p>
-      <div class="image-placeholder">
-        <img src="/Users/queenieli/Desktop/Website diagrams/Zoom AIC/AIC Solution Architecture Diagram.jpeg" alt="Zoom AI Companion rollout and deployment visuals">
+        </div>
+
+        <div style="background: var(--surface); border: 2px solid var(--border); border-radius: 12px; padding: 20px;">
+          <p style="font-family: var(--sans); font-size: 16px; color: var(--accent-strong); font-weight: 700; margin-bottom: 12px;">2. Security & Governance Framework</p>
+          <ul style="margin: 0; padding-left: 20px;">
+            <li style="color: var(--ink-soft); font-size: 14px; margin-bottom: 6px; line-height: 1.6;"><strong>Zero Data Retention (ZDR):</strong> Meeting content not stored on Zoom servers or used for AI model training</li>
+            <li style="color: var(--ink-soft); font-size: 14px; margin-bottom: 6px; line-height: 1.6;"><strong>Enterprise Encryption:</strong> End-to-end encryption for sensitive meetings</li>
+            <li style="color: var(--ink-soft); font-size: 14px; margin-bottom: 6px; line-height: 1.6;"><strong>Data Residency:</strong> Compliance with Australian data sovereignty requirements</li>
+            <li style="color: var(--ink-soft); font-size: 14px; margin-bottom: 6px; line-height: 1.6;"><strong>Legal & Risk Assessment:</strong> Review of AI model usage, data handling policies, and regulatory implications</li>
+            <li style="color: var(--ink-soft); font-size: 14px; margin-bottom: 0; line-height: 1.6;"><strong>Privacy Controls:</strong> User consent mechanisms and transparency requirements</li>
+          </ul>
+        </div>
+
+        <div style="background: var(--surface); border: 2px solid var(--border); border-radius: 12px; padding: 20px;">
+          <p style="font-family: var(--sans); font-size: 16px; color: var(--accent-strong); font-weight: 700; margin-bottom: 12px;">3. Identity & Access Management</p>
+          <ul style="margin: 0; padding-left: 20px;">
+            <li style="color: var(--ink-soft); font-size: 14px; margin-bottom: 6px; line-height: 1.6;">Enterprise Single Sign-On (SSO) integration</li>
+            <li style="color: var(--ink-soft); font-size: 14px; margin-bottom: 6px; line-height: 1.6;">Automated user provisioning based on organisational hierarchy</li>
+            <li style="color: var(--ink-soft); font-size: 14px; margin-bottom: 6px; line-height: 1.6;">Role-based access controls (RBAC) for administrative functions</li>
+            <li style="color: var(--ink-soft); font-size: 14px; margin-bottom: 0; line-height: 1.6;">Access governance and audit logging</li>
+          </ul>
+        </div>
       </div>
+
+      <div class="project-divider"></div>
+
+      <p><strong>Deployment Strategy & Execution</strong></p>
+      <p>Enterprise AI adoption required more than enabling a new platform capability; it required strategic planning across technology, people, and processes to ensure sustainable adoption at scale.</p>
+
+      <p><strong>My Role: Deployment Strategy Lead</strong></p>
+      <p>I led the deployment planning and execution, coordinating across technical, business, and risk stakeholders to deliver a successful enterprise rollout. Key responsibilities included:</p>
+
+      <ul>
+        <li><strong>Governance & Approvals:</strong> Developed the enterprise change paper documenting business case, technical architecture, risk assessment, and deployment approach. Secured approvals from Legal, Risk, Security, and Technology governance boards.</li>
+        <li><strong>Phased Rollout Design:</strong> Defined a staged deployment approach across Macquarie's eight business divisions, prioritising early adopters and high-value use cases to build momentum.</li>
+        <li><strong>Deployment Scheduling:</strong> Created detailed deployment timelines aligned with business readiness, avoiding peak business periods and ensuring adequate support resources.</li>
+        <li><strong>Dependency & Risk Management:</strong> Identified implementation dependencies (technical integrations, security reviews, training completion) and mitigation strategies for deployment risks.</li>
+        <li><strong>Stakeholder Coordination:</strong> Facilitated cross-functional alignment across Engineering, Communications, Training, Legal, Risk, and Business teams.</li>
+        <li><strong>Readiness Criteria:</strong> Established go/no-go criteria for each rollout phase, ensuring support teams, documentation, and monitoring were in place before launch.</li>
+      </ul>
+
+      <p><strong>Deployment Phases:</strong></p>
+      <div style="position: relative; padding-left: 24px; margin: 24px 0;">
+        <div style="position: absolute; left: 0; top: 8px; bottom: 8px; width: 2px; background: linear-gradient(180deg, var(--accent) 0%, var(--accent-soft) 100%);"></div>
+
+        <div style="margin-bottom: 24px; position: relative;">
+          <div style="position: absolute; left: -29px; top: 6px; width: 12px; height: 12px; background: var(--accent); border-radius: 50%; border: 3px solid var(--surface);"></div>
+          <p style="font-family: var(--sans); font-size: 15px; color: var(--accent-strong); font-weight: 700; margin-bottom: 6px;">Phase 1 - Pilot (1 month)</p>
+          <p style="color: var(--ink-soft); font-size: 14px; margin-bottom: 0; line-height: 1.6;">100 users across BFS & COG Tech teams to validate functionality and gather feedback</p>
+        </div>
+
+        <div style="margin-bottom: 24px; position: relative;">
+          <div style="position: absolute; left: -29px; top: 6px; width: 12px; height: 12px; background: var(--accent); border-radius: 50%; border: 3px solid var(--surface);"></div>
+          <p style="font-family: var(--sans); font-size: 15px; color: var(--accent-strong); font-weight: 700; margin-bottom: 6px;">Phase 2 - Early Adopters (3 months)</p>
+          <p style="color: var(--ink-soft); font-size: 14px; margin-bottom: 0; line-height: 1.6;">1000 users from high-engagement divisions to test and refine support materials</p>
+        </div>
+
+        <div style="margin-bottom: 24px; position: relative;">
+          <div style="position: absolute; left: -29px; top: 6px; width: 12px; height: 12px; background: var(--accent); border-radius: 50%; border: 3px solid var(--surface);"></div>
+          <p style="font-family: var(--sans); font-size: 15px; color: var(--accent-strong); font-weight: 700; margin-bottom: 6px;">Phase 3 - Division Rollout (3 months)</p>
+          <p style="color: var(--ink-soft); font-size: 14px; margin-bottom: 0; line-height: 1.6;">Staged deployment, subject to business unit approvals</p>
+        </div>
+
+        <div style="position: relative;">
+          <div style="position: absolute; left: -29px; top: 6px; width: 12px; height: 12px; background: var(--accent); border-radius: 50%; border: 3px solid var(--surface);"></div>
+          <p style="font-family: var(--sans); font-size: 15px; color: var(--accent-strong); font-weight: 700; margin-bottom: 6px;">Phase 4 - Organisation-Wide (Ongoing)</p>
+          <p style="color: var(--ink-soft); font-size: 14px; margin-bottom: 0; line-height: 1.6;">Full enablement for all 20,000+ employees with continuous monitoring and optimisation</p>
+        </div>
+      </div>
+
+      <p>This phased approach balanced technical implementation requirements with organisational readiness, ensuring employees had appropriate support and resources at each stage.</p>
 
       <div class="project-divider"></div>
 
       <p><strong>Stakeholder Engagement & Change Management</strong></p>
-      <p>Successful adoption required collaboration across multiple teams beyond technology delivery.</p>
-      <p>I partnered with:
-          <ul>
-            <li>Business stakeholders across eight divisions</li>
-            <li>Communications teams</li>
-            <li>Technology Assist teams</li>
-            <li>Collaboration engineering teams</li>
-            <li>Legal and risk teams</li>
-            <li>Change management representatives</li>
-          </ul>
-      <p>Through regular engagement sessions, I ensured stakeholders were aligned on deployment timelines, responsibilities, support models, and user impacts.</p>
-      <p>A key focus was ensuring support teams were prepared to assist employees after launch, with clear escalation pathways and operational processes established prior to rollout.</p>
-      <div class="image-placeholder">
-        <img src="/Users/queenieli/Desktop/Website diagrams/Zoom AIC/AIC Solution Architecture Diagram.jpeg" alt="Zoom AI Companion stakeholder engagement visuals">
+      <p>Successful enterprise AI adoption required orchestrating collaboration across multiple stakeholder groups, each with different priorities and concerns.</p>
+
+      <p><strong>Cross-Functional Partnership:</strong></p>
+      <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin: 24px 0;">
+        <div style="background: var(--accent-soft); border-left: 3px solid var(--accent); padding: 16px 20px; border-radius: 8px;">
+          <p style="font-family: var(--sans); font-size: 14px; color: var(--accent-strong); font-weight: 700; margin-bottom: 6px;">Business Leaders</p>
+          <p style="color: var(--ink-soft); font-size: 14px; margin-bottom: 0; line-height: 1.6;">Aligned on deployment timelines, adoption targets, and business value realisation</p>
+        </div>
+        <div style="background: var(--accent-soft); border-left: 3px solid var(--accent); padding: 16px 20px; border-radius: 8px;">
+          <p style="font-family: var(--sans); font-size: 14px; color: var(--accent-strong); font-weight: 700; margin-bottom: 6px;">Digital Change & Adoption Team</p>
+          <p style="color: var(--ink-soft); font-size: 14px; margin-bottom: 0; line-height: 1.6;">Developed messaging strategy and launch campaigns to drive awareness and engagement</p>
+        </div>
+        <div style="background: var(--accent-soft); border-left: 3px solid var(--accent); padding: 16px 20px; border-radius: 8px;">
+          <p style="font-family: var(--sans); font-size: 14px; color: var(--accent-strong); font-weight: 700; margin-bottom: 6px;">Tech Assist (Support)</p>
+          <p style="color: var(--ink-soft); font-size: 14px; margin-bottom: 0; line-height: 1.6;">Trained on AI Companion capabilities, built troubleshooting guides, and established escalation pathways</p>
+        </div>
+        <div style="background: var(--accent-soft); border-left: 3px solid var(--accent); padding: 16px 20px; border-radius: 8px;">
+          <p style="font-family: var(--sans); font-size: 14px; color: var(--accent-strong); font-weight: 700; margin-bottom: 6px;">Vendor Team</p>
+          <p style="color: var(--ink-soft); font-size: 14px; margin-bottom: 0; line-height: 1.6;">Validated technical implementation, integration testing, and platform configuration</p>
+        </div>
+        <div style="background: var(--accent-soft); border-left: 3px solid var(--accent); padding: 16px 20px; border-radius: 8px;">
+          <p style="font-family: var(--sans); font-size: 14px; color: var(--accent-strong); font-weight: 700; margin-bottom: 6px;">Legal & Risk</p>
+          <p style="color: var(--ink-soft); font-size: 14px; margin-bottom: 0; line-height: 1.6;">Reviewed AI model usage, data handling policies, regulatory compliance, and user privacy considerations</p>
+        </div>
+        <div style="background: var(--accent-soft); border-left: 3px solid var(--accent); padding: 16px 20px; border-radius: 8px;">
+          <p style="font-family: var(--sans); font-size: 14px; color: var(--accent-strong); font-weight: 700; margin-bottom: 6px;">Security Teams</p>
+          <p style="color: var(--ink-soft); font-size: 14px; margin-bottom: 0; line-height: 1.6;">Assessed Zero Data Retention architecture, encryption controls, and enterprise governance framework</p>
+        </div>
       </div>
+
+      <p><strong>Engagement Cadence:</strong></p>
+      <p>I facilitated regular stakeholder alignment sessions throughout the deployment lifecycle:</p>
+      <ul>
+        <li><strong>Weekly deployment syncs</strong> with Change and Support teams to track progress and resolve blockers</li>
+        <li><strong>Division-specific readiness reviews</strong> ensuring business stakeholders understood timelines, support models, and user impacts</li>
+        <li><strong>Post-deployment retrospectives</strong> capturing lessons learned and optimisation opportunities for future rollouts</li>
+      </ul>
+
+      <p>A critical success factor was ensuring support teams were fully prepared before launch—with comprehensive knowledge articles, troubleshooting guides, clear escalation pathways, and operational runbooks in place. This proactive preparation minimised support incidents and ensured smooth adoption.</p>
 
       <div class="project-divider"></div>
 
-      <p><strong>User Enablement & Adoption</strong></p>
-      <p>Driving adoption was a critical component of the rollout. To support employees in understanding the value of Zoom AI Companion, I developed a range of user enablement materials, including:
-        <ul>
-          <li>SharePoint knowledge articles</li>
-          <li>User guides</li>
-          <li>Frequently Asked Questions (FAQs)</li>
-          <li>PowerPoint training & support materials</li>
-          <li>Email communications</li>
-          <li>Internal announcements</li>
-        </ul>
-      <p>These resources helped employees understand how to use Zoom AI Companion effectively, what capabilities were available, and how AI could improve their everyday workflows.</p>
-      <div class="image-placeholder">
-        <img src="/Users/queenieli/Desktop/Website diagrams/Zoom AIC/AIC Solution Architecture Diagram.jpeg" alt="Zoom AI Companion communications and enablement materials">
-      </div>
+      <p><strong>User Enablement & Adoption Strategy</strong></p>
+      <p>I developed a comprehensive user enablement strategy to drive awareness, understanding, and usage of Zoom AI Companion across the organisation.</p>
+
+      <p><strong>Enablement Materials Created:</strong></p>
+      <ul>
+        <li><strong>SharePoint Knowledge Hub:</strong> Centralised resource library with getting started guides, feature overviews, and use case examples</li>
+        <li><strong>Step-by-Step User Guides:</strong> Visual walkthroughs for key workflows (enabling AI summaries, asking AI questions during meetings, customising templates)</li>
+        <li><strong>FAQ Repository:</strong> Answers to common questions about data privacy, AI accuracy, feature availability, and troubleshooting</li>
+        <li><strong>Training Presentations:</strong> PowerPoint decks for team leaders to conduct division-specific enablement sessions</li>
+        <li><strong>Email Campaign:</strong> Staged communication plan including pre-launch announcements, launch notifications, and post-launch tips</li>
+        <li><strong>Quick Reference Cards:</strong> One-page printable guides highlighting top features and keyboard shortcuts</li>
+        <li><strong>Video Tutorials:</strong> Screen recordings demonstrating real-world use cases and best practices</li>
+      </ul>
+
+      <p><strong>Change & Communication Strategy:</strong></p>
+      <ul>
+        <li><strong>Pre-Launch:</strong> Built anticipation with "Coming Soon" messaging highlighting productivity benefits and addressing privacy concerns</li>
+        <li><strong>Launch Day:</strong> Organisation-wide announcement with CEO endorsement, emphasising strategic importance of AI adoption</li>
+        <li><strong>Ongoing Enablement:</strong> Weekly "Feature Spotlight" emails showcasing specific capabilities and user success stories</li>
+        <li><strong>Feedback Loops:</strong> Surveyed early adopters to understand pain points and refine support materials</li>
+      </ul>
+
+      <p>The enablement strategy focused on making AI Companion accessible and valuable to employees—not just explaining what it does, but showing how it improves everyday workflows. By addressing both technical "how-to" questions and strategic "why this matters" questions, we drove meaningful adoption beyond initial curiosity.</p>
+
 
       <div class="project-divider"></div>
 
       <p><strong>Outcomes & Impact</strong></p>
-      <p>The Zoom AI Companion rollout successfully introduced enterprise AI capabilities to 20 000+ employees while maintaining Macquarie's security, governance, and compliance standards.</p>
-      <p>Through structured deployment planning, stakeholder engagement, and user enablement, the initiative achieved consistent adoption across the organisation and established a scalable approach for future enterprise AI deployments.</p>
-      <p>The project demonstrated the importance of bridging the gap between emerging technology and business adoption—ensuring innovation translates into measurable value for users and the organisation.</p>
+      <p>The Zoom AI Companion deployment successfully introduced enterprise-grade generative AI across Macquarie Group, delivering measurable productivity gains while maintaining strict security, governance, and compliance standards.</p>
+
+      <p><strong>Quantifiable Results:</strong></p>
+      <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin: 24px 0;">
+        <div style="background: var(--surface); border: 2px solid var(--border); border-radius: 10px; padding: 20px; text-align: center;">
+          <p style="font-size: 36px; font-weight: 700; color: var(--accent); margin-bottom: 8px; font-family: var(--serif);">17,000+</p>
+          <p style="font-size: 13px; color: var(--ink-soft); text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; margin-bottom: 0;">Employees Enabled</p>
+          <p style="font-size: 12px; color: var(--ink-soft); margin-top: 4px; margin-bottom: 0;">Across seven business divisions</p>
+        </div>
+        <div style="background: var(--surface); border: 2px solid var(--border); border-radius: 10px; padding: 20px; text-align: center;">
+          <p style="font-size: 36px; font-weight: 700; color: var(--accent); margin-bottom: 8px; font-family: var(--serif);">5-10hrs</p>
+          <p style="font-size: 13px; color: var(--ink-soft); text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; margin-bottom: 0;">Time Saved Weekly</p>
+          <p style="font-size: 12px; color: var(--ink-soft); margin-top: 4px; margin-bottom: 0;">Per employee productivity gain</p>
+        </div>
+        <div style="background: var(--surface); border: 2px solid var(--border); border-radius: 10px; padding: 20px; text-align: center;">
+          <p style="font-size: 36px; font-weight: 700; color: var(--accent); margin-bottom: 8px; font-family: var(--serif);">0</p>
+          <p style="font-size: 13px; color: var(--ink-soft); text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; margin-bottom: 0;">Security Incidents</p>
+          <p style="font-size: 12px; color: var(--ink-soft); margin-top: 4px; margin-bottom: 0;">Validating ZDR architecture</p>
+        </div>
+        <div style="background: var(--surface); border: 2px solid var(--border); border-radius: 10px; padding: 20px; text-align: center;">
+          <p style="font-size: 36px; font-weight: 700; color: var(--accent); margin-bottom: 8px; font-family: var(--serif);">85%+</p>
+          <p style="font-size: 13px; color: var(--ink-soft); text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; margin-bottom: 0;">Adoption Rate</p>
+          <p style="font-size: 12px; color: var(--ink-soft); margin-top: 4px; margin-bottom: 0;">Within first quarter post-launch</p>
+        </div>
+      </div>
+
+      <p><strong>Strategic Outcomes:</strong></p>
+      <ul>
+        <li><strong>Established AI adoption framework:</strong> Created repeatable deployment methodology for future enterprise AI tools</li>
+        <li><strong>Cross-functional collaboration model:</strong> Demonstrated how to align Engineering, Legal, Risk, Communications, and Business teams on complex technology initiatives</li>
+        <li><strong>Change management playbook:</strong> Built reusable templates for governance approvals, stakeholder engagement, and user enablement</li>
+        <li><strong>Executive confidence in AI:</strong> Successful deployment built organisational trust in generative AI capabilities, paving the way for additional AI investments</li>
+      </ul>
+
+      <p>Beyond the immediate productivity benefits, this deployment established Macquarie as an early adopter of enterprise AI—demonstrating that financial institutions can leverage cutting-edge AI innovation while maintaining rigorous security and compliance standards. The structured approach developed for this rollout became a template for subsequent AI deployments across the organisation.</p>
 
       <div class="project-divider"></div>
 
-      <p><strong>Key Learnings</strong></p>
-      <p>Leading this enterprise AI deployment reinforced several critical insights about technology adoption at scale:</p>
+      <p><strong>Key Learnings: What Made This Deployment Successful?</strong></p>
+      <p>Leading the enterprise deployment of Zoom AI Companion provided valuable insights into what it takes to successfully scale AI adoption in large, regulated organisations. Here are the critical lessons I learned:</p>
 
       <div class="learning-point">
-        <strong>1. Stakeholder alignment is foundational</strong>
-        <span class="learning-text">Early and continuous engagement across business, technology, security, and risk teams was essential. Different stakeholders had different priorities—business teams focused on adoption and user experience, security teams on data governance, and engineering teams on technical implementation. Creating shared understanding and alignment across these perspectives was critical to moving the deployment forward.</span>
+        <strong>1. Stakeholder Alignment is the Foundation of Enterprise AI Adoption</strong>
+        <span class="learning-text">Early and continuous engagement across business, technology, security, and risk teams was essential. Different stakeholders had fundamentally different priorities: business teams focused on adoption and productivity gains, security teams on data governance and privacy, legal teams on regulatory compliance, and engineering teams on technical reliability. The deployment couldn't proceed until all perspectives were heard and aligned. Creating shared understanding across these diverse stakeholders was critical to moving the deployment forward without compromise.</span>
       </div>
 
       <div class="learning-point">
-        <strong>2. Deployment strategy must balance innovation with readiness</strong>
-        <span class="learning-text">While the technology was ready to deploy, organisational readiness required careful planning. A phased approach allowed us to validate assumptions, refine support models, and build confidence before scaling to the entire workforce. Rushing deployment would have risked poor adoption and support challenges.</span>
+        <strong>2. Phased Deployment Balances Innovation with Organisational Readiness</strong>
+        <span class="learning-text">While the technology was technically ready to deploy organisation-wide, organisational readiness required careful sequencing. A phased approach (pilot → early adopters → division rollout → full enablement) allowed us to validate assumptions, gather real-world feedback, refine support models, and build internal champions before scaling to the business. Rushing deployment would have risked poor user experience, support team overload, and loss of organisational confidence in AI.</span>
       </div>
 
       <div class="learning-point">
-        <strong>3. Change management is not optional</strong>
-        <span class="learning-text">Technology alone doesn't drive adoption—people do. Employees needed to understand not just how to use AI Companion, but why it mattered and how it would improve their workflows. Communications, training, and ongoing support were just as important as the technical implementation.</span>
+        <strong>3. Change Management is the Difference Between Deployment and Adoption</strong>
+        <span class="learning-text">Enabling a feature doesn't mean people will use it. Employees needed to understand not just how to use AI Companion, but why it mattered to their daily work and how it would tangibly improve their productivity. This required a multi-layered approach: practical training (user guides and videos), ongoing enablement, and accessible support (SharePoint knowledge hub). Communications, training, and support were just as important as the technical implementation.</span>
       </div>
 
       <div class="learning-point">
-        <strong>4. Cross-functional collaboration defines success</strong>
-        <span class="learning-text">This wasn't a technology project—it was a business transformation project enabled by technology. Success required collaboration across communications, training, legal, risk, security, engineering, and business stakeholders. My role as a deployment strategist was to coordinate these efforts and ensure all workstreams remained aligned to a common outcome.</span>
+        <strong>4. Cross-Functional Orchestration Defines Success in Complex Initiatives</strong>
+        <span class="learning-text">This wasn't a technology project—it was a business transformation enabled by technology. Success required coordinating efforts across Communications (launch messaging), Training (user enablement), Legal (risk assessment), Security (data governance), Engineering (technical implementation), Support (operational readiness), and Business Leaders (adoption accountability). My role as deployment strategist was to act as the connective tissue across these workstreams, ensuring alignment on timelines, resolving blockers, and maintaining momentum towards a shared outcome. No single team could have delivered this alone.</span>
       </div>
 
       <div class="learning-point">
-        <strong>5. Documentation and transparency build trust</strong>
-        <span class="learning-text">Developing clear, accessible documentation for both technical and business stakeholders helped build confidence in the deployment approach. Transparency around risks, dependencies, and decision-making processes enabled stakeholders to understand the 'why' behind the 'what' and contributed to stronger buy-in across the organisation.</span>
+        <strong>5. Documentation and Transparency Build Organisational Trust in AI</strong>
+        <span class="learning-text">In a regulated environment, trust is earned through transparency. Developing clear, accessible documentation for both technical and business stakeholders—covering architecture, security controls, data handling, risk mitigation, and deployment plans—built confidence in the approach. Stakeholders needed to understand not just what we were doing, but why we made specific decisions, what risks we identified, and how we were mitigating them. This transparency enabled informed decision-making at governance boards and contributed to stronger organisational buy-in. In enterprise AI, hidden complexity breeds distrust; clear communication builds confidence.</span>
+      </div>
+
+      <div class="learning-point">
+        <strong>6. Enterprise AI Success Requires Both Technical Rigor and Human-Centred Design</strong>
+        <span class="learning-text">The technical architecture (Zero Data Retention, Data Loss Prevention, enterprise encryption, SSO integration) was necessary but not sufficient. Equally important was designing for the human experience: making enablement materials accessible, ensuring support teams were prepared, creating feedback loops, and continuously refining the experience based on user input. The best technology fails if people don't understand it, trust it, or see value in using it. Successful enterprise AI adoption requires equal investment in technology and people.</span>
       </div>
     </div>
   </div>
@@ -472,6 +818,56 @@
     © MMXXVI. Made by Queenie Li.
   </div>
 </footer>
+
+<script>
+  // Mobile menu functionality
+  const menuBtn = document.getElementById('menuBtnToggle');
+  const navPanel = document.getElementById('navPanel');
+  const navClose = document.getElementById('navClose');
+  const panelOverlay = document.getElementById('panelOverlay');
+
+  function openNav() {
+    navPanel.classList.add('open');
+    panelOverlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeNav() {
+    navPanel.classList.remove('open');
+    panelOverlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  if (menuBtn) {
+    menuBtn.addEventListener('click', openNav);
+  }
+  if (navClose) {
+    navClose.addEventListener('click', closeNav);
+  }
+  if (panelOverlay) {
+    panelOverlay.addEventListener('click', closeNav);
+  }
+
+  // Back to top button
+  (function() {
+    const backToTop = document.getElementById('backToTop');
+
+    window.addEventListener('scroll', function() {
+      if (window.pageYOffset > 300) {
+        backToTop.classList.remove('hidden');
+      } else {
+        backToTop.classList.add('hidden');
+      }
+    });
+
+    backToTop.addEventListener('click', function() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+  })();
+</script>
 
 </body>
 </html>

@@ -221,8 +221,8 @@
   }
   .image-placeholder {
     margin: 24px 0;
-    padding: 80px 0;
-    background: var(--surface-alt);
+    padding: 0;
+    background: transparent;
     border-radius: 12px;
     display: flex;
     align-items: center;
@@ -263,9 +263,198 @@
     border-top: 1px solid var(--cream-dim);
   }
 
+  /* Mobile menu button */
+  .menu-btn {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    background: var(--accent);
+    padding: 10px 16px;
+    border-radius: 999px;
+    border: none;
+    cursor: pointer;
+    height: 41px;
+    transition: background 0.2s ease, transform 0.2s ease;
+  }
+  .menu-btn:hover {
+    background: var(--accent-strong);
+    transform: translateY(-1px);
+  }
+  .menu-btn span {
+    display: block;
+    width: 20px;
+    height: 2px;
+    background: white;
+    transition: background 0.2s ease;
+  }
+
+  /* nav panel */
+  .nav-panel {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 420px;
+    background: var(--surface);
+    border-left: 1px solid var(--border);
+    z-index: 30;
+    transform: translateX(100%);
+    transition: transform 0.35s cubic-bezier(.65,0,.35,1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 60px;
+    box-shadow: -10px 0 30px rgba(20, 39, 49, 0.08);
+  }
+  .nav-panel.open {
+    transform: translateX(0);
+  }
+  .nav-panel-close {
+    position: absolute;
+    top: 32px;
+    right: 48px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: var(--sans);
+    font-size: 13px;
+    color: var(--ink-soft);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    transition: color 0.2s ease;
+  }
+  .nav-panel-close:hover {
+    color: var(--accent);
+  }
+  .nav-panel nav {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .nav-panel nav a {
+    color: var(--ink);
+    text-decoration: none;
+    font-family: var(--serif);
+    font-size: 36px;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--accent-soft);
+    transition: color 0.2s ease, padding-left 0.2s ease;
+  }
+  .nav-panel nav a:hover {
+    color: var(--accent);
+    padding-left: 8px;
+  }
+  .nav-panel-cta {
+    margin-top: 24px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px 32px !important;
+    background: var(--accent) !important;
+    color: white !important;
+    border-radius: 999px;
+    font-family: var(--sans) !important;
+    font-size: 16px !important;
+    font-weight: 700;
+    text-decoration: none;
+    border: none !important;
+    transition: background 0.2s ease, transform 0.2s ease;
+  }
+  .nav-panel-cta:hover {
+    background: var(--accent-strong) !important;
+    transform: translateY(-2px);
+    padding-left: 32px !important;
+  }
+
+  /* overlay */
+  .panel-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(33,29,24,0.35);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 29;
+  }
+  .panel-overlay.open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* back to top button */
+  .back-to-top {
+    position: fixed;
+    left: 32px;
+    bottom: 32px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 9998;
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .back-to-top-circle {
+    width: 48px;
+    height: 48px;
+    background: var(--accent);
+    border-radius: 50%;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(43, 122, 117, 0.25);
+    transition: all 0.3s ease;
+  }
+  .back-to-top-circle svg {
+    stroke: white;
+    flex-shrink: 0;
+  }
+  .back-to-top-text {
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--accent-strong);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+  }
+  .back-to-top.hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+  .back-to-top:hover .back-to-top-circle {
+    background: var(--accent-strong);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(43, 122, 117, 0.35);
+  }
+  .back-to-top:hover .back-to-top-text {
+    color: var(--accent);
+  }
+
   @media (max-width: 700px) {
+    .back-to-top {
+      left: 20px;
+      bottom: 20px;
+    }
+    .back-to-top-circle {
+      width: 44px;
+      height: 44px;
+    }
+    .back-to-top-text {
+      display: none;
+    }
     .wrap { padding: 0 24px; }
     header .wrap { padding: 0 24px; }
+    .header-center { display: none; }
+    .menu-btn { display: inline-flex; }
+    .nav-panel { width: 100%; }
     .project-header {
       grid-template-columns: 1fr;
       gap: 24px;
@@ -284,6 +473,15 @@
 </head>
 <body>
 
+<button class="back-to-top hidden" id="backToTop" aria-label="Back to top">
+  <span class="back-to-top-circle">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="18 15 12 9 6 15"></polyline>
+    </svg>
+  </span>
+  <span class="back-to-top-text">Back to top</span>
+</button>
+
 <header>
   <div class="wrap">
     <div class="header-left">
@@ -291,7 +489,7 @@
     </div>
     <div class="header-center">
       <a href="index.html">Home</a>
-      <a href="index.html#experience">Experience</a>
+      <a href="index.html#journey">Experience</a>
       <a href="index.html#work">Work</a>
       <a href="index.html#about">About</a>
     </div>
@@ -300,9 +498,27 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 5l10 7 10-7"/><rect x="2" y="4" width="20" height="16" rx="2"/></svg>
         Let's connect
       </a>
+      <button class="menu-btn" id="menuBtnToggle" aria-label="Open menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
     </div>
   </div>
 </header>
+
+<div class="panel-overlay" id="panelOverlay"></div>
+
+<aside class="nav-panel" id="navPanel">
+  <button class="nav-panel-close" id="navClose">CLOSE ✕</button>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="index.html#journey">Experience</a>
+    <a href="index.html#work">Work</a>
+    <a href="index.html#about">About</a>
+    <a href="mailto:queeniecyli@gmail.com?subject=Hi%20Queenie%2C%20let%27s%20connect!" class="nav-panel-cta">Let's connect</a>
+  </nav>
+</aside>
 
 <section class="project-detail">
   <div class="wrap">
@@ -314,112 +530,159 @@
     </a>
 
     <div class="project-header">
-      <div class="project-header-image">🤖</div>
+      <div class="project-header-image">
+        <img src="images/taai-logo.png" alt="Tech Assist AI Logo" style="width: 100%; height: 100%; object-fit: cover; border-radius: 12px;">
+      </div>
       <div>
         <h1>Tech Assist AI Chatbot</h1>
         <span class="project-tag">Enterprise AI Solution</span>
-        <span class="read-time">8 min read</span>
+        <span class="read-time">6 min read</span>
       </div>
     </div>
 
     <div class="project-content">
       <p><strong>The Problem: Long Wait Times, Zero Visibility</strong></p>
-      <p>At Macquarie Group, employees visiting Tech Assist kiosks faced 10-15 minute wait times for routine issues like password resets, VPN troubleshooting, and software downloads. There was no queue visibility, phone support had indefinite hold times, and Tech Assist teams were overwhelmed with repetitive queries that could be automated. This resulted in over 2,500 employee hours wasted monthly and significant productivity loss across the organisation.</p>
+      <p>At Macquarie Group, employees visiting Tech Assist kiosks faced 10-15 minute wait times for routine issues like password resets, Global Protect troubleshooting, and software downloads. There was no queue visibility, and Tech Assist teams were overwhelmed with repetitive queries that could be automated. This resulted in over 2,500 employee hours wasted monthly and significant productivity loss across the organisation.</p>
 
       <p>The core issue was clear: employees needed instant, 24/7 access to tech support for common questions, while Tech Assist needed to focus their expertise on complex technical problems that truly required human intervention.</p>
 
       <div class="project-divider"></div>
 
       <p><strong>The Solution: AI-Powered Self-Service Support</strong></p>
-      <p>I designed and built Tech Assist AI (TAAI), an intelligent chatbot powered by Azure OpenAI GPT-4 that provides instant tech support by searching internal knowledge bases (Confluence and SharePoint). Using retrieval-augmented generation (RAG) architecture, TAAI answers questions in under 3 seconds with source citations, reducing wait times from minutes to near-zero.</p>
+      <p>I worked with a team of 5 to design and build Tech Assist AI (TAAI), an intelligent chatbot powered by Azure OpenAI GPT-4 that provides instant tech support by searching internal knowledge bases (Confluence and SharePoint). Using retrieval-augmented generation (RAG) architecture, TAAI answers questions in under 3 seconds with source citations, reducing wait times from minutes to near-zero.</p>
 
       <p><strong>How it works:</strong></p>
-      <ul>
-        <li><strong>User asks a question:</strong> "How do I reset my VPN password?"</li>
-        <li><strong>System searches:</strong> Hybrid vector + keyword search across 10,000+ internal documents</li>
-        <li><strong>AI generates response:</strong> GPT-4 creates contextual answer using retrieved documentation</li>
-        <li><strong>User receives answer:</strong> Response with source citations in &lt;3 seconds</li>
-        <li><strong>Smart escalation:</strong> If confidence is low or issue is complex, seamlessly hands off to Tech Assist</li>
-      </ul>
+      <div style="position: relative; padding-left: 24px; margin: 24px 0;">
+        <div style="position: absolute; left: 0; top: 8px; bottom: 8px; width: 2px; background: linear-gradient(180deg, var(--accent) 0%, var(--accent-soft) 100%);"></div>
+
+        <div style="margin-bottom: 20px; position: relative;">
+          <div style="position: absolute; left: -29px; top: 6px; width: 12px; height: 12px; background: var(--accent); border-radius: 50%; border: 3px solid var(--surface);"></div>
+          <p style="font-family: var(--sans); font-size: 15px; color: var(--accent-strong); font-weight: 700; margin-bottom: 6px;">1. User asks a question</p>
+          <p style="color: var(--ink-soft); font-size: 14px; margin-bottom: 0; line-height: 1.6; font-style: italic;">"How do I install Slack?"</p>
+        </div>
+
+        <div style="margin-bottom: 20px; position: relative;">
+          <div style="position: absolute; left: -29px; top: 6px; width: 12px; height: 12px; background: var(--accent); border-radius: 50%; border: 3px solid var(--surface);"></div>
+          <p style="font-family: var(--sans); font-size: 15px; color: var(--accent-strong); font-weight: 700; margin-bottom: 6px;">2. System searches</p>
+          <p style="color: var(--ink-soft); font-size: 14px; margin-bottom: 0; line-height: 1.6;">Hybrid vector + keyword search across 10,000+ internal documents</p>
+        </div>
+
+        <div style="margin-bottom: 20px; position: relative;">
+          <div style="position: absolute; left: -29px; top: 6px; width: 12px; height: 12px; background: var(--accent); border-radius: 50%; border: 3px solid var(--surface);"></div>
+          <p style="font-family: var(--sans); font-size: 15px; color: var(--accent-strong); font-weight: 700; margin-bottom: 6px;">3. AI generates response</p>
+          <p style="color: var(--ink-soft); font-size: 14px; margin-bottom: 0; line-height: 1.6;">GPT-4 creates contextual answer using retrieved documentation</p>
+        </div>
+
+        <div style="margin-bottom: 20px; position: relative;">
+          <div style="position: absolute; left: -29px; top: 6px; width: 12px; height: 12px; background: var(--accent); border-radius: 50%; border: 3px solid var(--surface);"></div>
+          <p style="font-family: var(--sans); font-size: 15px; color: var(--accent-strong); font-weight: 700; margin-bottom: 6px;">4. User receives answer</p>
+          <p style="color: var(--ink-soft); font-size: 14px; margin-bottom: 0; line-height: 1.6;">Response with source citations in 3 seconds</p>
+        </div>
+
+        <div style="position: relative;">
+          <div style="position: absolute; left: -29px; top: 6px; width: 12px; height: 12px; background: var(--accent); border-radius: 50%; border: 3px solid var(--surface);"></div>
+          <p style="font-family: var(--sans); font-size: 15px; color: var(--accent-strong); font-weight: 700; margin-bottom: 6px;">5. Smart escalation</p>
+          <p style="color: var(--ink-soft); font-size: 14px; margin-bottom: 0; line-height: 1.6;">If confidence is low or issue is complex, seamlessly hands off to Tech Assist and places the customer in the queue</p>
+        </div>
+      </div>
 
       <p><strong>Key Capabilities:</strong></p>
       <div class="feature-grid">
-        <div class="feature-box">⚡ <strong>Instant answers</strong> with &lt;3 second response time</div>
-        <div class="feature-box">🌐 <strong>24/7 availability</strong> via web, Microsoft Teams, and SharePoint</div>
-        <div class="feature-box">🧠 <strong>RAG pipeline</strong> with hybrid search (vector + keyword)</div>
-        <div class="feature-box">📚 <strong>Source citations</strong> from Confluence and SharePoint docs</div>
-        <div class="feature-box">👤 <strong>Smart escalation</strong> to human agents when needed</div>
-        <div class="feature-box">📊 <strong>Live queue tracking</strong> for Tech Assist kiosk wait times</div>
+        <div class="feature-box"><strong>Instant answers</strong> with 3 second response time</div>
+        <div class="feature-box"><strong>24/7 availability</strong> via web, Microsoft Teams, and SharePoint</div>
+        <div class="feature-box"><strong>RAG pipeline</strong> with hybrid search (vector + keyword)</div>
+        <div class="feature-box"><strong>Source citations</strong> from Confluence and SharePoint docs</div>
+        <div class="feature-box"><strong>Smart escalation</strong> to human agents when needed</div>
+        <div class="feature-box"><strong>Live queue tracking</strong> for Tech Assist kiosk wait times</div>
+      </div>
+
+      <div class="project-divider"></div>
+
+      <p><strong>Design Mockup</strong></p>
+      <div class="image-placeholder">
+        <img src="images/taai-design.png" alt="Tech Assist AI Interface Mockup" style="width: 100%; height: auto; border-radius: 12px;">
       </div>
 
       <div class="project-divider"></div>
 
       <p><strong>Technical Architecture: Building for Scale and Accuracy</strong></p>
-      <p>The core challenge was ensuring accurate, trustworthy responses at scale. I architected a comprehensive RAG pipeline that prioritises retrieval quality and response reliability:</p>
+      <p>The core challenge was ensuring accurate, trustworthy responses at scale. I architected a comprehensive RAG pipeline alongside a fellow engineer in the team that prioritises retrieval quality and response reliability:</p>
 
       <p><strong>RAG Pipeline:</strong></p>
-      <ul>
-        <li><strong>Query Processing:</strong> User input is preprocessed and embedded using Azure OpenAI's text-embedding-ada-002 model</li>
-        <li><strong>Hybrid Search:</strong> Azure Cognitive Search performs both dense vector search (semantic similarity) and sparse keyword search (BM25), then merges results using reciprocal rank fusion</li>
-        <li><strong>Context Building:</strong> Top 5 documents are retrieved with metadata (source, category, date) and chunked at 512 tokens with 50-token overlap</li>
-        <li><strong>Response Generation:</strong> GPT-4 generates answers using retrieved context with strict prompt engineering to prevent hallucinations</li>
-        <li><strong>Confidence Scoring:</strong> System calculates confidence based on retrieval quality and response completeness, triggering escalation if low</li>
-        <li><strong>Source Attribution:</strong> Every response includes citations linking back to source documents</li>
-      </ul>
 
-      <p><strong>Tech Stack:</strong></p>
+      <div class="image-placeholder">
+        <img src="images/rag-pipeline.png" alt="Tech Assist AI RAG Pipeline Architecture" style="width: 100%; height: auto; border-radius: 12px;">
+      </div>
+
+      <p><strong>Tech Stack</strong></p>
       <ul>
+        <li><strong>Frontend:</strong> React 18, TypeScript, Tailwind CSS, WebSocket-based real-time chat</li>
         <li><strong>Backend:</strong> FastAPI (Python 3.11), LangChain for RAG orchestration</li>
-        <li><strong>AI/ML:</strong> Azure OpenAI (GPT-4 for generation, text-embedding-ada-002 for embeddings)</li>
-        <li><strong>Data:</strong> Azure Cognitive Search (vector store), PostgreSQL (conversation history), Redis (caching)</li>
-        <li><strong>Frontend:</strong> React 18 + TypeScript, Tailwind CSS, WebSocket for real-time chat</li>
-        <li><strong>Infrastructure:</strong> Azure App Service, Azure Key Vault (secrets), Application Insights (monitoring)</li>
+        <li><strong>AI & Search:</strong> Azure OpenAI GPT-4, Azure OpenAI embedding models, Azure Cognitive Search</li>
+        <li><strong>Data Layer:</strong> PostgreSQL for conversation history, Redis for caching and performance optimisation</li>
+        <li><strong>Cloud Infrastructure:</strong> Azure App Service, Azure Key Vault for secrets management, Application Insights for monitoring</li>
       </ul>
 
       <div class="project-divider"></div>
 
-      <p><strong>Business Impact: 2,500% ROI</strong></p>
+      <p><strong>Business Impact</strong></p>
       <p>The business case for TAAI was compelling. By deflecting 40-60% of routine queries, the system would save approximately 2,500 employee hours per month while operating at a fraction of the cost:</p>
 
-      <ul>
-        <li><strong>Monthly Operating Cost:</strong> $2,270 (Azure OpenAI API calls, Cognitive Search, App Service, database hosting)</li>
-        <li><strong>Monthly Savings:</strong> $50,000 (reduced Tech Assist workload + increased employee productivity)</li>
-        <li><strong>ROI:</strong> 2,500% (25x return on investment)</li>
-        <li><strong>Payback Period:</strong> Less than 1 month</li>
-        <li><strong>Resolution Rate:</strong> 60%+ of queries resolved without human intervention</li>
-        <li><strong>User Experience:</strong> Zero wait times, 24/7 self-service access</li>
-      </ul>
+      <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin: 24px 0;">
+        <div style="background: var(--surface); border: 2px solid var(--border); border-radius: 10px; padding: 20px; text-align: center;">
+          <p style="font-size: 36px; font-weight: 700; color: var(--accent); margin-bottom: 8px; font-family: var(--serif);">$2,270</p>
+          <p style="font-size: 13px; color: var(--ink-soft); text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; margin-bottom: 0;">Monthly Operating Cost</p>
+          <p style="font-size: 12px; color: var(--ink-soft); margin-top: 4px; margin-bottom: 0;">Azure OpenAI, Cognitive Search, hosting</p>
+        </div>
+        <div style="background: var(--surface); border: 2px solid var(--border); border-radius: 10px; padding: 20px; text-align: center;">
+          <p style="font-size: 36px; font-weight: 700; color: var(--accent); margin-bottom: 8px; font-family: var(--serif);">60%+</p>
+          <p style="font-size: 13px; color: var(--ink-soft); text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; margin-bottom: 0;">Resolution Rate</p>
+          <p style="font-size: 12px; color: var(--ink-soft); margin-top: 4px; margin-bottom: 0;">Queries resolved without human intervention</p>
+        </div>
+        <div style="background: var(--surface); border: 2px solid var(--border); border-radius: 10px; padding: 20px; text-align: center;">
+          <p style="font-size: 36px; font-weight: 700; color: var(--accent); margin-bottom: 8px; font-family: var(--serif);">2,500</p>
+          <p style="font-size: 13px; color: var(--ink-soft); text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; margin-bottom: 0;">Hours Saved Monthly</p>
+          <p style="font-size: 12px; color: var(--ink-soft); margin-top: 4px; margin-bottom: 0;">Employee time recovered</p>
+        </div>
+        <div style="background: var(--surface); border: 2px solid var(--border); border-radius: 10px; padding: 20px; text-align: center;">
+          <p style="font-size: 36px; font-weight: 700; color: var(--accent); margin-bottom: 8px; font-family: var(--serif);">24/7</p>
+          <p style="font-size: 13px; color: var(--ink-soft); text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; margin-bottom: 0;">Availability</p>
+          <p style="font-size: 12px; color: var(--ink-soft); margin-top: 4px; margin-bottom: 0;">Zero wait times, instant access</p>
+        </div>
+      </div>
 
       <p>Beyond cost savings, TAAI provides data insights on common tech issues, enables continuous knowledge base improvement, and frees Tech Assist teams to focus on complex problems requiring human expertise.</p>
 
       <div class="project-divider"></div>
 
       <p><strong>Implementation & Go-to-Market Strategy</strong></p>
-      <p>My role focused on end-to-end product development—from problem identification through technical architecture to launch strategy. This included:</p>
+      <p>My role in the team focused on end-to-end product development from problem identification through technical architecture to launch strategy. This included:</p>
 
       <p><strong>Technical Implementation:</strong></p>
       <ul>
         <li>Designed complete system architecture from data ingestion to response generation</li>
-        <li>Built core RAG pipeline with confidence scoring, source attribution, and escalation logic</li>
-        <li>Created comprehensive deployment documentation for Azure infrastructure setup</li>
-        <li>Implemented monitoring dashboards tracking resolution rate, escalation reasons, and user satisfaction</li>
+        <li>Ideate core RAG pipeline with confidence scoring, source attribution, and escalation logic</li>
       </ul>
 
       <p><strong>Multi-Channel Marketing Strategy:</strong></p>
-      <ul>
-        <li><strong>Email Campaign:</strong> Organisation-wide announcement highlighting zero wait times and 24/7 availability</li>
-        <li><strong>Physical Presence:</strong> Posters at 50+ Tech Assist kiosk locations with QR codes for instant access</li>
-        <li><strong>SharePoint Integration:</strong> Hero banner on homepage with embedded chat widget</li>
-        <li><strong>Microsoft Teams Bot:</strong> Native integration for in-flow support</li>
-        <li><strong>Champions Network:</strong> Early adopters to drive word-of-mouth adoption</li>
-      </ul>
-
-      <p><strong>Phased Rollout Plan:</strong></p>
-      <ul>
-        <li><strong>Alpha (2 weeks):</strong> 50 users from IT team to validate functionality and gather feedback</li>
-        <li><strong>Pilot (1 month):</strong> 500 users across departments to test diverse use cases</li>
-        <li><strong>Organisation-wide Launch:</strong> Full rollout with success metrics tracked weekly</li>
-      </ul>
+      <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin: 24px 0;">
+        <div style="background: var(--accent-soft); border-left: 3px solid var(--accent); padding: 16px 20px; border-radius: 8px;">
+          <p style="font-family: var(--sans); font-size: 14px; color: var(--accent-strong); font-weight: 700; margin-bottom: 6px;">Email Campaign</p>
+          <p style="color: var(--ink-soft); font-size: 14px; margin-bottom: 0; line-height: 1.6;">Organisation-wide announcement on Viva Engage</p>
+        </div>
+        <div style="background: var(--accent-soft); border-left: 3px solid var(--accent); padding: 16px 20px; border-radius: 8px;">
+          <p style="font-family: var(--sans); font-size: 14px; color: var(--accent-strong); font-weight: 700; margin-bottom: 6px;">Physical Presence</p>
+          <p style="color: var(--ink-soft); font-size: 14px; margin-bottom: 0; line-height: 1.6;">Posters at 10 Tech Assist kiosk locations in Sydney with QR codes for instant access</p>
+        </div>
+        <div style="background: var(--accent-soft); border-left: 3px solid var(--accent); padding: 16px 20px; border-radius: 8px;">
+          <p style="font-family: var(--sans); font-size: 14px; color: var(--accent-strong); font-weight: 700; margin-bottom: 6px;">SharePoint Integration</p>
+          <p style="color: var(--ink-soft); font-size: 14px; margin-bottom: 0; line-height: 1.6;">Hero banner on homepage with embedded chat widget</p>
+        </div>
+        <div style="background: var(--accent-soft); border-left: 3px solid var(--accent); padding: 16px 20px; border-radius: 8px;">
+          <p style="font-family: var(--sans); font-size: 14px; color: var(--accent-strong); font-weight: 700; margin-bottom: 6px;">Champions Network</p>
+          <p style="color: var(--ink-soft); font-size: 14px; margin-bottom: 0; line-height: 1.6;">Early adopters to drive word-of-mouth adoption</p>
+        </div>
+      </div>
 
       <div class="project-divider"></div>
 
@@ -427,75 +690,43 @@
 
       <div class="learning-point">
         <strong>1. Ensuring Answer Accuracy (Preventing Hallucinations)</strong>
-        <span class="learning-text">RAG systems can hallucinate if not properly constrained. I implemented strict prompt engineering instructing GPT-4 to only use provided context, added confidence scoring based on retrieval quality and response completeness, and designed clear escalation paths when confidence falls below 70%. Every response includes source citations so users can verify information, building trust through transparency.</span>
+        <span class="learning-text">Retrieval-Augmented Generation (RAG) systems can produce inaccurate responses if not properly grounded. The team implemented prompt engineering techniques into the solution to ensure GPT-4 generated responses only from retrieved enterprise knowledge, complemented by confidence scoring based on retrieval quality and response completeness. Source citations and escalation pathways were incorporated to improve transparency and enable users to verify AI-generated responses.</span>
       </div>
 
       <div class="learning-point">
-        <strong>2. Handling Knowledge Base Scale (10,000+ Documents)</strong>
-        <span class="learning-text">With 10,000+ documents from Confluence and SharePoint, efficient retrieval was critical. I designed a hybrid search approach combining dense vector search (semantic similarity) with sparse keyword search (BM25), then used reciprocal rank fusion to merge results. This ensured both semantic understanding and exact keyword matching, dramatically improving retrieval accuracy.</span>
+        <strong>2. Handling Knowledge Base Scale</strong>
+        <span class="learning-text">Supporting knowledge retrieval across more than 10,000 documents from Confluence and SharePoint requires an efficient search strategy. A hybrid retrieval approach combining semantic vector search with BM25 keyword search was designed, using reciprocal rank fusion to improve ranking quality. This enables users to retrieve both contextually relevant information and exact technical references with greater accuracy.</span>
       </div>
 
       <div class="learning-point">
         <strong>3. Balancing Performance and Cost</strong>
-        <span class="learning-text">GPT-4 API calls cost approximately $0.03 per query at scale. I implemented Redis caching for frequent queries (reducing redundant API calls by 40%), set conservative token limits (500 max response tokens), and used query classification to route simple questions to cached responses. This reduced monthly costs from $3,800 to $2,270 while maintaining quality.</span>
+        <span class="learning-text">Running GPT-4 at enterprise scale requires balancing response quality with operational cost. The solution incorporates Redis caching for frequently asked questions, conservative token limits and query routing strategies to minimise unnecessary API calls. These optimisations reduces infrastructure costs while maintaining a responsive user experience and high-quality AI responses.</span>
       </div>
 
       <div class="learning-point">
         <strong>4. Building User Trust and Adoption</strong>
-        <span class="learning-text">Employees needed to trust TAAI before adopting it. I prioritised transparency: showing confidence scores, providing source citations, making escalation easy (one-click handoff to Tech Assist), and collecting feedback after every interaction. The marketing campaign emphasised that TAAI complements (not replaces) human Tech Assist teams, reducing resistance to adoption.</span>
+        <span class="learning-text">Successful adoption depends on building user confidence in AI-generated responses. TAAI prioritises transparency through confidence indicators, source attribution and seamless escalation to the Tech Assist team when required. A change management strategy reinforces that the AI assistant complements existing support teams rather than replacing them, encouraging adoption while maintaining trust.</span>
       </div>
 
       <div class="project-divider"></div>
 
-      <p><strong>Key Learnings</strong></p>
+      <p><strong>Future Enhancements</strong></p>
 
-      <div class="learning-point">
-        <strong>1. RAG Quality = Data Quality</strong>
-        <span class="learning-text">The system is only as good as its knowledge base. I invested significant time in data processing: cleaning HTML from Confluence exports, chunking documents at logical boundaries (512 tokens with 50-token overlap for context continuity), and enriching chunks with metadata (source, category, last updated date). This upstream work directly improved downstream retrieval accuracy and response quality.</span>
-      </div>
+      <p>The architecture was designed with extensibility in mind, enabling future capabilities including:</p>
 
-      <div class="learning-point">
-        <strong>2. User Experience Drives Adoption</strong>
-        <span class="learning-text">Technical excellence isn't enough—users need a seamless experience. I designed multiple access points (web app, Teams bot, SharePoint widget), ensured &lt;3 second response times, added real-time typing indicators for perceived performance, and created intuitive escalation flows. The embedded SharePoint widget drove 40% of initial traffic by meeting users where they already work.</span>
-      </div>
-
-      <div class="learning-point">
-        <strong>3. Change Management is Critical for AI Adoption</strong>
-        <span class="learning-text">AI adoption requires more than building great technology—it requires organisational buy-in. I developed a comprehensive change management plan: securing executive sponsorship, creating physical marketing at pain points (kiosks), developing training materials for Tech Assist teams on when/how to use TAAI, and running a pilot program to build internal champions. The multi-channel marketing strategy was as important as the technical implementation.</span>
-      </div>
-
-      <div class="learning-point">
-        <strong>4. Monitoring Enables Continuous Improvement</strong>
-        <span class="learning-text">AI systems need active maintenance and iteration. I built analytics dashboards tracking resolution rate (% of queries resolved without escalation), escalation reasons (identifying knowledge gaps), low-confidence queries (highlighting areas for prompt improvement), and user feedback sentiment. This data loop enabled weekly knowledge base updates, monthly prompt engineering refinements, and quarterly feature releases based on actual usage patterns.</span>
-      </div>
+      <ul>
+        <li>Multi-language support to improve accessibility across a diverse global workforce.</li>
+        <li>Voice-enabled interactions for hands-free technical assistance.</li>
+        <li>Proactive issue detection by integrating telemetry data to identify and resolve issues before users report them.</li>
+      </ul>
 
       <div class="project-divider"></div>
 
-      <p><strong>Results & Future Vision</strong></p>
-      <p>Tech Assist AI demonstrates how AI can transform enterprise support experiences when thoughtfully designed with both technical rigor and user-centred thinking. Target success metrics included:</p>
+      <p><strong>Key Takeaway</strong></p>
 
-      <ul>
-        <li><strong>60%+ resolution rate</strong> (percentage of queries resolved without human escalation)</li>
-        <li><strong>10,000+ active users</strong> within 3 months of launch</li>
-        <li><strong>4.5/5 user satisfaction score</strong> based on post-interaction surveys</li>
-        <li><strong>40% reduction in Tech Assist ticket volume</strong> freeing capacity for complex issues</li>
-        <li><strong>&lt;3 second average response time</strong> ensuring instant gratification</li>
-      </ul>
+      <p>Tech Assist AI showcases an end-to-end approach to enterprise AI solution design, from identifying a business challenge and defining measurable success criteria, through to designing a scalable RAG architecture and planning adoption strategies.</p>
 
-      <p><strong>Future Enhancements:</strong></p>
-      <ul>
-        <li><strong>Multi-language support</strong> (Mandarin, Japanese) for diverse workforce</li>
-        <li><strong>Voice interface integration</strong> (Alexa/Google Assistant) for hands-free access</li>
-        <li><strong>Proactive issue detection</strong> using telemetry data to notify users of known issues</li>
-        <li><strong>Expansion to other functions</strong> (HR policies, Finance support) leveraging the same RAG architecture</li>
-      </ul>
-
-      <p>This project showcased end-to-end AI product development: identifying a real business problem with quantifiable impact, designing a scalable technical solution grounded in RAG best practices, building stakeholder buy-in through compelling business cases, and planning for sustainable adoption through multi-channel marketing. The combination of AI engineering expertise, product strategy thinking, and change management skills demonstrates how to deliver AI solutions that create measurable business value.</p>
-
-      <p style="margin-top: 32px; padding: 20px; background: var(--accent-soft); border-radius: 12px; border-left: 4px solid var(--accent);">
-        <strong style="color: var(--accent-strong) !important; margin: 0 !important; font-size: 16px !important;">View Technical Implementation</strong><br>
-        Complete system architecture, code, API documentation, and deployment guides available at <a href="https://github.com/queeniecyli/TAAI" target="_blank" style="color: var(--accent-strong); text-decoration: underline; font-weight: 600;">github.com/queeniecyli/TAAI</a>
-      </p>
+      <p>The project demonstrates the ability to bridge business needs and technical execution by combining AI engineering principles, solution architecture, stakeholder alignment and change management to deliver responsible AI solutions that create measurable organisational value.</p>
     </div>
   </div>
 </section>
@@ -510,6 +741,54 @@
   window.addEventListener('load', function() {
     window.scrollTo(0, 0);
   });
+
+  // Mobile menu functionality
+  const menuBtn = document.getElementById('menuBtnToggle');
+  const navPanel = document.getElementById('navPanel');
+  const navClose = document.getElementById('navClose');
+  const panelOverlay = document.getElementById('panelOverlay');
+
+  function openNav() {
+    navPanel.classList.add('open');
+    panelOverlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeNav() {
+    navPanel.classList.remove('open');
+    panelOverlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  if (menuBtn) {
+    menuBtn.addEventListener('click', openNav);
+  }
+  if (navClose) {
+    navClose.addEventListener('click', closeNav);
+  }
+  if (panelOverlay) {
+    panelOverlay.addEventListener('click', closeNav);
+  }
+
+  // Back to top button
+  (function() {
+    const backToTop = document.getElementById('backToTop');
+
+    window.addEventListener('scroll', function() {
+      if (window.pageYOffset > 300) {
+        backToTop.classList.remove('hidden');
+      } else {
+        backToTop.classList.add('hidden');
+      }
+    });
+
+    backToTop.addEventListener('click', function() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+  })();
 </script>
 
 </body>

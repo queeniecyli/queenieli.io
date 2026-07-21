@@ -372,6 +372,57 @@
     border-top: 1px solid var(--cream-dim);
   }
 
+  /* back to top button */
+  .back-to-top {
+    position: fixed;
+    left: 32px;
+    bottom: 32px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 9998;
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .back-to-top.hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+  .back-to-top-circle {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(43, 122, 117, 0.2);
+  }
+  .back-to-top:hover .back-to-top-circle {
+    background: var(--accent-strong);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(43, 122, 117, 0.3);
+  }
+  .back-to-top svg {
+    width: 20px;
+    height: 20px;
+    stroke: white;
+    stroke-width: 2.5;
+  }
+  .back-to-top-text {
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
   @media (max-width: 700px) {
     .wrap { padding: 0 24px; }
     header .wrap { padding: 0 24px; }
@@ -398,10 +449,50 @@
       padding: 24px 28px;
       font-size: 16px;
     }
+    .back-to-top {
+      left: 24px;
+      bottom: 24px;
+    }
+    .back-to-top-text {
+      display: none;
+    }
+    .insight-card {
+      flex: 1;
+      min-width: 280px;
+      padding: 24px;
+      border-radius: 16px;
+      background: #f8f8f8;
+      border: 1px solid #eaeaea;
+    }
+
+    .insight-card h3 {
+      margin-top: 0;
+      font-size: 20px;
+    }
+
+    .insight-card strong {
+      display: block;
+      margin-top: 16px;
+    }
+
+    .quote {
+      font-style: italic;
+      padding: 12px;
+      border-left: 3px solid #333;
+    }
   }
 </style>
 </head>
 <body>
+
+<button class="back-to-top hidden" id="backToTop" aria-label="Back to top">
+  <div class="back-to-top-circle">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="18 15 12 9 6 15"></polyline>
+    </svg>
+  </div>
+  <span class="back-to-top-text">Back to Top</span>
+</button>
 
 <header>
   <div class="wrap">
@@ -410,7 +501,7 @@
     </div>
     <div class="header-center">
       <a href="index.html">Home</a>
-      <a href="index.html#experience">Experience</a>
+      <a href="index.html#journey">Experience</a>
       <a href="index.html#work">Work</a>
       <a href="index.html#about">About</a>
     </div>
@@ -432,22 +523,37 @@
       Back to Projects
     </a>
 
-    <div class="project-header">
-      <div class="project-header-image">📋</div>
+      <div class="project-header">
+      <div class="project-header-image">
+        <img src="images/ontrackau-logo.png" alt="OnTrack Logo" style="width: 100%; height: 100%; object-fit: cover; border-radius: 20px;">
+      </div>
+
       <div>
         <h1>OnTrack</h1>
         <span class="project-tag">Startup Idea</span>
-        <span class="read-time">4 min read</span>
+        <span class="read-time">10 min read</span>
       </div>
     </div>
 
     <div class="project-content">
       <p><strong>Project Overview</strong></p>
-      <div class="info-grid">
-        <p><strong>Role:</strong> Product Strategist / UX Researcher / Solution Designer</p>
-        <p><strong>Duration:</strong> X months</p>
-        <p><strong>Tools:</strong> Figma, User Research, Design Thinking Framework, Product Strategy</p>
-        <p><strong>Focus Areas:</strong> Behaviour Change, Productivity, Gamification, Financial Incentives</p>
+      <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin: 24px 0;">
+        <div style="background: var(--surface); border: 2px solid var(--border); border-radius: 12px; padding: 20px;">
+          <div style="font-family: var(--mono); font-size: 11px; color: var(--accent-strong); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; font-weight: 600;">Role</div>
+          <div style="color: var(--ink); font-size: 15px; font-weight: 500; line-height: 1.5;">Product Strategist & Solution Designer</div>
+        </div>
+        <div style="background: var(--surface); border: 2px solid var(--border); border-radius: 12px; padding: 20px;">
+          <div style="font-family: var(--mono); font-size: 11px; color: var(--accent-strong); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; font-weight: 600;">Duration</div>
+          <div style="color: var(--ink); font-size: 15px; font-weight: 500; line-height: 1.5;">1 year</div>
+        </div>
+        <div style="background: var(--surface); border: 2px solid var(--border); border-radius: 12px; padding: 20px;">
+          <div style="font-family: var(--mono); font-size: 11px; color: var(--accent-strong); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; font-weight: 600;">Tools</div>
+          <div style="color: var(--ink); font-size: 15px; font-weight: 500; line-height: 1.5;">Figma, User Research, Design Thinking Framework, Product Strategy</div>
+        </div>
+        <div style="background: var(--surface); border: 2px solid var(--border); border-radius: 12px; padding: 20px;">
+          <div style="font-family: var(--mono); font-size: 11px; color: var(--accent-strong); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; font-weight: 600;">Focus Areas</div>
+          <div style="color: var(--ink); font-size: 15px; font-weight: 500; line-height: 1.5;">Behaviour Change, Productivity, Gamification, Financial Incentives</div>
+        </div>
       </div>
 
       <p><strong>Summary</strong></p>
@@ -469,26 +575,52 @@
       <div class="project-divider"></div>
 
       <p><strong>User Research & Insights</strong></p>
-      <p><strong>Insight 1: Planning does not equal execution</strong></p>
-      <p>Many users already create to-do lists but struggle with following through.</p>
-      <p>"I know what I need to do, but I struggle to actually start."</p>
-      <p><strong>Opportunity:</strong> Move beyond task creation and focus on completion behaviour.</p>
+    <div style="display: flex; gap: 24px; flex-wrap: wrap;">
 
-      <p><strong>Insight 2: Users respond strongly to external accountability</strong></p>
-      <p>Users are more likely to complete commitments when there is social accountability, financial consequences, and visible progress tracking.</p>
-      <p><strong>Opportunity:</strong> Introduce mechanisms that create meaningful consequences for inaction.</p>
+      <div class="insight-card">
+        <h3>💡 Insight 1: Planning ≠ Execution</h3>
+        <p class="quote">"I know what I need to do, but I struggle to actually start."</p>
+        <p>
+          Users could easily create task lists but struggled with follow-through and completing commitments.
+        </p>
+        <strong>Opportunity</strong>
+        <p>
+          Shift focus from task creation to completion behaviour.
+        </p>
+      </div>
 
-      <p><strong>Insight 3: Productivity tools lack emotional engagement</strong></p>
-      <p>Traditional task management apps feel transactional. Users wanted a stronger sense of achievement, progress, and reward.</p>
-      <p><strong>Opportunity:</strong> Incorporate gamification principles to increase engagement.</p>
+      <div class="insight-card">
+        <h3>🤝 Insight 2: Accountability Drives Action</h3>
+        <p>
+          Users were more likely to complete commitments when faced with social accountability, financial consequences, and visible progress.
+        </p>
+        <strong>Opportunity</strong>
+        <p>
+          Introduce meaningful accountability mechanisms to encourage follow-through.
+        </p>
+      </div>
 
+      <div class="insight-card">
+        <h3>🎯 Insight 3: Productivity Needs Emotion</h3>
+        <p>
+          Traditional productivity tools felt transactional, lacking motivation, achievement and reward.
+        </p>
+        <strong>Opportunity</strong>
+        <p>
+          Apply gamification principles to create a more engaging experience.
+        </p>
+      </div>
+
+</div>
       <div class="project-divider"></div>
 
       <p><strong>2. Define: Problem Statement</strong></p>
       <p><strong>User Problem</strong></p>
       <p>Students, entrepreneurs, and young professionals struggle to consistently achieve their goals because existing productivity tools focus on organising tasks rather than addressing motivation and accountability.</p>
       <p><strong>How Might We Statement</strong></p>
-      <p>How might we help individuals stay accountable and motivated to achieve their goals by creating an engaging productivity experience?</p>
+      <div class="hmw-bubble">
+      How might we help individuals stay accountable and motivated to achieve their goals by creating an engaging productivity experience?      
+      </div>
 
       <div class="project-divider"></div>
 
@@ -501,8 +633,8 @@
           <div class="persona-age">University Student, Age 18</div>
 
           <div class="persona-section">
-            <div class="persona-label">Goal</div>
-            <div class="persona-text">Improve academic performance while maintaining social balance.</div>
+            <div class="persona-label">Bio</div>
+            <div class="persona-text">Jim is a first year student at UNSW studying Commerce, with a passion to thrive in the accounting field in Sydney.</div>
           </div>
 
           <div class="persona-section">
@@ -522,8 +654,8 @@
           <div class="persona-age">Young Entrepreneur, Age 23</div>
 
           <div class="persona-section">
-            <div class="persona-label">Goal</div>
-            <div class="persona-text">Scale her creative business while maintaining work-life balance.</div>
+            <div class="persona-label">Bio</div>
+            <div class="persona-text">Vanessa is a driven and creative 23-year-old entrepreneur who has embarked on a journey to establish her own design brand.</div>
           </div>
 
           <div class="persona-section">
@@ -533,7 +665,7 @@
 
           <div class="persona-section">
             <div class="persona-label">Needs</div>
-            <div class="persona-text">Prioritisation system, habit tracking, accountability framework.</div>
+            <div class="persona-text">Prioritisation system, upward trajectory in profits, accountability framework.</div>
           </div>
         </div>
       </div>
@@ -547,72 +679,286 @@
       <div class="principle-boxes">
         <div class="principle-box">
           <h3>Motivate</h3>
+          <p>Create external accountability mechanisms to encourage task completion.</p>
         </div>
         <div class="principle-box">
           <h3>Gamify</h3>
+          <p>Transform productivity into an engaging experience through challenges, rewards, progress tracking, and competition.</p>
         </div>
         <div class="principle-box">
           <h3>Thrive</h3>
+          <p>Help users build sustainable habits through financial discipline, self-improvement, and goal tracking.</p>
         </div>
       </div>
-
-      <p><strong>1. Motivate</strong> — Create external accountability mechanisms to encourage task completion.</p>
-      <p><strong>2. Gamify</strong> — Transform productivity into an engaging experience through challenges, rewards, progress tracking, and competition.</p>
-      <p><strong>3. Thrive</strong> — Help users build sustainable habits through financial discipline, self-improvement, and goal tracking.</p>
 
       <div class="project-divider"></div>
 
       <p><strong>Solution Concept</strong></p>
       <p><strong>Introducing the Accountability Jar</strong></p>
-      <p>The core feature introduces a commitment-based reward system. Users create goals/tasks, assign a monetary commitment, complete tasks to protect their savings, and miss deadlines and contribute money into the accountability jar.</p>
-      <p><strong>Before:</strong> "I should complete this task."</p>
-      <p><strong>After:</strong> "I have committed to completing this task."</p>
+      <p>The core feature introduces a commitment-based reward system where financial stakes drive behavioural change.</p>
+
+      <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin: 24px 0;">
+        <div style="background: var(--surface); border: 2px solid var(--border); border-radius: 12px; padding: 24px;">
+          <p style="font-family: var(--mono); font-size: 11px; color: var(--ink-soft); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px; font-weight: 600;">How It Works</p>
+          <ul style="margin: 0; padding-left: 20px;">
+            <li style="color: var(--ink-soft); font-size: 14px; margin-bottom: 8px; line-height: 1.6;">Create goals and tasks</li>
+            <li style="color: var(--ink-soft); font-size: 14px; margin-bottom: 8px; line-height: 1.6;">Assign monetary commitment ($1-$50)</li>
+            <li style="color: var(--ink-soft); font-size: 14px; margin-bottom: 8px; line-height: 1.6;">Complete tasks to protect savings</li>
+            <li style="color: var(--ink-soft); font-size: 14px; margin-bottom: 0; line-height: 1.6;">Miss deadlines → money goes to jar</li>
+          </ul>
+        </div>
+        <div style="background: linear-gradient(135deg, var(--accent-soft) 0%, var(--surface) 100%); border: 2px solid var(--accent); border-radius: 12px; padding: 24px;">
+          <p style="font-family: var(--mono); font-size: 11px; color: var(--accent-strong); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px; font-weight: 600;">Behavioural Shift</p>
+          <div style="margin-bottom: 12px;">
+            <p style="color: var(--ink-soft); font-size: 13px; margin-bottom: 4px; font-weight: 600;">Before:</p>
+            <p style="color: var(--ink); font-size: 15px; font-style: italic; margin-bottom: 0; line-height: 1.5;">"I should complete this task."</p>
+          </div>
+          <div>
+            <p style="color: var(--accent-strong); font-size: 13px; margin-bottom: 4px; font-weight: 600;">After:</p>
+            <p style="color: var(--ink); font-size: 15px; font-weight: 600; margin-bottom: 0; line-height: 1.5;">"I have committed to completing this task."</p>
+          </div>
+        </div>
+      </div>
 
       <div class="project-divider"></div>
 
       <p><strong>4. Design: User Experience & Prototype</strong></p>
       <p><strong>User Journey</strong></p>
-      <p><strong>Step 1: Goal Creation</strong> — Users define an objective, deadline, and commitment amount.</p>
-      <p><strong>Step 2: Daily Planning</strong> — Users receive task recommendations, prioritised schedules, and progress tracking.</p>
-      <p><strong>Step 3: Accountability</strong> — Users receive completion reminders, progress updates, and social accountability notifications.</p>
-      <p><strong>Step 4: Rewards</strong> — Successful users keep their money, build streaks, and unlock achievements.</p>
+      <p>The user flow was designed to minimize friction while maximizing engagement and accountability:</p>
+
+      <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin: 24px 0;">
+        <div style="background: var(--surface); border: 2px solid var(--border); border-radius: 12px; padding: 20px; position: relative;">
+          <div style="position: absolute; top: -12px; left: 20px; background: var(--accent); color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px; font-family: var(--serif);">1</div>
+          <p style="color: var(--accent-strong); font-size: 16px; font-weight: 700; margin-bottom: 8px; margin-top: 8px;">Goal Creation</p>
+          <p style="color: var(--ink-soft); font-size: 14px; margin-bottom: 0; line-height: 1.6;">Users define an objective, set a deadline, and assign a commitment amount that feels meaningful.</p>
+        </div>
+
+        <div style="background: var(--surface); border: 2px solid var(--border); border-radius: 12px; padding: 20px; position: relative;">
+          <div style="position: absolute; top: -12px; left: 20px; background: var(--accent); color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px; font-family: var(--serif);">2</div>
+          <p style="color: var(--accent-strong); font-size: 16px; font-weight: 700; margin-bottom: 8px; margin-top: 8px;">Daily Planning</p>
+          <p style="color: var(--ink-soft); font-size: 14px; margin-bottom: 0; line-height: 1.6;">AI-powered task recommendations, prioritised schedules, and real-time progress tracking keep users focused.</p>
+        </div>
+
+        <div style="background: var(--surface); border: 2px solid var(--border); border-radius: 12px; padding: 20px; position: relative;">
+          <div style="position: absolute; top: -12px; left: 20px; background: var(--accent); color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px; font-family: var(--serif);">3</div>
+          <p style="color: var(--accent-strong); font-size: 16px; font-weight: 700; margin-bottom: 8px; margin-top: 8px;">Accountability</p>
+          <p style="color: var(--ink-soft); font-size: 14px; margin-bottom: 0; line-height: 1.6;">Smart reminders, progress updates, and social accountability notifications encourage consistent completion.</p>
+        </div>
+
+        <div style="background: var(--surface); border: 2px solid var(--border); border-radius: 12px; padding: 20px; position: relative;">
+          <div style="position: absolute; top: -12px; left: 20px; background: var(--accent); color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px; font-family: var(--serif);">4</div>
+          <p style="color: var(--accent-strong); font-size: 16px; font-weight: 700; margin-bottom: 8px; margin-top: 8px;">Rewards</p>
+          <p style="color: var(--ink-soft); font-size: 14px; margin-bottom: 0; line-height: 1.6;">Successful users keep their money, build completion streaks, and unlock achievement badges.</p>
+        </div>
+      </div>
 
       <div class="project-divider"></div>
 
-      <p><strong>Wireframes & Prototype</strong></p>
-      <p>Include: Link to Figma prototype</p>
-      <p><strong>Key screens:</strong> Dashboard, Task creation, Accountability jar, Progress tracking, Social leaderboard</p>
+      <p><strong>Design Prototypes</strong></p>
+
+      <p><strong>Onboarding Flow</strong></p>
+      <div style="display: flex; gap: 16px; overflow-x: auto; padding: 12px 0; margin-bottom: 24px;">
+        <img src="images/onboarding-flow1.png" alt="Onboarding Step 1" style="height: 400px; width: auto; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+        <img src="images/onboarding-flow2.png" alt="Onboarding Step 2" style="height: 400px; width: auto; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+        <img src="images/onboarding-flow3.png" alt="Onboarding Step 3" style="height: 400px; width: auto; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+      </div>
+
+      <p><strong>Task List & Dashboard</strong></p>
+      <div style="margin-bottom: 24px;">
+        <img src="images/tasklist.png" alt="Task List" style="height: 400px; width: auto; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+      </div>
+
+      <p><strong>Accountability Jar Flow</strong></p>
+      <div style="display: flex; gap: 16px; overflow-x: auto; padding: 12px 0; margin-bottom: 24px;">
+        <img src="images/jar1.png" alt="Jar Step 1" style="height: 400px; width: auto; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+        <img src="images/jar2.png" alt="Jar Step 2" style="height: 400px; width: auto; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+        <img src="images/jar3.png" alt="Jar Step 3" style="height: 400px; width: auto; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+        <img src="images/jar4.png" alt="Jar Step 4" style="height: 400px; width: auto; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+        <img src="images/jar5.png" alt="Jar Step 5" style="height: 400px; width: auto; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+        <img src="images/jar6.png" alt="Jar Step 6" style="height: 400px; width: auto; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+      </div>
+
+      <p><strong>Social Features & Customisation</strong></p>
+      <div style="display: flex; gap: 16px; overflow-x: auto; padding: 12px 0; margin-bottom: 24px;">
+        <img src="images/friends.png" alt="Friends" style="height: 400px; width: auto; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+        <img src="images/avatar.png" alt="Avatar Customization" style="height: 400px; width: auto; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+      </div>
+
+      <p><strong>Settings</strong></p>
+      <div style="display: flex; gap: 16px; overflow-x: auto; padding: 12px 0; margin-bottom: 24px;">
+        <img src="images/settings.png" alt="Settings" style="height: 400px; width: auto; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+        <img src="images/settings2.png" alt="Settings Page 2" style="height: 400px; width: auto; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+        <img src="images/settings3.png" alt="Settings Page 3" style="height: 400px; width: auto; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+      </div>
+
+      <div class="project-divider"></div>
+
+      <p><strong>Try the Prototype</strong></p>
+      <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin: 20px 0;">
+        <p style="color: var(--ink-soft); font-size: 15px; line-height: 1.75; margin-bottom: 16px;">
+          Test the live app via <a href="https://testflight.apple.com/join/48EYYznu" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 6px; color: var(--accent); text-decoration: none; font-weight: 600; border-bottom: 2px solid var(--accent); transition: gap 0.2s ease;">
+            TestFlight
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+              <polyline points="15 3 21 3 21 9"></polyline>
+              <line x1="10" y1="14" x2="21" y2="3"></line>
+            </svg>
+          </a>
+        </p>
+        <div style="background: var(--accent-soft); border-left: 3px solid var(--accent); border-radius: 6px; padding: 14px 16px;">
+          <p style="font-family: var(--mono); font-size: 11px; color: var(--accent-strong); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; font-weight: 600;">Login Credentials</p>
+          <p style="color: var(--ink); font-size: 14px; margin-bottom: 4px;"><strong>Email:</strong> <code style="font-family: var(--mono); font-size: 13px; color: var(--ink-soft);">mack01@yopmail.com</code></p>
+          <p style="color: var(--ink); font-size: 14px; margin-bottom: 0;"><strong>Password:</strong> <code style="font-family: var(--mono); font-size: 13px; color: var(--ink-soft);">Test@1234</code></p>
+        </div>
+      </div>
 
       <div class="project-divider"></div>
 
       <p><strong>5. Validate: Testing & Iteration</strong></p>
       <p><strong>Usability Testing</strong></p>
-      <p>Testing objectives included understanding whether users could grasp the accountability concept, whether financial motivation encouraged behaviour change, and whether the workflow felt intuitive.</p>
-      <p><strong>Feedback:</strong> "The financial penalty feels motivating but could feel too harsh."</p>
-      <p><strong>Iteration:</strong> Introduced flexible commitment amounts, optional social accountability, and positive reinforcement rewards.</p>
+      <p>Conducted moderated usability tests with 8 participants (4 students, 4 young professionals) to validate the core accountability concept and workflow intuitiveness.</p>
+
+      <p><strong>Testing Objectives:</strong></p>
+      <ul>
+        <li>Can users understand the accountability jar concept?</li>
+        <li>Does financial motivation encourage behaviour change?</li>
+        <li>Is the task creation and goal-setting workflow intuitive?</li>
+        <li>Do users find the gamification elements engaging or distracting?</li>
+      </ul>
+
+      <p><strong>Key Findings & Iterations:</strong></p>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 24px 0;">
+        <div style="background: var(--rust-soft); border-left: 3px solid var(--rust); padding: 16px 20px; border-radius: 8px;">
+          <p style="font-family: var(--mono); font-size: 11px; color: var(--rust); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; font-weight: 600;">💬 Finding #1</p>
+          <p style="color: var(--ink); font-size: 14px; font-style: italic; margin-bottom: 8px; line-height: 1.6;">"The financial penalty feels motivating but could feel too harsh."</p>
+          <p style="color: var(--ink-soft); font-size: 13px; margin-bottom: 0; line-height: 1.5;">Users appreciated the accountability mechanism but expressed concern about high commitment amounts.</p>
+        </div>
+        <div style="background: var(--accent-soft); border-left: 3px solid var(--accent); padding: 16px 20px; border-radius: 8px;">
+          <p style="font-family: var(--mono); font-size: 11px; color: var(--accent-strong); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; font-weight: 600;">✨ Iteration #1</p>
+          <p style="color: var(--ink); font-size: 14px; margin-bottom: 0; line-height: 1.6;">Introduced flexible commitment amounts ($1-$50 range), optional social accountability as an alternative, and positive reinforcement rewards for streaks.</p>
+        </div>
+
+        <div style="background: var(--rust-soft); border-left: 3px solid var(--rust); padding: 16px 20px; border-radius: 8px;">
+          <p style="font-family: var(--mono); font-size: 11px; color: var(--rust); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; font-weight: 600;">💬 Finding #2</p>
+          <p style="color: var(--ink); font-size: 14px; font-style: italic; margin-bottom: 8px; line-height: 1.6;">"I'm not sure how to prioritise my tasks effectively."</p>
+          <p style="color: var(--ink-soft); font-size: 13px; margin-bottom: 0; line-height: 1.5;">Users struggled with prioritising multiple tasks and understanding which to complete first.</p>
+        </div>
+        <div style="background: var(--accent-soft); border-left: 3px solid var(--accent); padding: 16px 20px; border-radius: 8px;">
+          <p style="font-family: var(--mono); font-size: 11px; color: var(--accent-strong); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; font-weight: 600;">✨ Iteration #2</p>
+          <p style="color: var(--ink); font-size: 14px; margin-bottom: 0; line-height: 1.6;">Added AI-powered task prioritisation suggestions, visual urgency indicators (red/yellow/green), and "Focus Mode" to highlight top 3 daily tasks.</p>
+        </div>
+
+        <div style="background: var(--rust-soft); border-left: 3px solid var(--rust); padding: 16px 20px; border-radius: 8px;">
+          <p style="font-family: var(--mono); font-size: 11px; color: var(--rust); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; font-weight: 600;">💬 Finding #3</p>
+          <p style="color: var(--ink); font-size: 14px; font-style: italic; margin-bottom: 8px; line-height: 1.6;">"I want to see my progress over time, not just today."</p>
+          <p style="color: var(--ink-soft); font-size: 13px; margin-bottom: 0; line-height: 1.5;">Users expressed desire for long-term progress tracking and visual achievement representation.</p>
+        </div>
+        <div style="background: var(--accent-soft); border-left: 3px solid var(--accent); padding: 16px 20px; border-radius: 8px;">
+          <p style="font-family: var(--mono); font-size: 11px; color: var(--accent-strong); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; font-weight: 600;">✨ Iteration #3</p>
+          <p style="color: var(--ink); font-size: 14px; margin-bottom: 0; line-height: 1.6;">Created a progress dashboard with weekly/monthly completion trends, streak counters, and achievement badges to visualise long-term behaviour change.</p>
+        </div>
+      </div>
 
       <div class="project-divider"></div>
 
       <p><strong>6. Deployment Strategy</strong></p>
-      <p><strong>Phase 1: Pilot Deployment</strong> — Launch a beta version, gather behavioural data, and measure engagement with university students and young professionals.</p>
-      <p><strong>Phase 2: Community Growth</strong> — Introduce accountability groups for university study groups, entrepreneur communities, and fitness challenges.</p>
-      <p><strong>Phase 3: Scale</strong> — Expand into workplace productivity, corporate wellness programs, and education institutions.</p>
+      <div style="position: relative; padding-left: 24px; margin: 24px 0;">
+        <div style="position: absolute; left: 0; top: 8px; bottom: 8px; width: 2px; background: linear-gradient(180deg, var(--accent) 0%, var(--accent-soft) 100%);"></div>
+
+        <div style="margin-bottom: 24px; position: relative;">
+          <div style="position: absolute; left: -29px; top: 6px; width: 12px; height: 12px; background: var(--accent); border-radius: 50%; border: 3px solid var(--surface);"></div>
+          <p style="font-family: var(--sans); font-size: 15px; color: var(--accent-strong); font-weight: 700; margin-bottom: 6px;">Phase 1: Pilot Deployment</p>
+          <p style="color: var(--ink-soft); font-size: 14px; margin-bottom: 0; line-height: 1.6;">Launch a beta version, gather behavioural data, and measure engagement with university students and young professionals.</p>
+        </div>
+
+        <div style="margin-bottom: 24px; position: relative;">
+          <div style="position: absolute; left: -29px; top: 6px; width: 12px; height: 12px; background: var(--accent); border-radius: 50%; border: 3px solid var(--surface);"></div>
+          <p style="font-family: var(--sans); font-size: 15px; color: var(--accent-strong); font-weight: 700; margin-bottom: 6px;">Phase 2: Community Growth</p>
+          <p style="color: var(--ink-soft); font-size: 14px; margin-bottom: 0; line-height: 1.6;">Introduce accountability groups for university study groups, entrepreneur communities, and fitness challenges.</p>
+        </div>
+
+        <div style="position: relative;">
+          <div style="position: absolute; left: -29px; top: 6px; width: 12px; height: 12px; background: var(--accent); border-radius: 50%; border: 3px solid var(--surface);"></div>
+          <p style="font-family: var(--sans); font-size: 15px; color: var(--accent-strong); font-weight: 700; margin-bottom: 6px;">Phase 3: Scale</p>
+          <p style="color: var(--ink-soft); font-size: 14px; margin-bottom: 0; line-height: 1.6;">Expand into workplace productivity, corporate wellness programs, and education institutions.</p>
+        </div>
+      </div>
 
       <div class="project-divider"></div>
 
       <p><strong>7. Measuring Success</strong></p>
       <p><strong>Adoption Metrics</strong></p>
-      <p><strong>User activation:</strong> 70% complete first goal</p>
-      <p><strong>Weekly retention:</strong> 50% active after 30 days</p>
-      <p><strong>Task completion:</strong> Increase completion rate by 30%</p>
-      <p><strong>Engagement:</strong> Average 5 tasks completed/week</p>
+      <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin: 24px 0;">
+        <div style="background: var(--surface); border: 2px solid var(--border); border-radius: 10px; padding: 20px; text-align: center;">
+          <p style="font-size: 36px; font-weight: 700; color: var(--accent); margin-bottom: 8px; font-family: var(--serif);">70%</p>
+          <p style="font-size: 13px; color: var(--ink-soft); text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; margin-bottom: 0;">User Activation</p>
+          <p style="font-size: 12px; color: var(--ink-soft); margin-top: 4px; margin-bottom: 0;">Complete first goal</p>
+        </div>
+        <div style="background: var(--surface); border: 2px solid var(--border); border-radius: 10px; padding: 20px; text-align: center;">
+          <p style="font-size: 36px; font-weight: 700; color: var(--accent); margin-bottom: 8px; font-family: var(--serif);">50%</p>
+          <p style="font-size: 13px; color: var(--ink-soft); text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; margin-bottom: 0;">Weekly Retention</p>
+          <p style="font-size: 12px; color: var(--ink-soft); margin-top: 4px; margin-bottom: 0;">Active after 30 days</p>
+        </div>
+        <div style="background: var(--surface); border: 2px solid var(--border); border-radius: 10px; padding: 20px; text-align: center;">
+          <p style="font-size: 36px; font-weight: 700; color: var(--accent); margin-bottom: 8px; font-family: var(--serif);">+30%</p>
+          <p style="font-size: 13px; color: var(--ink-soft); text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; margin-bottom: 0;">Task Completion</p>
+          <p style="font-size: 12px; color: var(--ink-soft); margin-top: 4px; margin-bottom: 0;">Increase completion rate</p>
+        </div>
+        <div style="background: var(--surface); border: 2px solid var(--border); border-radius: 10px; padding: 20px; text-align: center;">
+          <p style="font-size: 36px; font-weight: 700; color: var(--accent); margin-bottom: 8px; font-family: var(--serif);">5</p>
+          <p style="font-size: 13px; color: var(--ink-soft); text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; margin-bottom: 0;">Engagement</p>
+          <p style="font-size: 12px; color: var(--ink-soft); margin-top: 4px; margin-bottom: 0;">Tasks completed/week</p>
+        </div>
+      </div>
 
       <div class="project-divider"></div>
 
-      <p><strong>Final Reflection</strong></p>
-      <p>OnTrack demonstrates how technology can be used to influence behaviour change by combining productivity, gamification, and accountability.</p>
-      <p>The project showcases my ability to translate user needs into solutions, develop product strategy, design user-centric experiences, plan technology adoption, and drive measurable outcomes.</p>
-    </div>
+      <p><strong>Current Status & Next Steps</strong></p>
+      <p>OnTrack is currently in Phase 1: Pilot Deployment, with a live TestFlight beta available for early users. The focus is on gathering user feedback, validating the accountability jar concept, and iterating based on real-world usage patterns.</p>
+
+      <p><strong>Marketing Strategy for Launch</strong></p>
+      <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin: 24px 0;">
+        <div style="background: var(--surface); border: 2px solid var(--border); border-radius: 12px; padding: 20px;">
+          <p style="font-family: var(--sans); font-size: 15px; color: var(--accent-strong); font-weight: 700; margin-bottom: 8px;">Target Acquisition Channels</p>
+          <ul style="margin: 8px 0 0 0; padding-left: 20px;">
+            <li style="color: var(--ink-soft); font-size: 14px; margin-bottom: 6px; line-height: 1.6;">University student communities (Facebook groups, Discord servers)</li>
+            <li style="color: var(--ink-soft); font-size: 14px; margin-bottom: 6px; line-height: 1.6;">TikTok/Instagram content showcasing productivity transformations</li>
+            <li style="color: var(--ink-soft); font-size: 14px; margin-bottom: 6px; line-height: 1.6;">Partnerships with study influencers and productivity YouTubers</li>
+            <li style="color: var(--ink-soft); font-size: 14px; margin-bottom: 0; line-height: 1.6;">Reddit communities (r/productivity, r/GetStudying)</li>
+          </ul>
+        </div>
+
+        <div style="background: var(--surface); border: 2px solid var(--border); border-radius: 12px; padding: 20px;">
+          <p style="font-family: var(--sans); font-size: 15px; color: var(--accent-strong); font-weight: 700; margin-bottom: 8px;">Value Proposition</p>
+          <ul style="margin: 8px 0 0 0; padding-left: 20px;">
+            <li style="color: var(--ink-soft); font-size: 14px; margin-bottom: 6px; line-height: 1.6;">Turn procrastination into progress with financial accountability</li>
+            <li style="color: var(--ink-soft); font-size: 14px; margin-bottom: 6px; line-height: 1.6;">Build streaks and compete with friends for motivation</li>
+            <li style="color: var(--ink-soft); font-size: 14px; margin-bottom: 6px; line-height: 1.6;">AI-powered task prioritisation and smart scheduling</li>
+            <li style="color: var(--ink-soft); font-size: 14px; margin-bottom: 0; line-height: 1.6;">Visual progress tracking that celebrates wins</li>
+          </ul>
+        </div>
+
+        <div style="background: var(--surface); border: 2px solid var(--border); border-radius: 12px; padding: 20px;">
+          <p style="font-family: var(--sans); font-size: 15px; color: var(--accent-strong); font-weight: 700; margin-bottom: 8px;">Content Strategy</p>
+          <ul style="margin: 8px 0 0 0; padding-left: 20px;">
+            <li style="color: var(--ink-soft); font-size: 14px; margin-bottom: 6px; line-height: 1.6;">Before/after productivity transformation stories</li>
+            <li style="color: var(--ink-soft); font-size: 14px; margin-bottom: 6px; line-height: 1.6;">User testimonials and success metrics</li>
+            <li style="color: var(--ink-soft); font-size: 14px; margin-bottom: 6px; line-height: 1.6;">Behind-the-scenes development updates</li>
+            <li style="color: var(--ink-soft); font-size: 14px; margin-bottom: 0; line-height: 1.6;">Tips and insights on accountability psychology</li>
+          </ul>
+        </div>
+
+        <div style="background: var(--surface); border: 2px solid var(--border); border-radius: 12px; padding: 20px;">
+          <p style="font-family: var(--sans); font-size: 15px; color: var(--accent-strong); font-weight: 700; margin-bottom: 8px;">Growth Tactics</p>
+          <ul style="margin: 8px 0 0 0; padding-left: 20px;">
+            <li style="color: var(--ink-soft); font-size: 14px; margin-bottom: 6px; line-height: 1.6;">Referral program: Invite friends, unlock premium features</li>
+            <li style="color: var(--ink-soft); font-size: 14px; margin-bottom: 6px; line-height: 1.6;">Limited-time beta access to create urgency</li>
+            <li style="color: var(--ink-soft); font-size: 14px; margin-bottom: 6px; line-height: 1.6;">University ambassador program for campus activation</li>
+            <li style="color: var(--ink-soft); font-size: 14px; margin-bottom: 0; line-height: 1.6;">Gamified challenges (30-day productivity challenge)</li>
+          </ul>
+        </div>
+      </div>
+
   </div>
 </section>
 
@@ -626,6 +972,26 @@
   window.addEventListener('load', function() {
     window.scrollTo(0, 0);
   });
+
+  // Back to top functionality
+  (function() {
+    const backToTop = document.getElementById('backToTop');
+
+    window.addEventListener('scroll', function() {
+      if (window.pageYOffset > 300) {
+        backToTop.classList.remove('hidden');
+      } else {
+        backToTop.classList.add('hidden');
+      }
+    });
+
+    backToTop.addEventListener('click', function() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+  })();
 </script>
 
 </body>

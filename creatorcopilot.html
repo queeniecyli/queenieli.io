@@ -131,7 +131,7 @@
   .back-link:hover { gap: 12px; }
   .project-header {
     display: grid;
-    grid-template-columns: 120px 1fr;
+    grid-template-columns: 120px 1fr auto;
     gap: 32px;
     align-items: start;
     margin-bottom: 48px;
@@ -174,6 +174,32 @@
   .read-time::before {
     content: '•';
     margin: 0 8px;
+  }
+  .github-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--accent);
+    color: white;
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 10px 18px;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background 0.2s ease, transform 0.2s ease;
+    height: fit-content;
+  }
+  .github-link:hover {
+    background: var(--accent-strong);
+    transform: translateY(-1px);
+  }
+  .github-link svg {
+    width: 18px;
+    height: 18px;
+    fill: white;
   }
   .project-content p {
     color: var(--ink-soft);
@@ -237,6 +263,16 @@
     margin: 20px 0;
     border-radius: 4px;
   }
+  .info-box-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin: 20px 0;
+  }
+  .info-box-grid .info-box {
+    margin: 0;
+    height: fit-content;
+  }
 
   footer {
     padding: 40px 0;
@@ -247,12 +283,191 @@
     border-top: 1px solid var(--cream-dim);
   }
 
+  /* Mobile menu button */
+  .menu-btn {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    background: var(--accent);
+    padding: 10px 16px;
+    border-radius: 999px;
+    border: none;
+    cursor: pointer;
+    height: 41px;
+    transition: background 0.2s ease, transform 0.2s ease;
+  }
+  .menu-btn:hover {
+    background: var(--accent-strong);
+    transform: translateY(-1px);
+  }
+  .menu-btn span {
+    display: block;
+    width: 20px;
+    height: 2px;
+    background: white;
+    transition: background 0.2s ease;
+  }
+
+  /* nav panel */
+  .nav-panel {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 420px;
+    background: var(--surface);
+    border-left: 1px solid var(--border);
+    z-index: 30;
+    transform: translateX(100%);
+    transition: transform 0.35s cubic-bezier(.65,0,.35,1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 60px;
+    box-shadow: -10px 0 30px rgba(20, 39, 49, 0.08);
+  }
+  .nav-panel.open {
+    transform: translateX(0);
+  }
+  .nav-panel-close {
+    position: absolute;
+    top: 32px;
+    right: 48px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: var(--sans);
+    font-size: 13px;
+    color: var(--ink-soft);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    transition: color 0.2s ease;
+  }
+  .nav-panel-close:hover {
+    color: var(--accent);
+  }
+  .nav-panel nav {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .nav-panel nav a {
+    color: var(--ink);
+    text-decoration: none;
+    font-family: var(--serif);
+    font-size: 36px;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--accent-soft);
+    transition: color 0.2s ease, padding-left 0.2s ease;
+  }
+  .nav-panel nav a:hover {
+    color: var(--accent);
+    padding-left: 8px;
+  }
+  .nav-panel-cta {
+    margin-top: 24px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px 32px !important;
+    background: var(--accent) !important;
+    color: white !important;
+    border-radius: 999px;
+    font-family: var(--sans) !important;
+    font-size: 16px !important;
+    font-weight: 700;
+    text-decoration: none;
+    border: none !important;
+    transition: background 0.2s ease, transform 0.2s ease;
+  }
+  .nav-panel-cta:hover {
+    background: var(--accent-strong) !important;
+    transform: translateY(-2px);
+    padding-left: 32px !important;
+  }
+
+  /* overlay */
+  .panel-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(33,29,24,0.35);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 29;
+  }
+  .panel-overlay.open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* back to top button */
+  .back-to-top {
+    position: fixed;
+    left: 32px;
+    bottom: 32px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 9998;
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .back-to-top.hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+  .back-to-top-circle {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(43, 122, 117, 0.2);
+  }
+  .back-to-top:hover .back-to-top-circle {
+    background: var(--accent-strong);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(43, 122, 117, 0.3);
+  }
+  .back-to-top svg {
+    width: 20px;
+    height: 20px;
+    stroke: white;
+    stroke-width: 2.5;
+  }
+  .back-to-top-text {
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
   @media (max-width: 700px) {
     .wrap { padding: 0 24px; }
     header .wrap { padding: 0 24px; }
+    .header-center { display: none; }
+    .menu-btn { display: inline-flex; }
+    .nav-panel { width: 100%; }
     .project-header {
       grid-template-columns: 1fr;
       gap: 24px;
+    }
+    .github-link {
+      grid-column: 1 / -1;
+      justify-self: start;
     }
     .project-header-image {
       width: 80px;
@@ -263,10 +478,30 @@
       grid-template-columns: 1fr;
       gap: 12px;
     }
+    .back-to-top {
+      left: 24px;
+      bottom: 24px;
+    }
+    .back-to-top-text {
+      display: none;
+    }
+    .info-box-grid {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
   }
 </style>
 </head>
 <body>
+
+<button class="back-to-top hidden" id="backToTop" aria-label="Back to top">
+  <div class="back-to-top-circle">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="18 15 12 9 6 15"></polyline>
+    </svg>
+  </div>
+  <span class="back-to-top-text">Back to Top</span>
+</button>
 
 <header>
   <div class="wrap">
@@ -275,6 +510,7 @@
     </div>
     <div class="header-center">
       <a href="index.html">Home</a>
+      <a href="index.html#journey">Experience</a>
       <a href="index.html#work">Work</a>
       <a href="index.html#about">About</a>
     </div>
@@ -283,9 +519,27 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 5l10 7 10-7"/><rect x="2" y="4" width="20" height="16" rx="2"/></svg>
         Let's connect
       </a>
+      <button class="menu-btn" id="menuBtnToggle" aria-label="Open menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
     </div>
   </div>
 </header>
+
+<div class="panel-overlay" id="panelOverlay"></div>
+
+<aside class="nav-panel" id="navPanel">
+  <button class="nav-panel-close" id="navClose">CLOSE ✕</button>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="index.html#journey">Experience</a>
+    <a href="index.html#work">Work</a>
+    <a href="index.html#about">About</a>
+    <a href="mailto:queeniecyli@gmail.com?subject=Hi%20Queenie%2C%20let%27s%20connect!" class="nav-panel-cta">Let's connect</a>
+  </nav>
+</aside>
 
 <section class="project-detail">
   <div class="wrap">
@@ -297,12 +551,20 @@
     </a>
 
     <div class="project-header">
-      <div class="project-header-image">🤖</div>
+      <div class="project-header-image">
+        <img src="images/creatorcopilot-logo.png" alt="CreatorCopilot Logo" style="width: 100%; height: 100%; object-fit: cover; border-radius: 12px;">
+      </div>
       <div>
         <h1>CreatorCopilot</h1>
         <span class="project-tag">AI Agent MVP</span>
-        <span class="read-time">10 min read</span>
+        <span class="read-time">7 min read</span>
       </div>
+      <a href="https://github.com/queeniecyli/creatorcopilot" target="_blank" rel="noopener noreferrer" class="github-link">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+        </svg>
+        View on GitHub
+      </a>
     </div>
 
     <div class="project-content">
@@ -334,6 +596,31 @@
 
       <p><strong>MVP Scope</strong></p>
       <p>The MVP is a working web application where users input business details and receive AI-generated campaign strategies.</p>
+
+      <p><strong>Design Mockup</strong></p>
+        <div style="display: flex; gap: 24px; align-items: flex-start; justify-content: center; flex-wrap: wrap;">
+
+          <div style="flex: 1; min-width: 300px;">
+            <p style="font-family: var(--mono); font-size: 11px; color: var(--ink-soft); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px;">Initial Page</p>
+            <img
+              src="/Users/queenieli/Documents/GitHub/portfolio/images/main-page-cc.png"
+              alt="CreatorCopilot Main Interface"
+              style="width: 100%; height: auto; border-radius: 12px;"
+            >
+          </div>
+
+        <div style="flex: 1; min-width: 300px;">
+          <p style="font-family: var(--mono); font-size: 11px; color: var(--ink-soft); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px;">Example Use Case</p>
+          <div style="width: 100%; height: 650px; overflow-y: auto; border-radius: 12px; background: #f5f5f5;">
+            <img
+              src="images/campaign-example-cc.png"
+              alt="CreatorCopilot Campaign Example"
+              style="width: 100%; height: auto; display: block;"
+            >
+          </div>
+        </div>
+
+        </div>
 
       <p><strong>Input Fields:</strong></p>
       <ul>
@@ -384,16 +671,8 @@ Tone: Authentic, casual, engaging
       <p>CreatorCopilot implements a true AI agent workflow—not a simple chatbot. The agent autonomously determines which actions to take and orchestrates multiple tools to complete the task using OpenAI's function calling.</p>
 
       <p><strong>Agent Workflow:</strong></p>
-      <div class="code-block">
-User Input → Business Context Analysis<br>
-↓<br>
-Agent Determines Required Actions<br>
-↓<br>
-Tool 1: Trend Research (SerpAPI)<br>
-↓<br>
-Tool 2: Content Strategy Generation<br>
-↓<br>
-Structured Campaign Output
+      <div class="image-placeholder">
+        <img src="/Users/queenieli/Documents/GitHub/portfolio/images/creatorcopilot-architecture.png" style="width: 100%; height: auto; border-radius: 12px;">
       </div>
 
       <p><strong>OpenAI Function Calling:</strong></p>
@@ -454,7 +733,7 @@ Agent Context: Uses trend data to inform content strategy
 
       <div class="project-divider"></div>
 
-      <p><strong>Technical Stack</strong></p>
+      <p><strong>Tech Stack</strong></p>
 
       <p><strong>Frontend: React + Vite + Tailwind CSS</strong></p>
       <ul>
@@ -507,57 +786,29 @@ Agent Reasoning Process:<br>
 
       <div class="project-divider"></div>
 
-      <p><strong>Project Structure</strong></p>
-      <div class="code-block">
-creatorcopilot/<br>
-├── frontend/<br>
-│   ├── src/<br>
-│   │   ├── components/<br>
-│   │   ├── pages/<br>
-│   │   ├── services/api.js<br>
-│   │   └── App.jsx<br>
-│   ├── package.json<br>
-│   └── vite.config.js<br>
-├── backend/<br>
-│   ├── app/<br>
-│   │   ├── main.py<br>
-│   │   ├── agent/<br>
-│   │   │   ├── creator_agent.py  # OpenAI Agent with function calling<br>
-│   │   │   ├── tools.py           # Tool definitions<br>
-│   │   │   └── prompts.py         # System prompts<br>
-│   │   └── api/<br>
-│   │       └── routes.py<br>
-│   ├── requirements.txt<br>
-│   └── .env.example<br>
-├── README.md<br>
-└── docs/<br>
-    ├── architecture.md<br>
-    └── case-study.md
-      </div>
-
-      <div class="project-divider"></div>
-
       <p><strong>Development Approach</strong></p>
       <p>This MVP prioritises core functionality over unnecessary complexity:</p>
 
-      <div class="info-box">
-        <p><strong>Focus Areas:</strong></p>
-        <ul>
-          <li>Working AI agent with real tool integration</li>
-          <li>Clean, scalable architecture</li>
-          <li>Excellent user experience</li>
-          <li>Clear demonstration of technical capabilities</li>
-        </ul>
-      </div>
+      <div class="info-box-grid">
+        <div class="info-box">
+          <p><strong>Focus Areas:</strong></p>
+          <ul>
+            <li>Working AI agent with real tool integration</li>
+            <li>Clean, scalable architecture</li>
+            <li>Excellent user experience</li>
+            <li>Clear demonstration of technical capabilities</li>
+          </ul>
+        </div>
 
-      <div class="info-box">
-        <p><strong>Intentionally Excluded:</strong></p>
-        <ul>
-          <li>User authentication (not required for demo)</li>
-          <li>Payment processing (not relevant for MVP)</li>
-          <li>Complex databases (in-memory state sufficient)</li>
-          <li>Microservices architecture (unnecessary complexity)</li>
-        </ul>
+        <div class="info-box">
+          <p><strong>Not in Scope:</strong></p>
+          <ul>
+            <li>User authentication (not required for demo)</li>
+            <li>Payment processing (not relevant for MVP)</li>
+            <li>Complex databases (in-memory state sufficient)</li>
+            <li>Microservices architecture (unnecessary complexity)</li>
+          </ul>
+        </div>
       </div>
 
       <div class="project-divider"></div>
@@ -590,60 +841,8 @@ ENVIRONMENT=production
 
       <div class="project-divider"></div>
 
-      <p><strong>Key Technical Demonstrations</strong></p>
-      <p>This project showcases several critical capabilities:</p>
-
-      <p><strong>1. AI Agent Design with OpenAI Function Calling</strong></p>
-      <p>Demonstrates understanding of agent workflows using OpenAI's function calling, autonomous decision-making with tool selection, and multi-step workflow orchestration—not just basic LLM prompting.</p>
-
-      <p><strong>2. API Integration</strong></p>
-      <p>Shows ability to integrate external APIs (SerpAPI), handle authentication, error handling, and data transformation.</p>
-
-      <p><strong>3. Full-Stack Development</strong></p>
-      <p>End-to-end implementation from React frontend to Python backend, demonstrating versatility across the stack.</p>
-
-      <p><strong>4. Cloud Architecture</strong></p>
-      <p>Modern deployment approach using industry-standard platforms (Vercel, Render/AWS), environment management, and scalability considerations.</p>
-
-      <p><strong>5. Product Thinking</strong></p>
-      <p>Clear problem definition, user-centric design, and focused MVP scope—essential for deployment strategy roles.</p>
-
-      <div class="project-divider"></div>
-
-      <p><strong>Documentation & Portfolio Assets</strong></p>
-      <p>The project includes comprehensive documentation to support portfolio presentation:</p>
-
-      <p><strong>README.md:</strong></p>
-      <ul>
-        <li>Project overview and problem statement</li>
-        <li>Architecture diagram (system design)</li>
-        <li>Setup and installation instructions</li>
-        <li>API documentation</li>
-        <li>Technology choices and rationale</li>
-      </ul>
-
-      <p><strong>Technical Case Study:</strong></p>
-      <ul>
-        <li>Business problem and user pain points</li>
-        <li>Solution approach and architecture decisions</li>
-        <li>AI agent workflow and reasoning process</li>
-        <li>REST API integration patterns</li>
-        <li>Technical implementation details</li>
-        <li>Deployment strategy and infrastructure</li>
-        <li>Business impact and outcomes</li>
-      </ul>
-
-      <p><strong>Architecture Diagrams:</strong></p>
-      <ul>
-        <li>System architecture: frontend, backend, external APIs</li>
-        <li>AI agent workflow: decision trees and tool calling</li>
-        <li>Data flow: user input → processing → structured output</li>
-      </ul>
-
-      <div class="project-divider"></div>
-
       <p><strong>Next Steps & Extensions</strong></p>
-      <p>While this MVP focuses on core functionality, several enhancements could extend the project:</p>
+      <p>While this MVP focuses on core functionality, there are future iterations that can be embedded into the agent:</p>
 
       <p><strong>Technical Extensions:</strong></p>
       <ul>
@@ -657,15 +856,13 @@ ENVIRONMENT=production
       <ul>
         <li>Campaign history and iteration capabilities</li>
         <li>Export to PDF or presentation format</li>
-        <li>Team collaboration features</li>
         <li>Analytics integration for performance tracking</li>
       </ul>
 
       <div class="project-divider"></div>
 
       <p><strong>Conclusion</strong></p>
-      <p>CreatorCopilot demonstrates the intersection of AI engineering, product design, and deployment strategy. By building a working AI agent that solves a real business problem, this project showcases the technical depth and product thinking required for modern Solutions Engineering and Deployment Strategist roles.</p>
-      <p>The project emphasises autonomous AI agents over simple chatbots, real API integrations over mock data, and production-ready architecture over prototypes—reflecting industry best practices and enterprise-grade engineering standards.</p>
+      <p>CreatorCopilot demonstrates how AI agents can transform creative workflows by combining intelligent decision-making, external data integrations, and user-centric product design. By developing an AI-powered content strategist that assists with ideation, campaign planning, and content optimisation, this project showcases the potential of agentic AI to solve real-world business challenges.</p>
     </div>
   </div>
 </section>
@@ -680,6 +877,54 @@ ENVIRONMENT=production
   window.addEventListener('load', function() {
     window.scrollTo(0, 0);
   });
+
+  // Mobile menu functionality
+  const menuBtn = document.getElementById('menuBtnToggle');
+  const navPanel = document.getElementById('navPanel');
+  const navClose = document.getElementById('navClose');
+  const panelOverlay = document.getElementById('panelOverlay');
+
+  function openNav() {
+    navPanel.classList.add('open');
+    panelOverlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeNav() {
+    navPanel.classList.remove('open');
+    panelOverlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  if (menuBtn) {
+    menuBtn.addEventListener('click', openNav);
+  }
+  if (navClose) {
+    navClose.addEventListener('click', closeNav);
+  }
+  if (panelOverlay) {
+    panelOverlay.addEventListener('click', closeNav);
+  }
+
+  // Back to top functionality
+  (function() {
+    const backToTop = document.getElementById('backToTop');
+
+    window.addEventListener('scroll', function() {
+      if (window.pageYOffset > 300) {
+        backToTop.classList.remove('hidden');
+      } else {
+        backToTop.classList.add('hidden');
+      }
+    });
+
+    backToTop.addEventListener('click', function() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+  })();
 </script>
 
 </body>
